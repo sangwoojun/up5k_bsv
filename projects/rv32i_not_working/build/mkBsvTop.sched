@@ -1,0 +1,197 @@
+=== Generated schedule for mkBsvTop ===
+
+Method schedule
+---------------
+Method: blue
+Ready signal: True
+Conflict-free: blue, green, red, serial_txd, serial_rx
+ 
+Method: green
+Ready signal: True
+Conflict-free: blue, green, red, serial_txd, serial_rx
+ 
+Method: red
+Ready signal: True
+Conflict-free: blue, green, red, serial_txd, serial_rx
+ 
+Method: serial_txd
+Ready signal: True
+Conflict-free: blue, green, red, serial_txd, serial_rx
+ 
+Method: serial_rx
+Ready signal: True
+Conflict-free: blue, green, red, serial_txd
+Conflicts: serial_rx
+ 
+Rule schedule
+-------------
+Rule: uart_outcntclk
+Predicate: True
+Blocking rules: relayUartOut
+ 
+Rule: uart_insample
+Predicate: (! (uart_samplecountdown == 16'd0)) ||
+	   (! (uart_bleft == 4'd1)) || uart_outQ.i_notFull
+Blocking rules: (none)
+ 
+Rule: hwmain_mem_serverAdapterA_outData_setFirstCore
+Predicate: hwmain_mem_serverAdapterA_outDataCore.i_notEmpty &&
+	   hwmain_mem_serverAdapterA_outDataCore.notEmpty
+Blocking rules: (none)
+ 
+Rule: hwmain_mem_serverAdapterA_outData_setFirstEnq
+Predicate: (! hwmain_mem_serverAdapterA_outDataCore.notEmpty) &&
+	   hwmain_mem_serverAdapterA_outData_enqData.whas
+Blocking rules: (none)
+ 
+Rule: hwmain_mem_serverAdapterA_outData_enqOnly
+Predicate: hwmain_mem_serverAdapterA_outDataCore.i_notFull &&
+	   (! hwmain_mem_serverAdapterA_outData_deqCalled.whas) &&
+	   hwmain_mem_serverAdapterA_outData_enqData.whas
+Blocking rules: (none)
+ 
+Rule: hwmain_mem_serverAdapterA_outData_deqOnly
+Predicate: hwmain_mem_serverAdapterA_outDataCore.i_notEmpty &&
+	   hwmain_mem_serverAdapterA_outData_deqCalled.whas &&
+	   (! hwmain_mem_serverAdapterA_outData_enqData.whas)
+Blocking rules: (none)
+ 
+Rule: hwmain_mem_serverAdapterA_outData_enqAndDeq
+Predicate: hwmain_mem_serverAdapterA_outDataCore.i_notEmpty &&
+	   hwmain_mem_serverAdapterA_outDataCore.i_notFull &&
+	   hwmain_mem_serverAdapterA_outData_deqCalled.whas &&
+	   hwmain_mem_serverAdapterA_outData_enqData.whas
+Blocking rules: (none)
+ 
+Rule: hwmain_mem_serverAdapterA_cnt_finalAdd
+Predicate: hwmain_mem_serverAdapterA_cnt_1.whas ||
+	   hwmain_mem_serverAdapterA_cnt_2.whas ||
+	   hwmain_mem_serverAdapterA_cnt_3.whas
+Blocking rules: (none)
+ 
+Rule: hwmain_mem_serverAdapterA_s1__dreg_update
+Predicate: True
+Blocking rules: (none)
+ 
+Rule: hwmain_mem_serverAdapterA_stageReadResponseAlways
+Predicate: hwmain_mem_serverAdapterA_writeWithResp.whas
+Blocking rules: (none)
+ 
+Rule: hwmain_mem_serverAdapterA_moveToOutFIFO
+Predicate: ((! hwmain_mem_serverAdapterA_s1[0]) ||
+	    hwmain_mem_serverAdapterA_outDataCore.notFull) &&
+	   hwmain_mem_serverAdapterA_s1[1]
+Blocking rules: (none)
+ 
+Rule: hwmain_mem_serverAdapterA_overRun
+Predicate: hwmain_mem_serverAdapterA_s1[1] &&
+	   (! hwmain_mem_serverAdapterA_outDataCore.notFull)
+Blocking rules: (none)
+ 
+Rule: hwmain_mem_serverAdapterB_outData_setFirstCore
+Predicate: hwmain_mem_serverAdapterB_outDataCore.i_notEmpty &&
+	   hwmain_mem_serverAdapterB_outDataCore.notEmpty
+Blocking rules: (none)
+ 
+Rule: hwmain_mem_serverAdapterB_outData_setFirstEnq
+Predicate: (! hwmain_mem_serverAdapterB_outDataCore.notEmpty) &&
+	   hwmain_mem_serverAdapterB_outData_enqData.whas
+Blocking rules: (none)
+ 
+Rule: hwmain_mem_serverAdapterB_outData_enqOnly
+Predicate: hwmain_mem_serverAdapterB_outDataCore.i_notFull &&
+	   (! hwmain_mem_serverAdapterB_outData_deqCalled.whas) &&
+	   hwmain_mem_serverAdapterB_outData_enqData.whas
+Blocking rules: (none)
+ 
+Rule: hwmain_mem_serverAdapterB_outData_deqOnly
+Predicate: hwmain_mem_serverAdapterB_outDataCore.i_notEmpty &&
+	   hwmain_mem_serverAdapterB_outData_deqCalled.whas &&
+	   (! hwmain_mem_serverAdapterB_outData_enqData.whas)
+Blocking rules: (none)
+ 
+Rule: hwmain_mem_serverAdapterB_outData_enqAndDeq
+Predicate: hwmain_mem_serverAdapterB_outDataCore.i_notEmpty &&
+	   hwmain_mem_serverAdapterB_outDataCore.i_notFull &&
+	   hwmain_mem_serverAdapterB_outData_deqCalled.whas &&
+	   hwmain_mem_serverAdapterB_outData_enqData.whas
+Blocking rules: (none)
+ 
+Rule: hwmain_mem_serverAdapterB_cnt_finalAdd
+Predicate: hwmain_mem_serverAdapterB_cnt_1.whas ||
+	   hwmain_mem_serverAdapterB_cnt_2.whas ||
+	   hwmain_mem_serverAdapterB_cnt_3.whas
+Blocking rules: (none)
+ 
+Rule: hwmain_mem_serverAdapterB_s1__dreg_update
+Predicate: True
+Blocking rules: (none)
+ 
+Rule: hwmain_mem_serverAdapterB_stageReadResponseAlways
+Predicate: hwmain_mem_serverAdapterB_writeWithResp.whas
+Blocking rules: (none)
+ 
+Rule: hwmain_mem_serverAdapterB_moveToOutFIFO
+Predicate: ((! hwmain_mem_serverAdapterB_s1[0]) ||
+	    hwmain_mem_serverAdapterB_outDataCore.notFull) &&
+	   hwmain_mem_serverAdapterB_s1[1]
+Blocking rules: (none)
+ 
+Rule: hwmain_mem_serverAdapterB_overRun
+Predicate: hwmain_mem_serverAdapterB_s1[1] &&
+	   (! hwmain_mem_serverAdapterB_outDataCore.notFull)
+Blocking rules: (none)
+ 
+Rule: hwmain_rpReq
+Predicate: hwmain_proc.RDY_memReq && (hwmain_mem_serverAdapterA_cnt .< 3'd3)
+Blocking rules: (none)
+ 
+Rule: hwmain_rpResp
+Predicate: hwmain_proc.RDY_memResp &&
+	   (hwmain_mem_serverAdapterA_outDataCore.notEmpty ||
+	    hwmain_mem_serverAdapterA_outData_enqData.whas) &&
+	   hwmain_mem_serverAdapterA_outData_outData.whas &&
+	   hwmain_relayUart.i_notFull
+Blocking rules: (none)
+ 
+Rule: relayUartIn
+Predicate: uart_outQ.i_notEmpty && (hwmain_mem_serverAdapterB_cnt .< 3'd3)
+Blocking rules: (none)
+ 
+Rule: relayUartOut
+Predicate: (uart_curoutoff == 5'd0) && hwmain_relayUart.i_notEmpty
+Blocking rules: (none)
+ 
+Logical execution order: blue,
+			 green,
+			 red,
+			 serial_txd,
+			 serial_rx,
+			 relayUartIn,
+			 relayUartOut,
+			 uart_outcntclk,
+			 uart_insample,
+			 hwmain_rpReq,
+			 hwmain_mem_serverAdapterA_stageReadResponseAlways,
+			 hwmain_mem_serverAdapterA_moveToOutFIFO,
+			 hwmain_mem_serverAdapterA_overRun,
+			 hwmain_mem_serverAdapterA_outData_setFirstCore,
+			 hwmain_mem_serverAdapterA_outData_setFirstEnq,
+			 hwmain_rpResp,
+			 hwmain_mem_serverAdapterA_outData_enqOnly,
+			 hwmain_mem_serverAdapterA_outData_deqOnly,
+			 hwmain_mem_serverAdapterA_outData_enqAndDeq,
+			 hwmain_mem_serverAdapterA_cnt_finalAdd,
+			 hwmain_mem_serverAdapterA_s1__dreg_update,
+			 hwmain_mem_serverAdapterB_stageReadResponseAlways,
+			 hwmain_mem_serverAdapterB_moveToOutFIFO,
+			 hwmain_mem_serverAdapterB_overRun,
+			 hwmain_mem_serverAdapterB_outData_setFirstCore,
+			 hwmain_mem_serverAdapterB_outData_setFirstEnq,
+			 hwmain_mem_serverAdapterB_outData_enqOnly,
+			 hwmain_mem_serverAdapterB_outData_deqOnly,
+			 hwmain_mem_serverAdapterB_outData_enqAndDeq,
+			 hwmain_mem_serverAdapterB_cnt_finalAdd,
+			 hwmain_mem_serverAdapterB_s1__dreg_update
+
+========================================
