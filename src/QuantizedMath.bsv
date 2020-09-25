@@ -2,13 +2,13 @@ import DSPArith::*;
 import FIFO::*;
 
 
-interface LSTMArithIfc;
+interface QuantizedMathIfc;
 	method ActionValue#(Int#(8)) quantizedMult(Int#(8) x, Int#(8) y);
 	method Int#(8) quantizedAdd(Int#(8) x, Int#(8) y);
 	method ActionValue#(Int#(8)) hardSigmoid(Int#(8) d);
 endinterface
 
-module mkLSTMArith (LSTMArithIfc);
+module mkQuantizedMath (QuantizedMathIfc);
 	IntMult16x16Ifc dsp_mult <- mkIntMult16x16;
 	IntMult16x16Ifc dsp_mult_sig <- mkIntMult16x16;
 

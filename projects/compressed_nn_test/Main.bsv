@@ -25,7 +25,7 @@ module mkMain(MainIfc);
 	FIFO#(Int#(8)) outQ <- mkFIFO;
 
 	Reg#(Bit#(8)) dataInCnt <- mkReg(0);
-	LSTMArithIfc ar <- mkLSTMArith;
+	QuantizedMathIfc ar <- mkQuantizedMath;
 
 	rule tryMult;
 		inQ1.deq;
