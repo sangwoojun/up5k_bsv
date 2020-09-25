@@ -21,7 +21,7 @@ all:
 	cp verilog/*.v build
 	cp verilog/*.pcf build
 	cp $(ROOTDIR)/verilog/bluespec/*.v build 
-	cd build; apio verify
+	cd build; apio verify 
 	cd build; apio build -v
 
 bsim: Main.bsv cpp/main.cpp

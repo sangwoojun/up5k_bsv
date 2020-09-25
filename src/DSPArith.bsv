@@ -62,9 +62,9 @@ module mkIntMult16x16Import#(Clock clk, Reset rst) (IntMult16x16ImportIfc);
 	parameter B_SIGNED = 1'b1; // signed B
 
 	schedule (
-		put, get
-	) CF (
-		put, get
+		put
+	) SB (
+		get
 	);
 endmodule
 

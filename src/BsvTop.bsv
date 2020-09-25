@@ -23,7 +23,7 @@ interface BsvTopIfc;
 endinterface
 
 module mkBsvTop(BsvTopIfc);
-	UartIfc uart <- mkUart(1250);
+	UartIfc uart <- mkUart(2500);
 	MainIfc hwmain <- mkMain;
 
 	rule relayUartIn;

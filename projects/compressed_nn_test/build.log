@@ -10,7 +10,7 @@ Foreign import file created: ./build//bdpiUartGet.ba
 Foreign import file created: ./build//bdpiUartPut.ba
 VPI wrapper files created: ./build//vpi_wrapper_bdpiUartGet.{c,h}
 VPI wrapper files created: ./build//vpi_wrapper_bdpiUartPut.{c,h}
-compiling ./QuantizedMath.bsv
+compiling ../..//src//DSPArith.bsv
 compiling ../..//src//Spram.bsv
 compiling ./Main.bsv
 compiling ../..//src/BsvTop.bsv
@@ -23,12 +23,12 @@ All packages are up to date.
 cp verilog/*.v build
 cp verilog/*.pcf build
 cp ../..//verilog/bluespec/*.v build 
-cd build; apio verify
+cd build; apio verify 
 iverilog -B "/home/swjun/.apio/packages/toolchain-iverilog/lib/ivl" -o hardware.out -D VCD_OUTPUT= /home/swjun/.apio/packages/toolchain-yosys/share/yosys/ice40/cells_sim.v BRAM2.v ClockDiv.v FIFO2.v MakeResetA.v SizedFIFO.v SyncFIFO.v SyncResetA.v mkBsvTop.v top.v
-========================================================================================= [SUCCESS] Took 0.20 seconds =========================================================================================
+============================================================================================================================== [SUCCESS] Took 0.20 seconds ==============================================================================================================================
 cd build; apio build -v
-[Thu Sep 24 00:19:28 2020] Processing upduino2
----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+[Fri Sep 25 12:24:38 2020] Processing upduino2
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 yosys -p "synth_ice40 -json hardware.json" BRAM2.v ClockDiv.v FIFO2.v MakeResetA.v SizedFIFO.v SyncFIFO.v SyncResetA.v mkBsvTop.v top.v
 
 /----------------------------------------------------------------------------\
@@ -113,12 +113,6 @@ Successfully finished Verilog frontend.
 8. Executing Verilog-2005 frontend: mkBsvTop.v
 Parsing Verilog input from `mkBsvTop.v' to AST representation.
 Generating RTLIL representation for module `\mkBsvTop'.
-Note: Assuming pure combinatorial block at mkBsvTop.v:318 in
-compliance with IEC 62142(E):2005 / IEEE Std. 1364.1(E):2002. Recommending
-use of @* instead of @(...) for better match of synthesis and simulation.
-Note: Assuming pure combinatorial block at mkBsvTop.v:510 in
-compliance with IEC 62142(E):2005 / IEEE Std. 1364.1(E):2002. Recommending
-use of @* instead of @(...) for better match of synthesis and simulation.
 Successfully finished Verilog frontend.
 
 -- Parsing `top.v' using frontend `verilog' --
@@ -214,31 +208,40 @@ Generating RTLIL representation for module `$paramod\FIFO2\width=8\guarded=1'.
 Parameter \width = 8
 Parameter \guarded = 1
 Found cached RTLIL representation for module `$paramod\FIFO2\width=8\guarded=1'.
-Parameter \width = 8
+Parameter \width = 16
 Parameter \guarded = 1
-Found cached RTLIL representation for module `$paramod\FIFO2\width=8\guarded=1'.
-Parameter \width = 8
-Parameter \guarded = 1
-Found cached RTLIL representation for module `$paramod\FIFO2\width=8\guarded=1'.
-Parameter \width = 8
-Parameter \guarded = 1
-Found cached RTLIL representation for module `$paramod\FIFO2\width=8\guarded=1'.
-Parameter \width = 8
-Parameter \guarded = 1
-Found cached RTLIL representation for module `$paramod\FIFO2\width=8\guarded=1'.
-Parameter \width = 8
-Parameter \guarded = 1
-Found cached RTLIL representation for module `$paramod\FIFO2\width=8\guarded=1'.
 
-10.2.4. Analyzing design hierarchy..
-Top module:  \top
-Used module:     \mkBsvTop
-Used module:         $paramod\FIFO2\width=8\guarded=1
+10.2.4. Executing AST frontend in derive mode using pre-parsed AST for module `\FIFO2'.
+Parameter \width = 16
+Parameter \guarded = 1
+Generating RTLIL representation for module `$paramod\FIFO2\width=16\guarded=1'.
+Parameter \width = 8
+Parameter \guarded = 1
+Found cached RTLIL representation for module `$paramod\FIFO2\width=8\guarded=1'.
+Parameter \width = 8
+Parameter \guarded = 1
+Found cached RTLIL representation for module `$paramod\FIFO2\width=8\guarded=1'.
+Parameter \width = 8
+Parameter \guarded = 1
+Found cached RTLIL representation for module `$paramod\FIFO2\width=8\guarded=1'.
+Parameter \width = 8
+Parameter \guarded = 1
+Found cached RTLIL representation for module `$paramod\FIFO2\width=8\guarded=1'.
+Parameter \width = 8
+Parameter \guarded = 1
+Found cached RTLIL representation for module `$paramod\FIFO2\width=8\guarded=1'.
 
 10.2.5. Analyzing design hierarchy..
 Top module:  \top
 Used module:     \mkBsvTop
 Used module:         $paramod\FIFO2\width=8\guarded=1
+Used module:         $paramod\FIFO2\width=16\guarded=1
+
+10.2.6. Analyzing design hierarchy..
+Top module:  \top
+Used module:     \mkBsvTop
+Used module:         $paramod\FIFO2\width=8\guarded=1
+Used module:         $paramod\FIFO2\width=16\guarded=1
 Removing unused module `\SyncResetA'.
 Removing unused module `\SyncFIFO'.
 Removing unused module `\SizedFIFO'.
@@ -254,10 +257,9 @@ Removed 7 unused modules.
 Cleaned up 0 empty switches.
 
 10.3.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
-Marked 1 switch rules as full_case in process $proc$mkBsvTop.v:527$307 in module mkBsvTop.
-Marked 1 switch rules as full_case in process $proc$mkBsvTop.v:510$306 in module mkBsvTop.
-Marked 1 switch rules as full_case in process $proc$mkBsvTop.v:318$218 in module mkBsvTop.
-Marked 3 switch rules as full_case in process $proc$FIFO2.v:104$459 in module $paramod\FIFO2\width=8\guarded=1.
+Marked 1 switch rules as full_case in process $proc$mkBsvTop.v:549$315 in module mkBsvTop.
+Marked 3 switch rules as full_case in process $proc$FIFO2.v:104$499 in module $paramod\FIFO2\width=16\guarded=1.
+Marked 3 switch rules as full_case in process $proc$FIFO2.v:104$467 in module $paramod\FIFO2\width=8\guarded=1.
 Removed a total of 0 dead cases.
 
 10.3.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
@@ -265,88 +267,104 @@ Removed 0 redundant assignments.
 Promoted 5 assignments to connections.
 
 10.3.4. Executing PROC_INIT pass (extract init attributes).
-Found init rule in `\top.$proc$top.v:22$313'.
+Found init rule in `\top.$proc$top.v:22$321'.
 Set init value: \cntr = 4'0000
 
 10.3.5. Executing PROC_ARST pass (detect async resets in processes).
 
 10.3.6. Executing PROC_MUX pass (convert decision trees to multiplexers).
-Creating decoders for process `\top.$proc$top.v:22$313'.
-Creating decoders for process `\top.$proc$top.v:26$310'.
+Creating decoders for process `\top.$proc$top.v:22$321'.
+Creating decoders for process `\top.$proc$top.v:26$318'.
 1/1: $0\cntr[3:0]
-Creating decoders for process `\mkBsvTop.$proc$mkBsvTop.v:527$307'.
-1/9: $0\uart_txdr[0:0]
-2/9: $0\uart_samplecountdown[15:0]
-3/9: $0\uart_rxin[3:0]
-4/9: $0\uart_outword[7:0]
-5/9: $0\uart_curoutoff[4:0]
-6/9: $0\uart_curoutd[10:0]
-7/9: $0\uart_clkcnt[15:0]
-8/9: $0\uart_bleft[3:0]
-9/9: $0\hwmain_dataInCnt[7:0]
-Creating decoders for process `\mkBsvTop.$proc$mkBsvTop.v:510$306'.
-1/1: $1\CASE_hwmain_dataInCnt_0_hwmain_inQ1FULL_N_1_h_ETC__q1[0:0]
-Creating decoders for process `\mkBsvTop.$proc$mkBsvTop.v:318$218'.
-1/1: $1\hwmain_dataInCnt_D_IN[7:0]
-Creating decoders for process `$paramod\FIFO2\width=8\guarded=1.$proc$FIFO2.v:133$467'.
-Creating decoders for process `$paramod\FIFO2\width=8\guarded=1.$proc$FIFO2.v:104$459'.
+Creating decoders for process `\mkBsvTop.$proc$mkBsvTop.v:549$315'.
+1/12: $0\uart_txdr[0:0]
+2/12: $0\uart_samplecountdown[15:0]
+3/12: $0\uart_rxin[3:0]
+4/12: $0\uart_outword[7:0]
+5/12: $0\uart_curoutoff[4:0]
+6/12: $0\uart_curoutd[10:0]
+7/12: $0\uart_clkcnt[15:0]
+8/12: $0\uart_bleft[3:0]
+9/12: $0\hwmain_val[15:0]
+10/12: $0\hwmain_dsp_mult_reqReady[0:0]
+11/12: $0\hwmain_dataInCnt[7:0]
+12/12: $0\hwmain_calcout[15:0]
+Creating decoders for process `$paramod\FIFO2\width=16\guarded=1.$proc$FIFO2.v:133$507'.
+Creating decoders for process `$paramod\FIFO2\width=16\guarded=1.$proc$FIFO2.v:104$499'.
+1/2: $0\empty_reg[0:0]
+2/2: $0\full_reg[0:0]
+Creating decoders for process `$paramod\FIFO2\width=8\guarded=1.$proc$FIFO2.v:133$475'.
+Creating decoders for process `$paramod\FIFO2\width=8\guarded=1.$proc$FIFO2.v:104$467'.
 1/2: $0\empty_reg[0:0]
 2/2: $0\full_reg[0:0]
 
 10.3.7. Executing PROC_DLATCH pass (convert process syncs to latches).
-No latch inferred for signal `\mkBsvTop.\CASE_hwmain_dataInCnt_0_hwmain_inQ1FULL_N_1_h_ETC__q1' from process `\mkBsvTop.$proc$mkBsvTop.v:510$306'.
-No latch inferred for signal `\mkBsvTop.\hwmain_dataInCnt_D_IN' from process `\mkBsvTop.$proc$mkBsvTop.v:318$218'.
 
 10.3.8. Executing PROC_DFF pass (convert process syncs to FFs).
-Creating register for signal `\top.\cntr' using process `\top.$proc$top.v:26$310'.
-created $dff cell `$procdff$551' with positive edge clock.
-Creating register for signal `\mkBsvTop.\hwmain_dataInCnt' using process `\mkBsvTop.$proc$mkBsvTop.v:527$307'.
-created $dff cell `$procdff$552' with positive edge clock.
-Creating register for signal `\mkBsvTop.\uart_bleft' using process `\mkBsvTop.$proc$mkBsvTop.v:527$307'.
-created $dff cell `$procdff$553' with positive edge clock.
-Creating register for signal `\mkBsvTop.\uart_clkcnt' using process `\mkBsvTop.$proc$mkBsvTop.v:527$307'.
-created $dff cell `$procdff$554' with positive edge clock.
-Creating register for signal `\mkBsvTop.\uart_curoutd' using process `\mkBsvTop.$proc$mkBsvTop.v:527$307'.
-created $dff cell `$procdff$555' with positive edge clock.
-Creating register for signal `\mkBsvTop.\uart_curoutoff' using process `\mkBsvTop.$proc$mkBsvTop.v:527$307'.
-created $dff cell `$procdff$556' with positive edge clock.
-Creating register for signal `\mkBsvTop.\uart_outword' using process `\mkBsvTop.$proc$mkBsvTop.v:527$307'.
-created $dff cell `$procdff$557' with positive edge clock.
-Creating register for signal `\mkBsvTop.\uart_rxin' using process `\mkBsvTop.$proc$mkBsvTop.v:527$307'.
-created $dff cell `$procdff$558' with positive edge clock.
-Creating register for signal `\mkBsvTop.\uart_samplecountdown' using process `\mkBsvTop.$proc$mkBsvTop.v:527$307'.
-created $dff cell `$procdff$559' with positive edge clock.
-Creating register for signal `\mkBsvTop.\uart_txdr' using process `\mkBsvTop.$proc$mkBsvTop.v:527$307'.
-created $dff cell `$procdff$560' with positive edge clock.
-Creating register for signal `$paramod\FIFO2\width=8\guarded=1.\data0_reg' using process `$paramod\FIFO2\width=8\guarded=1.$proc$FIFO2.v:133$467'.
-created $dff cell `$procdff$561' with positive edge clock.
-Creating register for signal `$paramod\FIFO2\width=8\guarded=1.\data1_reg' using process `$paramod\FIFO2\width=8\guarded=1.$proc$FIFO2.v:133$467'.
-created $dff cell `$procdff$562' with positive edge clock.
-Creating register for signal `$paramod\FIFO2\width=8\guarded=1.\full_reg' using process `$paramod\FIFO2\width=8\guarded=1.$proc$FIFO2.v:104$459'.
-created $dff cell `$procdff$563' with positive edge clock.
-Creating register for signal `$paramod\FIFO2\width=8\guarded=1.\empty_reg' using process `$paramod\FIFO2\width=8\guarded=1.$proc$FIFO2.v:104$459'.
-created $dff cell `$procdff$564' with positive edge clock.
+Creating register for signal `\top.\cntr' using process `\top.$proc$top.v:26$318'.
+created $dff cell `$procdff$620' with positive edge clock.
+Creating register for signal `\mkBsvTop.\hwmain_calcout' using process `\mkBsvTop.$proc$mkBsvTop.v:549$315'.
+created $dff cell `$procdff$621' with positive edge clock.
+Creating register for signal `\mkBsvTop.\hwmain_dataInCnt' using process `\mkBsvTop.$proc$mkBsvTop.v:549$315'.
+created $dff cell `$procdff$622' with positive edge clock.
+Creating register for signal `\mkBsvTop.\hwmain_dsp_mult_reqReady' using process `\mkBsvTop.$proc$mkBsvTop.v:549$315'.
+created $dff cell `$procdff$623' with positive edge clock.
+Creating register for signal `\mkBsvTop.\hwmain_val' using process `\mkBsvTop.$proc$mkBsvTop.v:549$315'.
+created $dff cell `$procdff$624' with positive edge clock.
+Creating register for signal `\mkBsvTop.\uart_bleft' using process `\mkBsvTop.$proc$mkBsvTop.v:549$315'.
+created $dff cell `$procdff$625' with positive edge clock.
+Creating register for signal `\mkBsvTop.\uart_clkcnt' using process `\mkBsvTop.$proc$mkBsvTop.v:549$315'.
+created $dff cell `$procdff$626' with positive edge clock.
+Creating register for signal `\mkBsvTop.\uart_curoutd' using process `\mkBsvTop.$proc$mkBsvTop.v:549$315'.
+created $dff cell `$procdff$627' with positive edge clock.
+Creating register for signal `\mkBsvTop.\uart_curoutoff' using process `\mkBsvTop.$proc$mkBsvTop.v:549$315'.
+created $dff cell `$procdff$628' with positive edge clock.
+Creating register for signal `\mkBsvTop.\uart_outword' using process `\mkBsvTop.$proc$mkBsvTop.v:549$315'.
+created $dff cell `$procdff$629' with positive edge clock.
+Creating register for signal `\mkBsvTop.\uart_rxin' using process `\mkBsvTop.$proc$mkBsvTop.v:549$315'.
+created $dff cell `$procdff$630' with positive edge clock.
+Creating register for signal `\mkBsvTop.\uart_samplecountdown' using process `\mkBsvTop.$proc$mkBsvTop.v:549$315'.
+created $dff cell `$procdff$631' with positive edge clock.
+Creating register for signal `\mkBsvTop.\uart_txdr' using process `\mkBsvTop.$proc$mkBsvTop.v:549$315'.
+created $dff cell `$procdff$632' with positive edge clock.
+Creating register for signal `$paramod\FIFO2\width=16\guarded=1.\data0_reg' using process `$paramod\FIFO2\width=16\guarded=1.$proc$FIFO2.v:133$507'.
+created $dff cell `$procdff$633' with positive edge clock.
+Creating register for signal `$paramod\FIFO2\width=16\guarded=1.\data1_reg' using process `$paramod\FIFO2\width=16\guarded=1.$proc$FIFO2.v:133$507'.
+created $dff cell `$procdff$634' with positive edge clock.
+Creating register for signal `$paramod\FIFO2\width=16\guarded=1.\full_reg' using process `$paramod\FIFO2\width=16\guarded=1.$proc$FIFO2.v:104$499'.
+created $dff cell `$procdff$635' with positive edge clock.
+Creating register for signal `$paramod\FIFO2\width=16\guarded=1.\empty_reg' using process `$paramod\FIFO2\width=16\guarded=1.$proc$FIFO2.v:104$499'.
+created $dff cell `$procdff$636' with positive edge clock.
+Creating register for signal `$paramod\FIFO2\width=8\guarded=1.\data0_reg' using process `$paramod\FIFO2\width=8\guarded=1.$proc$FIFO2.v:133$475'.
+created $dff cell `$procdff$637' with positive edge clock.
+Creating register for signal `$paramod\FIFO2\width=8\guarded=1.\data1_reg' using process `$paramod\FIFO2\width=8\guarded=1.$proc$FIFO2.v:133$475'.
+created $dff cell `$procdff$638' with positive edge clock.
+Creating register for signal `$paramod\FIFO2\width=8\guarded=1.\full_reg' using process `$paramod\FIFO2\width=8\guarded=1.$proc$FIFO2.v:104$467'.
+created $dff cell `$procdff$639' with positive edge clock.
+Creating register for signal `$paramod\FIFO2\width=8\guarded=1.\empty_reg' using process `$paramod\FIFO2\width=8\guarded=1.$proc$FIFO2.v:104$467'.
+created $dff cell `$procdff$640' with positive edge clock.
 
 10.3.9. Executing PROC_CLEAN pass (remove empty switches from decision trees).
-Removing empty process `top.$proc$top.v:22$313'.
-Found and cleaned up 1 empty switch in `\top.$proc$top.v:26$310'.
-Removing empty process `top.$proc$top.v:26$310'.
-Found and cleaned up 10 empty switches in `\mkBsvTop.$proc$mkBsvTop.v:527$307'.
-Removing empty process `mkBsvTop.$proc$mkBsvTop.v:527$307'.
-Found and cleaned up 1 empty switch in `\mkBsvTop.$proc$mkBsvTop.v:510$306'.
-Removing empty process `mkBsvTop.$proc$mkBsvTop.v:510$306'.
-Found and cleaned up 1 empty switch in `\mkBsvTop.$proc$mkBsvTop.v:318$218'.
-Removing empty process `mkBsvTop.$proc$mkBsvTop.v:318$218'.
-Removing empty process `$paramod\FIFO2\width=8\guarded=1.$proc$FIFO2.v:133$467'.
-Found and cleaned up 4 empty switches in `$paramod\FIFO2\width=8\guarded=1.$proc$FIFO2.v:104$459'.
-Removing empty process `$paramod\FIFO2\width=8\guarded=1.$proc$FIFO2.v:104$459'.
-Cleaned up 17 empty switches.
+Removing empty process `top.$proc$top.v:22$321'.
+Found and cleaned up 1 empty switch in `\top.$proc$top.v:26$318'.
+Removing empty process `top.$proc$top.v:26$318'.
+Found and cleaned up 13 empty switches in `\mkBsvTop.$proc$mkBsvTop.v:549$315'.
+Removing empty process `mkBsvTop.$proc$mkBsvTop.v:549$315'.
+Removing empty process `$paramod\FIFO2\width=16\guarded=1.$proc$FIFO2.v:133$507'.
+Found and cleaned up 4 empty switches in `$paramod\FIFO2\width=16\guarded=1.$proc$FIFO2.v:104$499'.
+Removing empty process `$paramod\FIFO2\width=16\guarded=1.$proc$FIFO2.v:104$499'.
+Removing empty process `$paramod\FIFO2\width=8\guarded=1.$proc$FIFO2.v:133$475'.
+Found and cleaned up 4 empty switches in `$paramod\FIFO2\width=8\guarded=1.$proc$FIFO2.v:104$467'.
+Removing empty process `$paramod\FIFO2\width=8\guarded=1.$proc$FIFO2.v:104$467'.
+Cleaned up 22 empty switches.
 
 10.4. Executing FLATTEN pass (flatten design).
 Using template mkBsvTop for cells of type mkBsvTop.
 Using template $paramod\FIFO2\width=8\guarded=1 for cells of type $paramod\FIFO2\width=8\guarded=1.
+Using template $paramod\FIFO2\width=16\guarded=1 for cells of type $paramod\FIFO2\width=16\guarded=1.
 No more expansions possible.
 Deleting now unused module mkBsvTop.
+Deleting now unused module $paramod\FIFO2\width=16\guarded=1.
 Deleting now unused module $paramod\FIFO2\width=8\guarded=1.
 
 10.5. Executing TRIBUF pass.
@@ -358,7 +376,7 @@ Optimizing module top.
 
 10.8. Executing OPT_CLEAN pass (remove unused cells and wires).
 Finding unused cells or wires in module \top..
-Removed 9 unused cells and 213 unused wires.
+Removed 64 unused cells and 391 unused wires.
 
 10.9. Executing CHECK pass (checking for obvious problems).
 checking module top..
@@ -371,7 +389,7 @@ Optimizing module top.
 
 10.10.2. Executing OPT_MERGE pass (detect identical cells).
 Finding identical cells in module `\top'.
-Removed a total of 88 cells.
+Removed a total of 72 cells.
 
 10.10.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
 Running muxtree optimizer on module \top..
@@ -392,7 +410,7 @@ Removed a total of 0 cells.
 
 10.10.7. Executing OPT_CLEAN pass (remove unused cells and wires).
 Finding unused cells or wires in module \top..
-Removed 0 unused cells and 82 unused wires.
+Removed 0 unused cells and 70 unused wires.
 
 10.10.8. Executing OPT_EXPR pass (perform const folding).
 Optimizing module top.
@@ -400,59 +418,37 @@ Optimizing module top.
 10.10.9. Finished OPT passes. (There is nothing left to do.)
 
 10.11. Executing WREDUCE pass (reducing word size of cells).
-Removed top 6 bits (of 8) from mux cell top.$techmap\hwtop.$procmux$526 ($pmux).
-Removed top 3 bits (of 4) from port B of cell top.$techmap\hwtop.$eq$mkBsvTop.v:451$294 ($eq).
-Removed top 11 bits (of 16) from port B of cell top.$techmap\hwtop.$add$mkBsvTop.v:459$296 ($add).
-Removed top 9 bits (of 16) from port Y of cell top.$techmap\hwtop.$add$mkBsvTop.v:459$296 ($add).
-Removed top 9 bits (of 16) from port A of cell top.$techmap\hwtop.$add$mkBsvTop.v:459$296 ($add).
-Removed top 9 bits (of 16) from port Y of cell top.$techmap\hwtop.$add$mkBsvTop.v:469$297 ($add).
-Removed top 9 bits (of 16) from port A of cell top.$techmap\hwtop.$add$mkBsvTop.v:469$297 ($add).
-Removed top 9 bits (of 16) from port B of cell top.$techmap\hwtop.$add$mkBsvTop.v:469$297 ($add).
-Removed top 16 bits (of 32) from port A of cell top.$techmap\hwtop.$mul$mkBsvTop.v:480$298 ($mul).
-Removed top 16 bits (of 32) from port B of cell top.$techmap\hwtop.$mul$mkBsvTop.v:480$298 ($mul).
-Removed top 16 bits (of 32) from port Y of cell top.$techmap\hwtop.$mul$mkBsvTop.v:480$298 ($mul).
-Removed top 7 bits (of 8) from port B of cell top.$techmap\hwtop.$ne$mkBsvTop.v:408$276 ($ne).
-Removed top 48 bits (of 64) from port A of cell top.$techmap\hwtop.$mul$mkBsvTop.v:491$299 ($mul).
-Removed top 21 bits (of 32) from port B of cell top.$techmap\hwtop.$mul$mkBsvTop.v:491$299 ($mul).
-Removed top 40 bits (of 64) from port Y of cell top.$techmap\hwtop.$mul$mkBsvTop.v:491$299 ($mul).
-Removed top 48 bits (of 64) from port A of cell top.$techmap\hwtop.$mul$mkBsvTop.v:499$300 ($mul).
-Removed top 21 bits (of 32) from port B of cell top.$techmap\hwtop.$mul$mkBsvTop.v:499$300 ($mul).
-Removed top 40 bits (of 64) from port Y of cell top.$techmap\hwtop.$mul$mkBsvTop.v:499$300 ($mul).
-Removed top 11 bits (of 16) from port A of cell top.$techmap\hwtop.$mul$mkBsvTop.v:505$301 ($mul).
-Removed top 16 bits (of 32) from port B of cell top.$techmap\hwtop.$mul$mkBsvTop.v:505$301 ($mul).
-Removed top 16 bits (of 32) from port Y of cell top.$techmap\hwtop.$mul$mkBsvTop.v:505$301 ($mul).
-Removed top 5 bits (of 16) from port B of cell top.$techmap\hwtop.$lt$mkBsvTop.v:506$302 ($lt).
-Removed top 15 bits (of 16) from port B of cell top.$techmap\hwtop.$add$mkBsvTop.v:507$303 ($add).
-Removed top 15 bits (of 16) from port B of cell top.$techmap\hwtop.$sub$mkBsvTop.v:508$304 ($sub).
-Removed top 3 bits (of 4) from port B of cell top.$techmap\hwtop.$sub$mkBsvTop.v:509$305 ($sub).
-Removed top 7 bits (of 8) from port B of cell top.$techmap\hwtop.$eq$mkBsvTop.v:398$270 ($eq).
-Removed top 31 bits (of 32) from port B of cell top.$add$top.v:29$312 ($add).
-Removed top 28 bits (of 32) from port Y of cell top.$add$top.v:29$312 ($add).
-Removed top 1 bits (of 11) from mux cell top.$techmap\hwtop.$ternary$mkBsvTop.v:345$235 ($mux).
-Removed top 4 bits (of 5) from port B of cell top.$techmap\hwtop.$sub$mkBsvTop.v:315$217 ($sub).
-Removed top 3 bits (of 4) from port B of cell top.$techmap\hwtop.$ne$mkBsvTop.v:304$209 ($ne).
-Removed top 28 bits (of 32) from wire top.$add$top.v:29$312_Y.
+Removed top 31 bits (of 32) from port B of cell top.$add$top.v:29$320 ($add).
+Removed top 28 bits (of 32) from port Y of cell top.$add$top.v:29$320 ($add).
+Removed top 8 bits (of 16) from port A of cell top.$techmap\hwtop.$sub$mkBsvTop.v:545$314 ($sub).
+Removed top 10 bits (of 16) from port B of cell top.$techmap\hwtop.$sub$mkBsvTop.v:545$314 ($sub).
+Removed top 7 bits (of 16) from port Y of cell top.$techmap\hwtop.$sub$mkBsvTop.v:545$314 ($sub).
+Removed top 3 bits (of 4) from port B of cell top.$techmap\hwtop.$sub$mkBsvTop.v:544$313 ($sub).
+Removed top 15 bits (of 16) from port B of cell top.$techmap\hwtop.$sub$mkBsvTop.v:543$312 ($sub).
+Removed top 15 bits (of 16) from port B of cell top.$techmap\hwtop.$add$mkBsvTop.v:542$311 ($add).
+Removed top 2 bits (of 8) from port B of cell top.$techmap\hwtop.$lt$mkBsvTop.v:539$309 ($lt).
+Removed top 2 bits (of 8) from port B of cell top.$techmap\hwtop.$le$mkBsvTop.v:538$308 ($le).
+Removed top 4 bits (of 16) from port B of cell top.$techmap\hwtop.$lt$mkBsvTop.v:537$307 ($lt).
+Removed top 3 bits (of 16) from port B of cell top.$techmap\hwtop.$lt$mkBsvTop.v:536$306 ($lt).
+Removed top 3 bits (of 4) from port B of cell top.$techmap\hwtop.$eq$mkBsvTop.v:523$299 ($eq).
+Removed top 1 bits (of 11) from mux cell top.$techmap\hwtop.$ternary$mkBsvTop.v:420$249 ($mux).
+Removed top 4 bits (of 5) from port B of cell top.$techmap\hwtop.$sub$mkBsvTop.v:374$229 ($sub).
+Removed top 3 bits (of 8) from mux cell top.$techmap\hwtop.$ternary$mkBsvTop.v:370$228 ($mux).
+Removed top 3 bits (of 4) from port B of cell top.$techmap\hwtop.$ne$mkBsvTop.v:349$212 ($ne).
+Removed top 28 bits (of 32) from wire top.$add$top.v:29$320_Y.
+Removed top 3 bits (of 8) from wire top.hwtop.MUX_hwmain_outQ_enq_1__VAL_2.
 Removed top 1 bits (of 11) from wire top.hwtop.MUX_uart_curoutd_write_1__VAL_1.
 Removed top 2 bits (of 11) from wire top.hwtop.MUX_uart_curoutd_write_1__VAL_2.
-Removed top 16 bits (of 32) from wire top.hwtop.SEXT_hwmain_inQ1_first__0_1_MUL_SEXT_hwmain_in_ETC___d54.
+Removed top 1 bits (of 11) from wire top.hwtop.uart_curoutd_D_IN.
+Removed top 1 bits (of 4) from wire top.hwtop.uart_rxin_D_IN.
 
 10.12. Executing PEEPOPT pass (run peephole optimizers).
-dffcemux pattern in top: dff=$techmap\hwtop.$procdff$552, cemux=$techmap\hwtop.$procmux$516, rstmux=$techmap\hwtop.$procmux$519; removed top 5 bits.
-dffcemux pattern in top: dff=$techmap\hwtop.$procdff$552, cemux=$techmap\hwtop.$procmux$516, rstmux=$techmap\hwtop.$procmux$519; removed 1 constant bits.
-dffcemux pattern in top: dff=$techmap\hwtop.hwmain_midQ2.$procdff$562, cemux=$techmap\hwtop.hwmain_midQ2.$ternary$FIFO2.v:147$473, rstmux=n/a; removed 1 constant bits.
 
 10.13. Executing OPT_CLEAN pass (remove unused cells and wires).
 Finding unused cells or wires in module \top..
-Removed 0 unused cells and 4 unused wires.
+Removed 0 unused cells and 6 unused wires.
 
 10.14. Executing SHARE pass (SAT-based resource sharing).
-Found 2 cells in module top that may be considered for resource sharing.
-Analyzing resource sharing options for $techmap\hwtop.$mul$mkBsvTop.v:505$301 ($mul):
-Found 1 activation_patterns using ctrl signal { \hwtop.hwmain_midQ2.data0_reg [7] $techmap\hwtop.$lt$mkBsvTop.v:439$288_Y }.
-No candidates found.
-Analyzing resource sharing options for $techmap\hwtop.$mul$mkBsvTop.v:491$299 ($mul):
-Found 1 activation_patterns using ctrl signal { \hwtop.hwmain_midQ2.data0_reg [7] $techmap\hwtop.$lt$mkBsvTop.v:439$288_Y }.
-No candidates found.
 
 10.15. Executing TECHMAP pass (map to technology primitives).
 
@@ -472,40 +468,35 @@ Finding unused cells or wires in module \top..
 
 10.18. Executing ALUMACC pass (create $alu and $macc cells).
 Extracting $alu and $macc cells in module top:
-creating $macc model for $add$top.v:29$312 ($add).
-creating $macc model for $techmap\hwtop.$add$mkBsvTop.v:459$296 ($add).
-creating $macc model for $techmap\hwtop.$add$mkBsvTop.v:469$297 ($add).
-creating $macc model for $techmap\hwtop.$add$mkBsvTop.v:507$303 ($add).
-creating $macc model for $techmap\hwtop.$mul$mkBsvTop.v:480$298 ($mul).
-creating $macc model for $techmap\hwtop.$mul$mkBsvTop.v:491$299 ($mul).
-creating $macc model for $techmap\hwtop.$mul$mkBsvTop.v:499$300 ($mul).
-creating $macc model for $techmap\hwtop.$mul$mkBsvTop.v:505$301 ($mul).
-creating $macc model for $techmap\hwtop.$sub$mkBsvTop.v:315$217 ($sub).
-creating $macc model for $techmap\hwtop.$sub$mkBsvTop.v:508$304 ($sub).
-creating $macc model for $techmap\hwtop.$sub$mkBsvTop.v:509$305 ($sub).
-creating $alu model for $macc $techmap\hwtop.$sub$mkBsvTop.v:509$305.
-creating $alu model for $macc $techmap\hwtop.$sub$mkBsvTop.v:508$304.
-creating $alu model for $macc $techmap\hwtop.$sub$mkBsvTop.v:315$217.
-creating $alu model for $macc $techmap\hwtop.$add$mkBsvTop.v:507$303.
-creating $alu model for $macc $techmap\hwtop.$add$mkBsvTop.v:469$297.
-creating $alu model for $macc $techmap\hwtop.$add$mkBsvTop.v:459$296.
-creating $alu model for $macc $add$top.v:29$312.
-creating $macc cell for $techmap\hwtop.$mul$mkBsvTop.v:505$301: $auto$alumacc.cc:365:replace_macc$569
-creating $macc cell for $techmap\hwtop.$mul$mkBsvTop.v:499$300: $auto$alumacc.cc:365:replace_macc$570
-creating $macc cell for $techmap\hwtop.$mul$mkBsvTop.v:491$299: $auto$alumacc.cc:365:replace_macc$571
-creating $macc cell for $techmap\hwtop.$mul$mkBsvTop.v:480$298: $auto$alumacc.cc:365:replace_macc$572
-creating $alu model for $techmap\hwtop.$lt$mkBsvTop.v:439$288 ($lt): new $alu
-creating $alu model for $techmap\hwtop.$lt$mkBsvTop.v:506$302 ($lt): new $alu
-creating $alu cell for $techmap\hwtop.$lt$mkBsvTop.v:506$302: $auto$alumacc.cc:485:replace_alu$575
-creating $alu cell for $techmap\hwtop.$lt$mkBsvTop.v:439$288: $auto$alumacc.cc:485:replace_alu$586
-creating $alu cell for $add$top.v:29$312: $auto$alumacc.cc:485:replace_alu$591
-creating $alu cell for $techmap\hwtop.$add$mkBsvTop.v:459$296: $auto$alumacc.cc:485:replace_alu$594
-creating $alu cell for $techmap\hwtop.$add$mkBsvTop.v:469$297: $auto$alumacc.cc:485:replace_alu$597
-creating $alu cell for $techmap\hwtop.$add$mkBsvTop.v:507$303: $auto$alumacc.cc:485:replace_alu$600
-creating $alu cell for $techmap\hwtop.$sub$mkBsvTop.v:315$217: $auto$alumacc.cc:485:replace_alu$603
-creating $alu cell for $techmap\hwtop.$sub$mkBsvTop.v:508$304: $auto$alumacc.cc:485:replace_alu$606
-creating $alu cell for $techmap\hwtop.$sub$mkBsvTop.v:509$305: $auto$alumacc.cc:485:replace_alu$609
-created 9 $alu and 4 $macc cells.
+creating $macc model for $add$top.v:29$320 ($add).
+creating $macc model for $techmap\hwtop.$add$mkBsvTop.v:542$311 ($add).
+creating $macc model for $techmap\hwtop.$sub$mkBsvTop.v:374$229 ($sub).
+creating $macc model for $techmap\hwtop.$sub$mkBsvTop.v:543$312 ($sub).
+creating $macc model for $techmap\hwtop.$sub$mkBsvTop.v:544$313 ($sub).
+creating $macc model for $techmap\hwtop.$sub$mkBsvTop.v:545$314 ($sub).
+creating $alu model for $macc $techmap\hwtop.$sub$mkBsvTop.v:545$314.
+creating $alu model for $macc $techmap\hwtop.$sub$mkBsvTop.v:544$313.
+creating $alu model for $macc $techmap\hwtop.$sub$mkBsvTop.v:543$312.
+creating $alu model for $macc $techmap\hwtop.$sub$mkBsvTop.v:374$229.
+creating $alu model for $macc $techmap\hwtop.$add$mkBsvTop.v:542$311.
+creating $alu model for $macc $add$top.v:29$320.
+creating $alu model for $techmap\hwtop.$le$mkBsvTop.v:529$302 ($le): new $alu
+creating $alu model for $techmap\hwtop.$le$mkBsvTop.v:538$308 ($le): new $alu
+creating $alu model for $techmap\hwtop.$lt$mkBsvTop.v:536$306 ($lt): new $alu
+creating $alu model for $techmap\hwtop.$lt$mkBsvTop.v:537$307 ($lt): new $alu
+creating $alu model for $techmap\hwtop.$lt$mkBsvTop.v:539$309 ($lt): new $alu
+creating $alu cell for $techmap\hwtop.$lt$mkBsvTop.v:539$309: $auto$alumacc.cc:485:replace_alu$652
+creating $alu cell for $techmap\hwtop.$lt$mkBsvTop.v:537$307: $auto$alumacc.cc:485:replace_alu$663
+creating $alu cell for $techmap\hwtop.$lt$mkBsvTop.v:536$306: $auto$alumacc.cc:485:replace_alu$674
+creating $alu cell for $techmap\hwtop.$le$mkBsvTop.v:538$308: $auto$alumacc.cc:485:replace_alu$685
+creating $alu cell for $techmap\hwtop.$le$mkBsvTop.v:529$302: $auto$alumacc.cc:485:replace_alu$698
+creating $alu cell for $add$top.v:29$320: $auto$alumacc.cc:485:replace_alu$707
+creating $alu cell for $techmap\hwtop.$add$mkBsvTop.v:542$311: $auto$alumacc.cc:485:replace_alu$710
+creating $alu cell for $techmap\hwtop.$sub$mkBsvTop.v:374$229: $auto$alumacc.cc:485:replace_alu$713
+creating $alu cell for $techmap\hwtop.$sub$mkBsvTop.v:543$312: $auto$alumacc.cc:485:replace_alu$716
+creating $alu cell for $techmap\hwtop.$sub$mkBsvTop.v:544$313: $auto$alumacc.cc:485:replace_alu$719
+creating $alu cell for $techmap\hwtop.$sub$mkBsvTop.v:545$314: $auto$alumacc.cc:485:replace_alu$722
+created 11 $alu and 0 $macc cells.
 
 10.19. Executing OPT pass (performing simple optimizations).
 
@@ -525,9 +516,13 @@ Removed 0 multiplexer ports.
 
 10.19.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
 Optimizing cells in module \top.
-New input vector for $reduce_and cell $auto$alumacc.cc:75:get_eq$580: { $auto$alumacc.cc:501:replace_alu$576 [0] $auto$alumacc.cc:501:replace_alu$576 [1] $auto$alumacc.cc:501:replace_alu$576 [2] $auto$alumacc.cc:501:replace_alu$576 [3] $auto$alumacc.cc:501:replace_alu$576 [4] $auto$alumacc.cc:501:replace_alu$576 [5] $auto$alumacc.cc:501:replace_alu$576 [6] $auto$alumacc.cc:501:replace_alu$576 [7] $auto$alumacc.cc:501:replace_alu$576 [8] $auto$alumacc.cc:501:replace_alu$576 [9] $auto$alumacc.cc:501:replace_alu$576 [10] $auto$alumacc.cc:501:replace_alu$576 [11] $auto$alumacc.cc:501:replace_alu$576 [12] $auto$alumacc.cc:501:replace_alu$576 [13] $auto$alumacc.cc:501:replace_alu$576 [14] $auto$alumacc.cc:501:replace_alu$576 [15] }
+New input vector for $reduce_and cell $auto$alumacc.cc:75:get_eq$703: { $auto$alumacc.cc:501:replace_alu$699 [0] $auto$alumacc.cc:501:replace_alu$699 [1] $auto$alumacc.cc:501:replace_alu$699 [2] $auto$alumacc.cc:501:replace_alu$699 [3] $auto$alumacc.cc:501:replace_alu$699 [4] $auto$alumacc.cc:501:replace_alu$699 [5] $auto$alumacc.cc:501:replace_alu$699 [6] $auto$alumacc.cc:501:replace_alu$699 [7] $auto$alumacc.cc:501:replace_alu$699 [8] $auto$alumacc.cc:501:replace_alu$699 [9] $auto$alumacc.cc:501:replace_alu$699 [10] $auto$alumacc.cc:501:replace_alu$699 [11] $auto$alumacc.cc:501:replace_alu$699 [12] $auto$alumacc.cc:501:replace_alu$699 [13] $auto$alumacc.cc:501:replace_alu$699 [14] $auto$alumacc.cc:501:replace_alu$699 [15] }
+New input vector for $reduce_and cell $auto$alumacc.cc:75:get_eq$657: { $auto$alumacc.cc:501:replace_alu$653 [0] $auto$alumacc.cc:501:replace_alu$653 [1] $auto$alumacc.cc:501:replace_alu$653 [2] $auto$alumacc.cc:501:replace_alu$653 [3] $auto$alumacc.cc:501:replace_alu$653 [4] $auto$alumacc.cc:501:replace_alu$653 [5] $auto$alumacc.cc:501:replace_alu$653 [6] $auto$alumacc.cc:501:replace_alu$653 [7] }
+New input vector for $reduce_and cell $auto$alumacc.cc:75:get_eq$668: { $auto$alumacc.cc:501:replace_alu$664 [0] $auto$alumacc.cc:501:replace_alu$664 [1] $auto$alumacc.cc:501:replace_alu$664 [2] $auto$alumacc.cc:501:replace_alu$664 [3] $auto$alumacc.cc:501:replace_alu$664 [4] $auto$alumacc.cc:501:replace_alu$664 [5] $auto$alumacc.cc:501:replace_alu$664 [6] $auto$alumacc.cc:501:replace_alu$664 [7] $auto$alumacc.cc:501:replace_alu$664 [8] $auto$alumacc.cc:501:replace_alu$664 [9] $auto$alumacc.cc:501:replace_alu$664 [10] $auto$alumacc.cc:501:replace_alu$664 [11] $auto$alumacc.cc:501:replace_alu$664 [12] $auto$alumacc.cc:501:replace_alu$664 [13] $auto$alumacc.cc:501:replace_alu$664 [14] $auto$alumacc.cc:501:replace_alu$664 [15] }
+New input vector for $reduce_and cell $auto$alumacc.cc:75:get_eq$679: { $auto$alumacc.cc:501:replace_alu$675 [0] $auto$alumacc.cc:501:replace_alu$675 [1] $auto$alumacc.cc:501:replace_alu$675 [2] $auto$alumacc.cc:501:replace_alu$675 [3] $auto$alumacc.cc:501:replace_alu$675 [4] $auto$alumacc.cc:501:replace_alu$675 [5] $auto$alumacc.cc:501:replace_alu$675 [6] $auto$alumacc.cc:501:replace_alu$675 [7] $auto$alumacc.cc:501:replace_alu$675 [8] $auto$alumacc.cc:501:replace_alu$675 [9] $auto$alumacc.cc:501:replace_alu$675 [10] $auto$alumacc.cc:501:replace_alu$675 [11] $auto$alumacc.cc:501:replace_alu$675 [12] $auto$alumacc.cc:501:replace_alu$675 [13] $auto$alumacc.cc:501:replace_alu$675 [14] $auto$alumacc.cc:501:replace_alu$675 [15] }
+New input vector for $reduce_and cell $auto$alumacc.cc:75:get_eq$690: { $auto$alumacc.cc:501:replace_alu$686 [0] $auto$alumacc.cc:501:replace_alu$686 [1] $auto$alumacc.cc:501:replace_alu$686 [2] $auto$alumacc.cc:501:replace_alu$686 [3] $auto$alumacc.cc:501:replace_alu$686 [4] $auto$alumacc.cc:501:replace_alu$686 [5] $auto$alumacc.cc:501:replace_alu$686 [6] $auto$alumacc.cc:501:replace_alu$686 [7] }
 Optimizing cells in module \top.
-Performed a total of 1 changes.
+Performed a total of 5 changes.
 
 10.19.5. Executing OPT_MERGE pass (detect identical cells).
 Finding identical cells in module `\top'.
@@ -537,7 +532,7 @@ Removed a total of 0 cells.
 
 10.19.7. Executing OPT_CLEAN pass (remove unused cells and wires).
 Finding unused cells or wires in module \top..
-Removed 2 unused cells and 5 unused wires.
+Removed 1 unused cells and 9 unused wires.
 
 10.19.8. Executing OPT_EXPR pass (perform const folding).
 Optimizing module top.
@@ -653,7 +648,7 @@ Removed a total of 0 cells.
 
 10.27.4. Executing OPT_CLEAN pass (remove unused cells and wires).
 Finding unused cells or wires in module \top..
-Removed 0 unused cells and 7 unused wires.
+Removed 4 unused cells and 21 unused wires.
 
 10.27.5. Finished fast OPT passes.
 
@@ -677,17 +672,7 @@ Removed 0 multiplexer ports.
 
 10.29.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
 Optimizing cells in module \top.
-Consolidated identical input bits for $mux cell $techmap\hwtop.$ternary$mkBsvTop.v:442$289:
-Old ports: A={ \hwtop.SEXT_SEXT_SEXT__0_CONCAT_20_MUL_SEXT_hwmain_mi_ETC__q16 [6:0] 1'0 }, B=8'01100110, Y=$techmap\hwtop.$ternary$mkBsvTop.v:442$289_Y
-New ports: A=\hwtop.SEXT_SEXT_SEXT__0_CONCAT_20_MUL_SEXT_hwmain_mi_ETC__q16 [6:0], B=7'0110011, Y=$techmap\hwtop.$ternary$mkBsvTop.v:442$289_Y [7:1]
-New connections: $techmap\hwtop.$ternary$mkBsvTop.v:442$289_Y [0] = 1'0
-Optimizing cells in module \top.
-Consolidated identical input bits for $mux cell $techmap\hwtop.$ternary$mkBsvTop.v:442$290:
-Old ports: A=$techmap\hwtop.$ternary$mkBsvTop.v:442$289_Y, B=8'00000000, Y=\hwtop.hwmain_outQ.D_IN
-New ports: A=$techmap\hwtop.$ternary$mkBsvTop.v:442$289_Y [7:1], B=7'0000000, Y=\hwtop.hwmain_outQ.D_IN [7:1]
-New connections: \hwtop.hwmain_outQ.D_IN [0] = 1'0
-Optimizing cells in module \top.
-Performed a total of 2 changes.
+Performed a total of 0 changes.
 
 10.29.5. Executing OPT_MERGE pass (detect identical cells).
 Finding identical cells in module `\top'.
@@ -701,33 +686,7 @@ Finding unused cells or wires in module \top..
 10.29.8. Executing OPT_EXPR pass (perform const folding).
 Optimizing module top.
 
-10.29.9. Rerunning OPT passes. (Maybe there is more to do..)
-
-10.29.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
-Running muxtree optimizer on module \top..
-Creating internal representation of mux trees.
-Evaluating internal representation of mux trees.
-Analyzing evaluation results.
-Removed 0 multiplexer ports.
-
-10.29.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
-Optimizing cells in module \top.
-Performed a total of 0 changes.
-
-10.29.12. Executing OPT_MERGE pass (detect identical cells).
-Finding identical cells in module `\top'.
-Removed a total of 0 cells.
-
-10.29.13. Executing OPT_RMDFF pass (remove dff with constant values).
-
-10.29.14. Executing OPT_CLEAN pass (remove unused cells and wires).
-Finding unused cells or wires in module \top..
-Removed 0 unused cells and 3 unused wires.
-
-10.29.15. Executing OPT_EXPR pass (perform const folding).
-Optimizing module top.
-
-10.29.16. Finished OPT passes. (There is nothing left to do.)
+10.29.9. Finished OPT passes. (There is nothing left to do.)
 
 10.30. Executing ICE40_WRAPCARRY pass (wrap carries).
 
@@ -765,39 +724,30 @@ Successfully finished Verilog frontend.
 10.31.3. Continuing TECHMAP pass.
 Using extmapper simplemap for cells of type $mux.
 Using extmapper simplemap for cells of type $dff.
-Using extmapper maccmap for cells of type $macc.
-add { \hwtop.hwmain_midQ2.data0_reg [7] \hwtop.hwmain_midQ2.data0_reg [7] \hwtop.hwmain_midQ2.data0_reg [7] \hwtop.hwmain_midQ2.data0_reg [7] \hwtop.hwmain_midQ2.data0_reg [7] \hwtop.hwmain_midQ2.data0_reg [7] \hwtop.hwmain_midQ2.data0_reg [7] \hwtop.hwmain_midQ2.data0_reg [7] \hwtop.hwmain_midQ2.data0_reg } * 5'10100 (16x5 bits, unsigned)
-Using extmapper simplemap for cells of type $or.
-Using extmapper simplemap for cells of type $reduce_and.
-Using template $paramod\_80_ice40_alu\A_SIGNED=0\B_SIGNED=0\A_WIDTH=1\B_WIDTH=16\Y_WIDTH=16 for cells of type $alu.
-Using template $paramod\_80_ice40_alu\A_SIGNED=0\B_SIGNED=0\A_WIDTH=11\B_WIDTH=16\Y_WIDTH=16 for cells of type $alu.
 Using extmapper simplemap for cells of type $not.
-Using template $paramod\_90_pmux\WIDTH=1\S_WIDTH=2 for cells of type $pmux.
-Using template $paramod\_90_pmux\WIDTH=2\S_WIDTH=2 for cells of type $pmux.
-Using extmapper simplemap for cells of type $logic_and.
-Using extmapper simplemap for cells of type $xor.
-Using template $paramod\_80_ice40_alu\A_SIGNED=0\B_SIGNED=0\A_WIDTH=1\B_WIDTH=4\Y_WIDTH=4 for cells of type $alu.
-Using extmapper simplemap for cells of type $reduce_bool.
+Using extmapper simplemap for cells of type $reduce_and.
+Using extmapper simplemap for cells of type $or.
+Using template $paramod\_80_ice40_alu\A_SIGNED=0\B_SIGNED=0\A_WIDTH=6\B_WIDTH=8\Y_WIDTH=8 for cells of type $alu.
 Using extmapper simplemap for cells of type $eq.
-Using template $paramod\_80_ice40_alu\A_SIGNED=0\B_SIGNED=0\A_WIDTH=7\B_WIDTH=7\Y_WIDTH=7 for cells of type $alu.
 Using extmapper simplemap for cells of type $ne.
-add { \hwtop.hwmain_inQ1.data0_reg [7] \hwtop.hwmain_inQ1.data0_reg [7] \hwtop.hwmain_inQ1.data0_reg [7] \hwtop.hwmain_inQ1.data0_reg [7] \hwtop.hwmain_inQ1.data0_reg [7] \hwtop.hwmain_inQ1.data0_reg [7] \hwtop.hwmain_inQ1.data0_reg [7] \hwtop.hwmain_inQ1.data0_reg [7] \hwtop.hwmain_inQ1.data0_reg } * { \hwtop.hwmain_inQ2.data0_reg [7] \hwtop.hwmain_inQ2.data0_reg [7] \hwtop.hwmain_inQ2.data0_reg [7] \hwtop.hwmain_inQ2.data0_reg [7] \hwtop.hwmain_inQ2.data0_reg [7] \hwtop.hwmain_inQ2.data0_reg [7] \hwtop.hwmain_inQ2.data0_reg [7] \hwtop.hwmain_inQ2.data0_reg [7] \hwtop.hwmain_inQ2.data0_reg } (16x16 bits, unsigned)
-add \hwtop._20_MUL_SEXT_hwmain_midQ2_first__8_1___d82 [15:0] * 11'11000011000 (16x11 bits, unsigned)
-add \hwtop.SEXT_hwmain_inQ1_first__0_1_MUL_SEXT_hwmain_in_ETC___d54 * 11'11000011000 (16x11 bits, unsigned)
-Using template $paramod\_80_ice40_alu\A_SIGNED=0\B_SIGNED=0\A_WIDTH=8\B_WIDTH=8\Y_WIDTH=8 for cells of type $alu.
-Using extmapper simplemap for cells of type $and.
-Using template $paramod\_80_ice40_alu\A_SIGNED=0\B_SIGNED=0\A_WIDTH=5\B_WIDTH=1\Y_WIDTH=5 for cells of type $alu.
+Using template $paramod\_80_ice40_alu\A_SIGNED=0\B_SIGNED=0\A_WIDTH=1\B_WIDTH=16\Y_WIDTH=16 for cells of type $alu.
+Using template $paramod\_80_ice40_alu\A_SIGNED=0\B_SIGNED=0\A_WIDTH=4\B_WIDTH=2\Y_WIDTH=5 for cells of type $alu.
 Using template $paramod\_80_ice40_alu\A_SIGNED=0\B_SIGNED=0\A_WIDTH=4\B_WIDTH=1\Y_WIDTH=4 for cells of type $alu.
-Using extmapper simplemap for cells of type $logic_not.
-Using template $paramod\_80_ice40_alu\A_SIGNED=0\B_SIGNED=0\A_WIDTH=5\B_WIDTH=7\Y_WIDTH=7 for cells of type $alu.
+Using template $paramod\_80_ice40_alu\A_SIGNED=0\B_SIGNED=0\A_WIDTH=5\B_WIDTH=1\Y_WIDTH=5 for cells of type $alu.
+Using template $paramod\_80_ice40_alu\A_SIGNED=0\B_SIGNED=0\A_WIDTH=12\B_WIDTH=16\Y_WIDTH=16 for cells of type $alu.
+Using template $paramod\_90_alu\A_SIGNED=0\B_SIGNED=0\A_WIDTH=1\B_WIDTH=1\Y_WIDTH=1 for cells of type $alu.
+Using template $paramod\_80_ice40_alu\A_SIGNED=0\B_SIGNED=0\A_WIDTH=13\B_WIDTH=16\Y_WIDTH=16 for cells of type $alu.
+Using extmapper simplemap for cells of type $logic_and.
 Using extmapper simplemap for cells of type $logic_or.
+Using template $paramod\_80_ice40_alu\A_SIGNED=0\B_SIGNED=0\A_WIDTH=1\B_WIDTH=4\Y_WIDTH=4 for cells of type $alu.
+Using extmapper simplemap for cells of type $xor.
+Using extmapper simplemap for cells of type $logic_not.
+Using extmapper simplemap for cells of type $reduce_bool.
 Using template $paramod\_80_ice40_alu\A_SIGNED=0\B_SIGNED=0\A_WIDTH=16\B_WIDTH=1\Y_WIDTH=16 for cells of type $alu.
-Using extmapper simplemap for cells of type $pos.
+Using extmapper simplemap for cells of type $and.
 Using extmapper simplemap for cells of type $reduce_or.
-Using template $paramod\_90_fa\WIDTH=24 for cells of type $fa.
-Using template $paramod\_80_ice40_alu\A_SIGNED=0\B_SIGNED=0\A_WIDTH=24\B_WIDTH=24\Y_WIDTH=24 for cells of type $alu.
-Using template $paramod\_90_fa\WIDTH=16 for cells of type $fa.
-Using template $paramod\_80_ice40_alu\A_SIGNED=0\B_SIGNED=0\A_WIDTH=16\B_WIDTH=16\Y_WIDTH=16 for cells of type $alu.
+Using extmapper simplemap for cells of type $pos.
+Using template $paramod\_90_lcu\WIDTH=1 for cells of type $lcu.
 No more expansions possible.
 
 10.32. Executing ICE40_OPT pass (performing simple optimizations).
@@ -809,55 +759,46 @@ Optimizing module top.
 
 10.32.3. Executing OPT_MERGE pass (detect identical cells).
 Finding identical cells in module `\top'.
-Removed a total of 301 cells.
+Removed a total of 56 cells.
 
 10.32.4. Executing OPT_RMDFF pass (remove dff with constant values).
 
 10.32.5. Executing OPT_CLEAN pass (remove unused cells and wires).
 Finding unused cells or wires in module \top..
-Removed 234 unused cells and 727 unused wires.
+Removed 63 unused cells and 221 unused wires.
 
 10.32.6. Rerunning OPT passes. (Removed registers in this run.)
 
 10.32.7. Running ICE40 specific optimizations.
-Optimized $__ICE40_CARRY_WRAPPER cell back to logic (without SB_CARRY) top.$auto$alumacc.cc:485:replace_alu$575.slice[0].carry: CO=$auto$alumacc.cc:485:replace_alu$575.BB [0]
-Optimized $__ICE40_CARRY_WRAPPER cell back to logic (without SB_CARRY) top.$auto$alumacc.cc:485:replace_alu$586.slice[0].carry: CO=\hwtop.hwmain_midQ2.data0_reg [0]
-Optimized $__ICE40_CARRY_WRAPPER cell back to logic (without SB_CARRY) top.$auto$alumacc.cc:485:replace_alu$591.slice[0].carry: CO=\cntr [0]
-Optimized $__ICE40_CARRY_WRAPPER cell back to logic (without SB_CARRY) top.$auto$alumacc.cc:485:replace_alu$594.slice[0].carry: CO=\hwtop.SEXT_SEXT__0_CONCAT_20_MUL_SEXT_hwmain_midQ2_f_ETC__q14 [1]
-Optimized $__ICE40_CARRY_WRAPPER cell back to logic (without SB_CARRY) top.$auto$alumacc.cc:485:replace_alu$600.slice[0].carry: CO=\hwtop.uart_clkcnt [0]
-Optimized $__ICE40_CARRY_WRAPPER cell back to logic (without SB_CARRY) top.$auto$alumacc.cc:485:replace_alu$603.slice[0].carry: CO=\hwtop.uart_curoutoff [0]
-Optimized $__ICE40_CARRY_WRAPPER cell back to logic (without SB_CARRY) top.$auto$alumacc.cc:485:replace_alu$606.slice[0].carry: CO=\hwtop.uart_samplecountdown [0]
-Optimized $__ICE40_CARRY_WRAPPER cell back to logic (without SB_CARRY) top.$auto$alumacc.cc:485:replace_alu$609.slice[0].carry: CO=\hwtop.uart_bleft [0]
-Optimized $__ICE40_CARRY_WRAPPER cell back to logic (without SB_CARRY) top.$auto$maccmap.cc:240:synth$1014.slice[0].carry: CO=1'0
-Optimized $__ICE40_CARRY_WRAPPER cell back to logic (without SB_CARRY) top.$auto$maccmap.cc:240:synth$1067.slice[0].carry: CO=1'0
-Optimized $__ICE40_CARRY_WRAPPER cell back to logic (without SB_CARRY) top.$auto$maccmap.cc:240:synth$1067.slice[1].carry: CO=1'0
-Optimized $__ICE40_CARRY_WRAPPER cell back to logic (without SB_CARRY) top.$auto$maccmap.cc:240:synth$1067.slice[2].carry: CO=1'0
-Optimized $__ICE40_CARRY_WRAPPER cell back to logic (without SB_CARRY) top.$auto$maccmap.cc:240:synth$1120.slice[0].carry: CO=1'0
-Optimized $__ICE40_CARRY_WRAPPER cell back to logic (without SB_CARRY) top.$auto$maccmap.cc:240:synth$1120.slice[1].carry: CO=1'0
-Optimized $__ICE40_CARRY_WRAPPER cell back to logic (without SB_CARRY) top.$auto$maccmap.cc:240:synth$1120.slice[2].carry: CO=1'0
-Optimized $__ICE40_CARRY_WRAPPER cell back to logic (without SB_CARRY) top.$auto$maccmap.cc:240:synth$711.slice[0].carry: CO=1'0
-Optimized $__ICE40_CARRY_WRAPPER cell back to logic (without SB_CARRY) top.$auto$maccmap.cc:240:synth$711.slice[1].carry: CO=1'0
+Optimized $__ICE40_CARRY_WRAPPER cell back to logic (without SB_CARRY) top.$auto$alumacc.cc:485:replace_alu$652.slice[0].carry: CO=$auto$alumacc.cc:485:replace_alu$652.BB [0]
+Optimized $__ICE40_CARRY_WRAPPER cell back to logic (without SB_CARRY) top.$auto$alumacc.cc:485:replace_alu$663.slice[0].carry: CO=$auto$alumacc.cc:485:replace_alu$663.BB [0]
+Optimized $__ICE40_CARRY_WRAPPER cell back to logic (without SB_CARRY) top.$auto$alumacc.cc:485:replace_alu$674.slice[0].carry: CO=$auto$alumacc.cc:485:replace_alu$652.BB [0]
+Optimized $__ICE40_CARRY_WRAPPER cell back to logic (without SB_CARRY) top.$auto$alumacc.cc:485:replace_alu$685.slice[0].carry: CO=1'1
+Optimized $__ICE40_CARRY_WRAPPER cell back to logic (without SB_CARRY) top.$auto$alumacc.cc:485:replace_alu$707.slice[0].carry: CO=\cntr [0]
+Optimized $__ICE40_CARRY_WRAPPER cell back to logic (without SB_CARRY) top.$auto$alumacc.cc:485:replace_alu$710.slice[0].carry: CO=\hwtop.uart_clkcnt [0]
+Optimized $__ICE40_CARRY_WRAPPER cell back to logic (without SB_CARRY) top.$auto$alumacc.cc:485:replace_alu$713.slice[0].carry: CO=\hwtop.uart_curoutoff [0]
+Optimized $__ICE40_CARRY_WRAPPER cell back to logic (without SB_CARRY) top.$auto$alumacc.cc:485:replace_alu$716.slice[0].carry: CO=\hwtop.uart_samplecountdown [0]
+Optimized $__ICE40_CARRY_WRAPPER cell back to logic (without SB_CARRY) top.$auto$alumacc.cc:485:replace_alu$719.slice[0].carry: CO=\hwtop.uart_bleft [0]
+Optimized $__ICE40_CARRY_WRAPPER cell back to logic (without SB_CARRY) top.$auto$alumacc.cc:485:replace_alu$722.slice[0].carry: CO=\hwtop.uart_outQ.data0_reg [4]
+Optimized $__ICE40_CARRY_WRAPPER cell back to logic (without SB_CARRY) top.$auto$alumacc.cc:485:replace_alu$722.slice[4].carry: CO=$auto$alumacc.cc:485:replace_alu$722.C [4]
 
 10.32.8. Executing OPT_EXPR pass (perform const folding).
 Optimizing module top.
 
 10.32.9. Executing OPT_MERGE pass (detect identical cells).
 Finding identical cells in module `\top'.
-Removed a total of 7 cells.
+Removed a total of 1 cells.
 
 10.32.10. Executing OPT_RMDFF pass (remove dff with constant values).
 
 10.32.11. Executing OPT_CLEAN pass (remove unused cells and wires).
 Finding unused cells or wires in module \top..
-Removed 2 unused cells and 0 unused wires.
+Removed 3 unused cells and 1 unused wires.
 
 10.32.12. Rerunning OPT passes. (Removed registers in this run.)
 
 10.32.13. Running ICE40 specific optimizations.
-Optimized $__ICE40_CARRY_WRAPPER cell back to logic (without SB_CARRY) top.$auto$maccmap.cc:240:synth$1014.slice[1].carry: CO=1'0
-Optimized $__ICE40_CARRY_WRAPPER cell back to logic (without SB_CARRY) top.$auto$maccmap.cc:240:synth$1067.slice[3].carry: CO=1'0
-Optimized $__ICE40_CARRY_WRAPPER cell back to logic (without SB_CARRY) top.$auto$maccmap.cc:240:synth$1120.slice[3].carry: CO=1'0
-Optimized $__ICE40_CARRY_WRAPPER cell back to logic (without SB_CARRY) top.$auto$maccmap.cc:240:synth$711.slice[2].carry: CO=1'0
+Optimized $__ICE40_CARRY_WRAPPER cell back to logic (without SB_CARRY) top.$auto$alumacc.cc:485:replace_alu$685.slice[1].carry: CO=$auto$alumacc.cc:485:replace_alu$652.BB [1]
 
 10.32.14. Executing OPT_EXPR pass (perform const folding).
 Optimizing module top.
@@ -870,15 +811,11 @@ Removed a total of 0 cells.
 
 10.32.17. Executing OPT_CLEAN pass (remove unused cells and wires).
 Finding unused cells or wires in module \top..
-Removed 2 unused cells and 0 unused wires.
+Removed 1 unused cells and 0 unused wires.
 
 10.32.18. Rerunning OPT passes. (Removed registers in this run.)
 
 10.32.19. Running ICE40 specific optimizations.
-Optimized $__ICE40_CARRY_WRAPPER cell back to logic (without SB_CARRY) top.$auto$maccmap.cc:240:synth$1014.slice[2].carry: CO=1'0
-Optimized $__ICE40_CARRY_WRAPPER cell back to logic (without SB_CARRY) top.$auto$maccmap.cc:240:synth$1067.slice[4].carry: CO=1'0
-Optimized $__ICE40_CARRY_WRAPPER cell back to logic (without SB_CARRY) top.$auto$maccmap.cc:240:synth$1120.slice[4].carry: CO=1'0
-Optimized $__ICE40_CARRY_WRAPPER cell back to logic (without SB_CARRY) top.$auto$maccmap.cc:240:synth$711.slice[3].carry: CO=1'0
 
 10.32.20. Executing OPT_EXPR pass (perform const folding).
 Optimizing module top.
@@ -891,101 +828,8 @@ Removed a total of 0 cells.
 
 10.32.23. Executing OPT_CLEAN pass (remove unused cells and wires).
 Finding unused cells or wires in module \top..
-Removed 2 unused cells and 0 unused wires.
 
-10.32.24. Rerunning OPT passes. (Removed registers in this run.)
-
-10.32.25. Running ICE40 specific optimizations.
-Optimized $__ICE40_CARRY_WRAPPER cell back to logic (without SB_CARRY) top.$auto$maccmap.cc:240:synth$1067.slice[5].carry: CO=1'0
-Optimized $__ICE40_CARRY_WRAPPER cell back to logic (without SB_CARRY) top.$auto$maccmap.cc:240:synth$1120.slice[5].carry: CO=1'0
-Optimized $__ICE40_CARRY_WRAPPER cell back to logic (without SB_CARRY) top.$auto$maccmap.cc:240:synth$711.slice[4].carry: CO=1'0
-
-10.32.26. Executing OPT_EXPR pass (perform const folding).
-Optimizing module top.
-
-10.32.27. Executing OPT_MERGE pass (detect identical cells).
-Finding identical cells in module `\top'.
-Removed a total of 0 cells.
-
-10.32.28. Executing OPT_RMDFF pass (remove dff with constant values).
-
-10.32.29. Executing OPT_CLEAN pass (remove unused cells and wires).
-Finding unused cells or wires in module \top..
-Removed 2 unused cells and 0 unused wires.
-
-10.32.30. Rerunning OPT passes. (Removed registers in this run.)
-
-10.32.31. Running ICE40 specific optimizations.
-Optimized $__ICE40_CARRY_WRAPPER cell back to logic (without SB_CARRY) top.$auto$maccmap.cc:240:synth$1067.slice[6].carry: CO=1'0
-Optimized $__ICE40_CARRY_WRAPPER cell back to logic (without SB_CARRY) top.$auto$maccmap.cc:240:synth$1120.slice[6].carry: CO=1'0
-Optimized $__ICE40_CARRY_WRAPPER cell back to logic (without SB_CARRY) top.$auto$maccmap.cc:240:synth$711.slice[5].carry: CO=1'0
-
-10.32.32. Executing OPT_EXPR pass (perform const folding).
-Optimizing module top.
-
-10.32.33. Executing OPT_MERGE pass (detect identical cells).
-Finding identical cells in module `\top'.
-Removed a total of 0 cells.
-
-10.32.34. Executing OPT_RMDFF pass (remove dff with constant values).
-
-10.32.35. Executing OPT_CLEAN pass (remove unused cells and wires).
-Finding unused cells or wires in module \top..
-Removed 2 unused cells and 0 unused wires.
-
-10.32.36. Rerunning OPT passes. (Removed registers in this run.)
-
-10.32.37. Running ICE40 specific optimizations.
-Optimized $__ICE40_CARRY_WRAPPER cell back to logic (without SB_CARRY) top.$auto$maccmap.cc:240:synth$1067.slice[7].carry: CO=1'0
-Optimized $__ICE40_CARRY_WRAPPER cell back to logic (without SB_CARRY) top.$auto$maccmap.cc:240:synth$1120.slice[7].carry: CO=1'0
-Optimized $__ICE40_CARRY_WRAPPER cell back to logic (without SB_CARRY) top.$auto$maccmap.cc:240:synth$711.slice[6].carry: CO=1'0
-
-10.32.38. Executing OPT_EXPR pass (perform const folding).
-Optimizing module top.
-
-10.32.39. Executing OPT_MERGE pass (detect identical cells).
-Finding identical cells in module `\top'.
-Removed a total of 0 cells.
-
-10.32.40. Executing OPT_RMDFF pass (remove dff with constant values).
-
-10.32.41. Executing OPT_CLEAN pass (remove unused cells and wires).
-Finding unused cells or wires in module \top..
-Removed 4 unused cells and 0 unused wires.
-
-10.32.42. Rerunning OPT passes. (Removed registers in this run.)
-
-10.32.43. Running ICE40 specific optimizations.
-
-10.32.44. Executing OPT_EXPR pass (perform const folding).
-Optimizing module top.
-
-10.32.45. Executing OPT_MERGE pass (detect identical cells).
-Finding identical cells in module `\top'.
-Removed a total of 0 cells.
-
-10.32.46. Executing OPT_RMDFF pass (remove dff with constant values).
-
-10.32.47. Executing OPT_CLEAN pass (remove unused cells and wires).
-Finding unused cells or wires in module \top..
-
-10.32.48. Rerunning OPT passes. (Removed registers in this run.)
-
-10.32.49. Running ICE40 specific optimizations.
-
-10.32.50. Executing OPT_EXPR pass (perform const folding).
-Optimizing module top.
-
-10.32.51. Executing OPT_MERGE pass (detect identical cells).
-Finding identical cells in module `\top'.
-Removed a total of 0 cells.
-
-10.32.52. Executing OPT_RMDFF pass (remove dff with constant values).
-
-10.32.53. Executing OPT_CLEAN pass (remove unused cells and wires).
-Finding unused cells or wires in module \top..
-
-10.32.54. Finished OPT passes. (There is nothing left to do.)
+10.32.24. Finished OPT passes. (There is nothing left to do.)
 
 10.33. Executing DFFSR2DFF pass (mapping DFFSR cells to simpler FFs).
 
@@ -1002,140 +846,139 @@ $_DFF_NN0_ -> $__DFFE_NN0
 $_DFF_N_ -> $_DFFE_NP_
 $_DFF_P_ -> $_DFFE_PP_
 Transforming FF to FF+Enable cells in module top:
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1433 to $_DFFE_PP_ for $techmap\hwtop.uart_outQ.$0\empty_reg[0:0] -> \hwtop.uart_outQ.empty_reg.
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1434 to $_DFFE_PP_ for $techmap\hwtop.uart_outQ.$0\full_reg[0:0] -> \hwtop.uart_outQ.full_reg.
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1435 to $_DFFE_PP_ for $techmap\hwtop.uart_outQ.$0\data1_reg[7:0] [0] -> \hwtop.uart_outQ.data1_reg [0].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1436 to $_DFFE_PP_ for $techmap\hwtop.uart_outQ.$0\data1_reg[7:0] [1] -> \hwtop.uart_outQ.data1_reg [1].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1437 to $_DFFE_PP_ for $techmap\hwtop.uart_outQ.$0\data1_reg[7:0] [2] -> \hwtop.uart_outQ.data1_reg [2].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1438 to $_DFFE_PP_ for $techmap\hwtop.uart_outQ.$0\data1_reg[7:0] [3] -> \hwtop.uart_outQ.data1_reg [3].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1439 to $_DFFE_PP_ for $techmap\hwtop.uart_outQ.$0\data1_reg[7:0] [4] -> \hwtop.uart_outQ.data1_reg [4].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1440 to $_DFFE_PP_ for $techmap\hwtop.uart_outQ.$0\data1_reg[7:0] [5] -> \hwtop.uart_outQ.data1_reg [5].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1441 to $_DFFE_PP_ for $techmap\hwtop.uart_outQ.$0\data1_reg[7:0] [6] -> \hwtop.uart_outQ.data1_reg [6].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1442 to $_DFFE_PP_ for $techmap\hwtop.uart_outQ.$0\data1_reg[7:0] [7] -> \hwtop.uart_outQ.data1_reg [7].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1522 to $_DFFE_PP_ for $techmap\hwtop.hwmain_outQ.$0\empty_reg[0:0] -> \hwtop.hwmain_outQ.empty_reg.
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1523 to $_DFFE_PP_ for $techmap\hwtop.hwmain_outQ.$0\full_reg[0:0] -> \hwtop.hwmain_outQ.full_reg.
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1524 to $_DFFE_PP_ for $techmap\hwtop.hwmain_outQ.$0\data1_reg[7:0] [0] -> \hwtop.hwmain_outQ.data1_reg [0].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1525 to $_DFFE_PP_ for $techmap\hwtop.hwmain_outQ.$0\data1_reg[7:0] [1] -> \hwtop.hwmain_outQ.data1_reg [1].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1526 to $_DFFE_PP_ for $techmap\hwtop.hwmain_outQ.$0\data1_reg[7:0] [2] -> \hwtop.hwmain_outQ.data1_reg [2].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1527 to $_DFFE_PP_ for $techmap\hwtop.hwmain_outQ.$0\data1_reg[7:0] [3] -> \hwtop.hwmain_outQ.data1_reg [3].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1528 to $_DFFE_PP_ for $techmap\hwtop.hwmain_outQ.$0\data1_reg[7:0] [4] -> \hwtop.hwmain_outQ.data1_reg [4].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1529 to $_DFFE_PP_ for $techmap\hwtop.hwmain_outQ.$0\data1_reg[7:0] [5] -> \hwtop.hwmain_outQ.data1_reg [5].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1530 to $_DFFE_PP_ for $techmap\hwtop.hwmain_outQ.$0\data1_reg[7:0] [6] -> \hwtop.hwmain_outQ.data1_reg [6].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1531 to $_DFFE_PP_ for $techmap\hwtop.hwmain_outQ.$0\data1_reg[7:0] [7] -> \hwtop.hwmain_outQ.data1_reg [7].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1607 to $_DFFE_PP_ for $techmap\hwtop.hwmain_midQ2.$0\empty_reg[0:0] -> \hwtop.hwmain_midQ2.empty_reg.
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1608 to $_DFFE_PP_ for $techmap\hwtop.hwmain_midQ2.$0\full_reg[0:0] -> \hwtop.hwmain_midQ2.full_reg.
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1609 to $_DFFE_PP_ for $techmap\hwtop.hwmain_midQ2.$0\data1_reg[7:0] [1] -> \hwtop.hwmain_midQ2.data1_reg [1].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1610 to $_DFFE_PP_ for $techmap\hwtop.hwmain_midQ2.$0\data1_reg[7:0] [2] -> \hwtop.hwmain_midQ2.data1_reg [2].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1611 to $_DFFE_PP_ for $techmap\hwtop.hwmain_midQ2.$0\data1_reg[7:0] [3] -> \hwtop.hwmain_midQ2.data1_reg [3].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1612 to $_DFFE_PP_ for $techmap\hwtop.hwmain_midQ2.$0\data1_reg[7:0] [4] -> \hwtop.hwmain_midQ2.data1_reg [4].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1613 to $_DFFE_PP_ for $techmap\hwtop.hwmain_midQ2.$0\data1_reg[7:0] [5] -> \hwtop.hwmain_midQ2.data1_reg [5].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1614 to $_DFFE_PP_ for $techmap\hwtop.hwmain_midQ2.$0\data1_reg[7:0] [6] -> \hwtop.hwmain_midQ2.data1_reg [6].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1615 to $_DFFE_PP_ for $techmap\hwtop.hwmain_midQ2.$0\data1_reg[7:0] [7] -> \hwtop.hwmain_midQ2.data1_reg [7].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1675 to $_DFFE_PP_ for $techmap\hwtop.hwmain_midQ1.$0\empty_reg[0:0] -> \hwtop.hwmain_midQ1.empty_reg.
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1676 to $_DFFE_PP_ for $techmap\hwtop.hwmain_midQ1.$0\full_reg[0:0] -> \hwtop.hwmain_midQ1.full_reg.
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1678 to $_DFFE_PP_ for $techmap\hwtop.hwmain_midQ1.$0\data1_reg[7:0] [1] -> \hwtop.hwmain_midQ1.data1_reg [1].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1679 to $_DFFE_PP_ for $techmap\hwtop.hwmain_midQ1.$0\data1_reg[7:0] [2] -> \hwtop.hwmain_midQ1.data1_reg [2].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1680 to $_DFFE_PP_ for $techmap\hwtop.hwmain_midQ1.$0\data1_reg[7:0] [3] -> \hwtop.hwmain_midQ1.data1_reg [3].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1681 to $_DFFE_PP_ for $techmap\hwtop.hwmain_midQ1.$0\data1_reg[7:0] [4] -> \hwtop.hwmain_midQ1.data1_reg [4].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1682 to $_DFFE_PP_ for $techmap\hwtop.hwmain_midQ1.$0\data1_reg[7:0] [5] -> \hwtop.hwmain_midQ1.data1_reg [5].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1683 to $_DFFE_PP_ for $techmap\hwtop.hwmain_midQ1.$0\data1_reg[7:0] [6] -> \hwtop.hwmain_midQ1.data1_reg [6].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1684 to $_DFFE_PP_ for $techmap\hwtop.hwmain_midQ1.$0\data1_reg[7:0] [7] -> \hwtop.hwmain_midQ1.data1_reg [7].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1762 to $_DFFE_PP_ for $techmap\hwtop.hwmain_inQ3.$0\empty_reg[0:0] -> \hwtop.hwmain_inQ3.empty_reg.
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1763 to $_DFFE_PP_ for $techmap\hwtop.hwmain_inQ3.$0\full_reg[0:0] -> \hwtop.hwmain_inQ3.full_reg.
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1765 to $_DFFE_PP_ for $techmap\hwtop.hwmain_inQ3.$0\data1_reg[7:0] [1] -> \hwtop.hwmain_inQ3.data1_reg [1].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1766 to $_DFFE_PP_ for $techmap\hwtop.hwmain_inQ3.$0\data1_reg[7:0] [2] -> \hwtop.hwmain_inQ3.data1_reg [2].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1767 to $_DFFE_PP_ for $techmap\hwtop.hwmain_inQ3.$0\data1_reg[7:0] [3] -> \hwtop.hwmain_inQ3.data1_reg [3].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1768 to $_DFFE_PP_ for $techmap\hwtop.hwmain_inQ3.$0\data1_reg[7:0] [4] -> \hwtop.hwmain_inQ3.data1_reg [4].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1769 to $_DFFE_PP_ for $techmap\hwtop.hwmain_inQ3.$0\data1_reg[7:0] [5] -> \hwtop.hwmain_inQ3.data1_reg [5].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1770 to $_DFFE_PP_ for $techmap\hwtop.hwmain_inQ3.$0\data1_reg[7:0] [6] -> \hwtop.hwmain_inQ3.data1_reg [6].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1771 to $_DFFE_PP_ for $techmap\hwtop.hwmain_inQ3.$0\data1_reg[7:0] [7] -> \hwtop.hwmain_inQ3.data1_reg [7].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1851 to $_DFFE_PP_ for $techmap\hwtop.hwmain_inQ2.$0\empty_reg[0:0] -> \hwtop.hwmain_inQ2.empty_reg.
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1852 to $_DFFE_PP_ for $techmap\hwtop.hwmain_inQ2.$0\full_reg[0:0] -> \hwtop.hwmain_inQ2.full_reg.
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1853 to $_DFFE_PP_ for $techmap\hwtop.hwmain_inQ2.$0\data1_reg[7:0] [0] -> \hwtop.hwmain_inQ2.data1_reg [0].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1854 to $_DFFE_PP_ for $techmap\hwtop.hwmain_inQ2.$0\data1_reg[7:0] [1] -> \hwtop.hwmain_inQ2.data1_reg [1].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1855 to $_DFFE_PP_ for $techmap\hwtop.hwmain_inQ2.$0\data1_reg[7:0] [2] -> \hwtop.hwmain_inQ2.data1_reg [2].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1856 to $_DFFE_PP_ for $techmap\hwtop.hwmain_inQ2.$0\data1_reg[7:0] [3] -> \hwtop.hwmain_inQ2.data1_reg [3].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1857 to $_DFFE_PP_ for $techmap\hwtop.hwmain_inQ2.$0\data1_reg[7:0] [4] -> \hwtop.hwmain_inQ2.data1_reg [4].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1858 to $_DFFE_PP_ for $techmap\hwtop.hwmain_inQ2.$0\data1_reg[7:0] [5] -> \hwtop.hwmain_inQ2.data1_reg [5].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1859 to $_DFFE_PP_ for $techmap\hwtop.hwmain_inQ2.$0\data1_reg[7:0] [6] -> \hwtop.hwmain_inQ2.data1_reg [6].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1860 to $_DFFE_PP_ for $techmap\hwtop.hwmain_inQ2.$0\data1_reg[7:0] [7] -> \hwtop.hwmain_inQ2.data1_reg [7].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1939 to $_DFFE_PP_ for $techmap\hwtop.hwmain_inQ1.$0\empty_reg[0:0] -> \hwtop.hwmain_inQ1.empty_reg.
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1940 to $_DFFE_PP_ for $techmap\hwtop.hwmain_inQ1.$0\full_reg[0:0] -> \hwtop.hwmain_inQ1.full_reg.
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1941 to $_DFFE_PP_ for $techmap\hwtop.hwmain_inQ1.$0\data1_reg[7:0] [0] -> \hwtop.hwmain_inQ1.data1_reg [0].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1942 to $_DFFE_PP_ for $techmap\hwtop.hwmain_inQ1.$0\data1_reg[7:0] [1] -> \hwtop.hwmain_inQ1.data1_reg [1].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1943 to $_DFFE_PP_ for $techmap\hwtop.hwmain_inQ1.$0\data1_reg[7:0] [2] -> \hwtop.hwmain_inQ1.data1_reg [2].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1944 to $_DFFE_PP_ for $techmap\hwtop.hwmain_inQ1.$0\data1_reg[7:0] [3] -> \hwtop.hwmain_inQ1.data1_reg [3].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1945 to $_DFFE_PP_ for $techmap\hwtop.hwmain_inQ1.$0\data1_reg[7:0] [4] -> \hwtop.hwmain_inQ1.data1_reg [4].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1946 to $_DFFE_PP_ for $techmap\hwtop.hwmain_inQ1.$0\data1_reg[7:0] [5] -> \hwtop.hwmain_inQ1.data1_reg [5].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1947 to $_DFFE_PP_ for $techmap\hwtop.hwmain_inQ1.$0\data1_reg[7:0] [6] -> \hwtop.hwmain_inQ1.data1_reg [6].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1948 to $_DFFE_PP_ for $techmap\hwtop.hwmain_inQ1.$0\data1_reg[7:0] [7] -> \hwtop.hwmain_inQ1.data1_reg [7].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$688 to $_DFFE_PP_ for $0\cntr[3:0] [0] -> \cntr [0].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$689 to $_DFFE_PP_ for $0\cntr[3:0] [1] -> \cntr [1].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$690 to $_DFFE_PP_ for $0\cntr[3:0] [2] -> \cntr [2].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$691 to $_DFFE_PP_ for $0\cntr[3:0] [3] -> \cntr [3].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$817 to $_DFFE_PP_ for $techmap\hwtop.$0\hwmain_dataInCnt[7:0] [0] -> \hwtop.hwmain_dataInCnt [0].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$818 to $_DFFE_PP_ for $techmap\hwtop.$0\hwmain_dataInCnt[7:0] [1] -> \hwtop.hwmain_dataInCnt [1].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$819 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_bleft[3:0] [0] -> \hwtop.uart_bleft [0].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$820 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_bleft[3:0] [1] -> \hwtop.uart_bleft [1].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$821 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_bleft[3:0] [2] -> \hwtop.uart_bleft [2].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$822 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_bleft[3:0] [3] -> \hwtop.uart_bleft [3].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$823 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_clkcnt[15:0] [0] -> \hwtop.uart_clkcnt [0].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$824 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_clkcnt[15:0] [1] -> \hwtop.uart_clkcnt [1].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$825 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_clkcnt[15:0] [2] -> \hwtop.uart_clkcnt [2].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$826 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_clkcnt[15:0] [3] -> \hwtop.uart_clkcnt [3].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$827 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_clkcnt[15:0] [4] -> \hwtop.uart_clkcnt [4].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$828 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_clkcnt[15:0] [5] -> \hwtop.uart_clkcnt [5].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$829 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_clkcnt[15:0] [6] -> \hwtop.uart_clkcnt [6].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$830 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_clkcnt[15:0] [7] -> \hwtop.uart_clkcnt [7].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$831 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_clkcnt[15:0] [8] -> \hwtop.uart_clkcnt [8].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$832 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_clkcnt[15:0] [9] -> \hwtop.uart_clkcnt [9].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$833 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_clkcnt[15:0] [10] -> \hwtop.uart_clkcnt [10].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$834 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_clkcnt[15:0] [11] -> \hwtop.uart_clkcnt [11].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$835 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_clkcnt[15:0] [12] -> \hwtop.uart_clkcnt [12].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$836 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_clkcnt[15:0] [13] -> \hwtop.uart_clkcnt [13].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$837 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_clkcnt[15:0] [14] -> \hwtop.uart_clkcnt [14].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$838 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_clkcnt[15:0] [15] -> \hwtop.uart_clkcnt [15].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$839 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_curoutd[10:0] [0] -> \hwtop.uart_curoutd [0].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$840 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_curoutd[10:0] [1] -> \hwtop.uart_curoutd [1].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$841 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_curoutd[10:0] [2] -> \hwtop.uart_curoutd [2].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$842 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_curoutd[10:0] [3] -> \hwtop.uart_curoutd [3].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$843 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_curoutd[10:0] [4] -> \hwtop.uart_curoutd [4].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$844 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_curoutd[10:0] [5] -> \hwtop.uart_curoutd [5].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$845 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_curoutd[10:0] [6] -> \hwtop.uart_curoutd [6].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$846 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_curoutd[10:0] [7] -> \hwtop.uart_curoutd [7].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$847 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_curoutd[10:0] [8] -> \hwtop.uart_curoutd [8].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$848 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_curoutd[10:0] [9] -> \hwtop.uart_curoutd [9].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$849 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_curoutd[10:0] [10] -> \hwtop.uart_curoutd [10].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$850 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_curoutoff[4:0] [0] -> \hwtop.uart_curoutoff [0].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$851 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_curoutoff[4:0] [1] -> \hwtop.uart_curoutoff [1].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$852 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_curoutoff[4:0] [2] -> \hwtop.uart_curoutoff [2].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$853 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_curoutoff[4:0] [3] -> \hwtop.uart_curoutoff [3].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$854 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_curoutoff[4:0] [4] -> \hwtop.uart_curoutoff [4].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$855 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_outword[7:0] [0] -> \hwtop.uart_outword [0].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$856 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_outword[7:0] [1] -> \hwtop.uart_outword [1].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$857 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_outword[7:0] [2] -> \hwtop.uart_outword [2].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$858 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_outword[7:0] [3] -> \hwtop.uart_outword [3].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$859 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_outword[7:0] [4] -> \hwtop.uart_outword [4].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$860 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_outword[7:0] [5] -> \hwtop.uart_outword [5].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$861 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_outword[7:0] [6] -> \hwtop.uart_outword [6].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$862 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_outword[7:0] [7] -> \hwtop.uart_outword [7].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$867 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_samplecountdown[15:0] [0] -> \hwtop.uart_samplecountdown [0].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$868 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_samplecountdown[15:0] [1] -> \hwtop.uart_samplecountdown [1].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$869 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_samplecountdown[15:0] [2] -> \hwtop.uart_samplecountdown [2].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$870 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_samplecountdown[15:0] [3] -> \hwtop.uart_samplecountdown [3].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$871 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_samplecountdown[15:0] [4] -> \hwtop.uart_samplecountdown [4].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$872 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_samplecountdown[15:0] [5] -> \hwtop.uart_samplecountdown [5].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$873 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_samplecountdown[15:0] [6] -> \hwtop.uart_samplecountdown [6].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$874 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_samplecountdown[15:0] [7] -> \hwtop.uart_samplecountdown [7].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$875 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_samplecountdown[15:0] [8] -> \hwtop.uart_samplecountdown [8].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$876 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_samplecountdown[15:0] [9] -> \hwtop.uart_samplecountdown [9].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$877 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_samplecountdown[15:0] [10] -> \hwtop.uart_samplecountdown [10].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$878 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_samplecountdown[15:0] [11] -> \hwtop.uart_samplecountdown [11].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$879 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_samplecountdown[15:0] [12] -> \hwtop.uart_samplecountdown [12].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$880 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_samplecountdown[15:0] [13] -> \hwtop.uart_samplecountdown [13].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$881 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_samplecountdown[15:0] [14] -> \hwtop.uart_samplecountdown [14].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$882 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_samplecountdown[15:0] [15] -> \hwtop.uart_samplecountdown [15].
-converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$883 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_txdr[0:0] -> \hwtop.uart_txdr.
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1501 to $_DFFE_PP_ for $techmap\hwtop.uart_outQ.$0\empty_reg[0:0] -> \hwtop.uart_outQ.empty_reg.
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1502 to $_DFFE_PP_ for $techmap\hwtop.uart_outQ.$0\full_reg[0:0] -> \hwtop.uart_outQ.full_reg.
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1503 to $_DFFE_PP_ for $techmap\hwtop.uart_outQ.$0\data1_reg[7:0] [0] -> \hwtop.uart_outQ.data1_reg [0].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1504 to $_DFFE_PP_ for $techmap\hwtop.uart_outQ.$0\data1_reg[7:0] [1] -> \hwtop.uart_outQ.data1_reg [1].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1505 to $_DFFE_PP_ for $techmap\hwtop.uart_outQ.$0\data1_reg[7:0] [2] -> \hwtop.uart_outQ.data1_reg [2].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1506 to $_DFFE_PP_ for $techmap\hwtop.uart_outQ.$0\data1_reg[7:0] [3] -> \hwtop.uart_outQ.data1_reg [3].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1507 to $_DFFE_PP_ for $techmap\hwtop.uart_outQ.$0\data1_reg[7:0] [4] -> \hwtop.uart_outQ.data1_reg [4].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1508 to $_DFFE_PP_ for $techmap\hwtop.uart_outQ.$0\data1_reg[7:0] [5] -> \hwtop.uart_outQ.data1_reg [5].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1509 to $_DFFE_PP_ for $techmap\hwtop.uart_outQ.$0\data1_reg[7:0] [6] -> \hwtop.uart_outQ.data1_reg [6].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1510 to $_DFFE_PP_ for $techmap\hwtop.uart_outQ.$0\data1_reg[7:0] [7] -> \hwtop.uart_outQ.data1_reg [7].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1614 to $_DFFE_PP_ for $techmap\hwtop.hwmain_outQ.$0\empty_reg[0:0] -> \hwtop.hwmain_outQ.empty_reg.
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1615 to $_DFFE_PP_ for $techmap\hwtop.hwmain_outQ.$0\full_reg[0:0] -> \hwtop.hwmain_outQ.full_reg.
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1616 to $_DFFE_PP_ for $techmap\hwtop.hwmain_outQ.$0\data1_reg[7:0] [0] -> \hwtop.hwmain_outQ.data1_reg [0].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1617 to $_DFFE_PP_ for $techmap\hwtop.hwmain_outQ.$0\data1_reg[7:0] [1] -> \hwtop.hwmain_outQ.data1_reg [1].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1618 to $_DFFE_PP_ for $techmap\hwtop.hwmain_outQ.$0\data1_reg[7:0] [2] -> \hwtop.hwmain_outQ.data1_reg [2].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1619 to $_DFFE_PP_ for $techmap\hwtop.hwmain_outQ.$0\data1_reg[7:0] [3] -> \hwtop.hwmain_outQ.data1_reg [3].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1620 to $_DFFE_PP_ for $techmap\hwtop.hwmain_outQ.$0\data1_reg[7:0] [4] -> \hwtop.hwmain_outQ.data1_reg [4].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1621 to $_DFFE_PP_ for $techmap\hwtop.hwmain_outQ.$0\data1_reg[7:0] [5] -> \hwtop.hwmain_outQ.data1_reg [5].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1622 to $_DFFE_PP_ for $techmap\hwtop.hwmain_outQ.$0\data1_reg[7:0] [6] -> \hwtop.hwmain_outQ.data1_reg [6].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1623 to $_DFFE_PP_ for $techmap\hwtop.hwmain_outQ.$0\data1_reg[7:0] [7] -> \hwtop.hwmain_outQ.data1_reg [7].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1729 to $_DFFE_PP_ for $techmap\hwtop.hwmain_inQ2.$0\empty_reg[0:0] -> \hwtop.hwmain_inQ2.empty_reg.
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1730 to $_DFFE_PP_ for $techmap\hwtop.hwmain_inQ2.$0\full_reg[0:0] -> \hwtop.hwmain_inQ2.full_reg.
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1731 to $_DFFE_PP_ for $techmap\hwtop.hwmain_inQ2.$0\data1_reg[7:0] [0] -> \hwtop.hwmain_inQ2.data1_reg [0].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1732 to $_DFFE_PP_ for $techmap\hwtop.hwmain_inQ2.$0\data1_reg[7:0] [1] -> \hwtop.hwmain_inQ2.data1_reg [1].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1733 to $_DFFE_PP_ for $techmap\hwtop.hwmain_inQ2.$0\data1_reg[7:0] [2] -> \hwtop.hwmain_inQ2.data1_reg [2].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1734 to $_DFFE_PP_ for $techmap\hwtop.hwmain_inQ2.$0\data1_reg[7:0] [3] -> \hwtop.hwmain_inQ2.data1_reg [3].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1735 to $_DFFE_PP_ for $techmap\hwtop.hwmain_inQ2.$0\data1_reg[7:0] [4] -> \hwtop.hwmain_inQ2.data1_reg [4].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1736 to $_DFFE_PP_ for $techmap\hwtop.hwmain_inQ2.$0\data1_reg[7:0] [5] -> \hwtop.hwmain_inQ2.data1_reg [5].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1737 to $_DFFE_PP_ for $techmap\hwtop.hwmain_inQ2.$0\data1_reg[7:0] [6] -> \hwtop.hwmain_inQ2.data1_reg [6].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1738 to $_DFFE_PP_ for $techmap\hwtop.hwmain_inQ2.$0\data1_reg[7:0] [7] -> \hwtop.hwmain_inQ2.data1_reg [7].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1814 to $_DFFE_PP_ for $techmap\hwtop.hwmain_inQ1.$0\empty_reg[0:0] -> \hwtop.hwmain_inQ1.empty_reg.
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1815 to $_DFFE_PP_ for $techmap\hwtop.hwmain_inQ1.$0\full_reg[0:0] -> \hwtop.hwmain_inQ1.full_reg.
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1816 to $_DFFE_PP_ for $techmap\hwtop.hwmain_inQ1.$0\data1_reg[7:0] [0] -> \hwtop.hwmain_inQ1.data1_reg [0].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1817 to $_DFFE_PP_ for $techmap\hwtop.hwmain_inQ1.$0\data1_reg[7:0] [1] -> \hwtop.hwmain_inQ1.data1_reg [1].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1818 to $_DFFE_PP_ for $techmap\hwtop.hwmain_inQ1.$0\data1_reg[7:0] [2] -> \hwtop.hwmain_inQ1.data1_reg [2].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1819 to $_DFFE_PP_ for $techmap\hwtop.hwmain_inQ1.$0\data1_reg[7:0] [3] -> \hwtop.hwmain_inQ1.data1_reg [3].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1820 to $_DFFE_PP_ for $techmap\hwtop.hwmain_inQ1.$0\data1_reg[7:0] [4] -> \hwtop.hwmain_inQ1.data1_reg [4].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1821 to $_DFFE_PP_ for $techmap\hwtop.hwmain_inQ1.$0\data1_reg[7:0] [5] -> \hwtop.hwmain_inQ1.data1_reg [5].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1822 to $_DFFE_PP_ for $techmap\hwtop.hwmain_inQ1.$0\data1_reg[7:0] [6] -> \hwtop.hwmain_inQ1.data1_reg [6].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$1823 to $_DFFE_PP_ for $techmap\hwtop.hwmain_inQ1.$0\data1_reg[7:0] [7] -> \hwtop.hwmain_inQ1.data1_reg [7].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$820 to $_DFFE_PP_ for $0\cntr[3:0] [0] -> \cntr [0].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$821 to $_DFFE_PP_ for $0\cntr[3:0] [1] -> \cntr [1].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$822 to $_DFFE_PP_ for $0\cntr[3:0] [2] -> \cntr [2].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$823 to $_DFFE_PP_ for $0\cntr[3:0] [3] -> \cntr [3].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$857 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_clkcnt[15:0] [0] -> \hwtop.uart_clkcnt [0].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$858 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_clkcnt[15:0] [1] -> \hwtop.uart_clkcnt [1].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$859 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_clkcnt[15:0] [2] -> \hwtop.uart_clkcnt [2].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$860 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_clkcnt[15:0] [3] -> \hwtop.uart_clkcnt [3].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$861 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_clkcnt[15:0] [4] -> \hwtop.uart_clkcnt [4].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$862 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_clkcnt[15:0] [5] -> \hwtop.uart_clkcnt [5].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$863 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_clkcnt[15:0] [6] -> \hwtop.uart_clkcnt [6].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$864 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_clkcnt[15:0] [7] -> \hwtop.uart_clkcnt [7].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$865 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_clkcnt[15:0] [8] -> \hwtop.uart_clkcnt [8].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$866 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_clkcnt[15:0] [9] -> \hwtop.uart_clkcnt [9].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$867 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_clkcnt[15:0] [10] -> \hwtop.uart_clkcnt [10].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$868 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_clkcnt[15:0] [11] -> \hwtop.uart_clkcnt [11].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$869 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_clkcnt[15:0] [12] -> \hwtop.uart_clkcnt [12].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$870 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_clkcnt[15:0] [13] -> \hwtop.uart_clkcnt [13].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$871 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_clkcnt[15:0] [14] -> \hwtop.uart_clkcnt [14].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$872 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_clkcnt[15:0] [15] -> \hwtop.uart_clkcnt [15].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$874 to $_DFFE_PP_ for $techmap\hwtop.$0\hwmain_val[15:0] [0] -> \hwtop.hwmain_val [0].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$875 to $_DFFE_PP_ for $techmap\hwtop.$0\hwmain_val[15:0] [1] -> \hwtop.hwmain_val [1].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$876 to $_DFFE_PP_ for $techmap\hwtop.$0\hwmain_val[15:0] [2] -> \hwtop.hwmain_val [2].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$877 to $_DFFE_PP_ for $techmap\hwtop.$0\hwmain_val[15:0] [3] -> \hwtop.hwmain_val [3].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$878 to $_DFFE_PP_ for $techmap\hwtop.$0\hwmain_val[15:0] [4] -> \hwtop.hwmain_val [4].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$879 to $_DFFE_PP_ for $techmap\hwtop.$0\hwmain_val[15:0] [5] -> \hwtop.hwmain_val [5].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$880 to $_DFFE_PP_ for $techmap\hwtop.$0\hwmain_val[15:0] [6] -> \hwtop.hwmain_val [6].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$881 to $_DFFE_PP_ for $techmap\hwtop.$0\hwmain_val[15:0] [7] -> \hwtop.hwmain_val [7].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$882 to $_DFFE_PP_ for $techmap\hwtop.$0\hwmain_val[15:0] [8] -> \hwtop.hwmain_val [8].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$883 to $_DFFE_PP_ for $techmap\hwtop.$0\hwmain_val[15:0] [9] -> \hwtop.hwmain_val [9].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$884 to $_DFFE_PP_ for $techmap\hwtop.$0\hwmain_val[15:0] [10] -> \hwtop.hwmain_val [10].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$885 to $_DFFE_PP_ for $techmap\hwtop.$0\hwmain_val[15:0] [11] -> \hwtop.hwmain_val [11].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$890 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_bleft[3:0] [0] -> \hwtop.uart_bleft [0].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$891 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_bleft[3:0] [1] -> \hwtop.uart_bleft [1].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$892 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_bleft[3:0] [2] -> \hwtop.uart_bleft [2].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$893 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_bleft[3:0] [3] -> \hwtop.uart_bleft [3].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$894 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_curoutd[10:0] [0] -> \hwtop.uart_curoutd [0].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$895 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_curoutd[10:0] [1] -> \hwtop.uart_curoutd [1].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$896 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_curoutd[10:0] [2] -> \hwtop.uart_curoutd [2].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$897 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_curoutd[10:0] [3] -> \hwtop.uart_curoutd [3].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$898 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_curoutd[10:0] [4] -> \hwtop.uart_curoutd [4].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$899 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_curoutd[10:0] [5] -> \hwtop.uart_curoutd [5].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$900 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_curoutd[10:0] [6] -> \hwtop.uart_curoutd [6].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$901 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_curoutd[10:0] [7] -> \hwtop.uart_curoutd [7].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$902 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_curoutd[10:0] [8] -> \hwtop.uart_curoutd [8].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$903 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_curoutd[10:0] [9] -> \hwtop.uart_curoutd [9].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$904 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_curoutd[10:0] [10] -> \hwtop.uart_curoutd [10].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$906 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_curoutoff[4:0] [0] -> \hwtop.uart_curoutoff [0].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$907 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_curoutoff[4:0] [1] -> \hwtop.uart_curoutoff [1].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$908 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_curoutoff[4:0] [2] -> \hwtop.uart_curoutoff [2].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$909 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_curoutoff[4:0] [3] -> \hwtop.uart_curoutoff [3].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$910 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_curoutoff[4:0] [4] -> \hwtop.uart_curoutoff [4].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$911 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_outword[7:0] [0] -> \hwtop.uart_outword [0].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$912 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_outword[7:0] [1] -> \hwtop.uart_outword [1].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$913 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_outword[7:0] [2] -> \hwtop.uart_outword [2].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$914 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_outword[7:0] [3] -> \hwtop.uart_outword [3].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$915 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_outword[7:0] [4] -> \hwtop.uart_outword [4].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$916 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_outword[7:0] [5] -> \hwtop.uart_outword [5].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$917 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_outword[7:0] [6] -> \hwtop.uart_outword [6].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$918 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_outword[7:0] [7] -> \hwtop.uart_outword [7].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$923 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_samplecountdown[15:0] [0] -> \hwtop.uart_samplecountdown [0].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$924 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_samplecountdown[15:0] [1] -> \hwtop.uart_samplecountdown [1].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$925 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_samplecountdown[15:0] [2] -> \hwtop.uart_samplecountdown [2].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$926 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_samplecountdown[15:0] [3] -> \hwtop.uart_samplecountdown [3].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$927 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_samplecountdown[15:0] [4] -> \hwtop.uart_samplecountdown [4].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$928 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_samplecountdown[15:0] [5] -> \hwtop.uart_samplecountdown [5].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$929 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_samplecountdown[15:0] [6] -> \hwtop.uart_samplecountdown [6].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$930 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_samplecountdown[15:0] [7] -> \hwtop.uart_samplecountdown [7].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$931 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_samplecountdown[15:0] [8] -> \hwtop.uart_samplecountdown [8].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$932 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_samplecountdown[15:0] [9] -> \hwtop.uart_samplecountdown [9].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$933 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_samplecountdown[15:0] [10] -> \hwtop.uart_samplecountdown [10].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$934 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_samplecountdown[15:0] [11] -> \hwtop.uart_samplecountdown [11].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$935 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_samplecountdown[15:0] [12] -> \hwtop.uart_samplecountdown [12].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$936 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_samplecountdown[15:0] [13] -> \hwtop.uart_samplecountdown [13].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$937 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_samplecountdown[15:0] [14] -> \hwtop.uart_samplecountdown [14].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$938 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_samplecountdown[15:0] [15] -> \hwtop.uart_samplecountdown [15].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$939 to $_DFFE_PP_ for $techmap\hwtop.$0\uart_txdr[0:0] -> \hwtop.uart_txdr.
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$981 to $_DFFE_PP_ for $techmap\hwtop.$0\hwmain_calcout[15:0] [0] -> \hwtop.hwmain_calcout [0].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$982 to $_DFFE_PP_ for $techmap\hwtop.$0\hwmain_calcout[15:0] [1] -> \hwtop.hwmain_calcout [1].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$983 to $_DFFE_PP_ for $techmap\hwtop.$0\hwmain_calcout[15:0] [2] -> \hwtop.hwmain_calcout [2].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$984 to $_DFFE_PP_ for $techmap\hwtop.$0\hwmain_calcout[15:0] [3] -> \hwtop.hwmain_calcout [3].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$985 to $_DFFE_PP_ for $techmap\hwtop.$0\hwmain_calcout[15:0] [4] -> \hwtop.hwmain_calcout [4].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$986 to $_DFFE_PP_ for $techmap\hwtop.$0\hwmain_calcout[15:0] [5] -> \hwtop.hwmain_calcout [5].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$987 to $_DFFE_PP_ for $techmap\hwtop.$0\hwmain_calcout[15:0] [6] -> \hwtop.hwmain_calcout [6].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$988 to $_DFFE_PP_ for $techmap\hwtop.$0\hwmain_calcout[15:0] [7] -> \hwtop.hwmain_calcout [7].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$989 to $_DFFE_PP_ for $techmap\hwtop.$0\hwmain_calcout[15:0] [8] -> \hwtop.hwmain_calcout [8].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$990 to $_DFFE_PP_ for $techmap\hwtop.$0\hwmain_calcout[15:0] [9] -> \hwtop.hwmain_calcout [9].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$991 to $_DFFE_PP_ for $techmap\hwtop.$0\hwmain_calcout[15:0] [10] -> \hwtop.hwmain_calcout [10].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$992 to $_DFFE_PP_ for $techmap\hwtop.$0\hwmain_calcout[15:0] [11] -> \hwtop.hwmain_calcout [11].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$993 to $_DFFE_PP_ for $techmap\hwtop.$0\hwmain_calcout[15:0] [12] -> \hwtop.hwmain_calcout [12].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$994 to $_DFFE_PP_ for $techmap\hwtop.$0\hwmain_calcout[15:0] [13] -> \hwtop.hwmain_calcout [13].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$995 to $_DFFE_PP_ for $techmap\hwtop.$0\hwmain_calcout[15:0] [14] -> \hwtop.hwmain_calcout [14].
+converting $_DFF_P_ cell $auto$simplemap.cc:420:simplemap_dff$996 to $_DFFE_PP_ for $techmap\hwtop.$0\hwmain_calcout[15:0] [15] -> \hwtop.hwmain_calcout [15].
 
 10.35. Executing TECHMAP pass (map to technology primitives).
 
@@ -1174,118 +1017,127 @@ No more expansions possible.
 Optimizing module top.
 
 10.37. Executing SIMPLEMAP pass (map simple cells to gate primitives).
-Mapping top.$auto$alumacc.cc:485:replace_alu$600.slice[0].carry ($lut).
-Mapping top.$auto$alumacc.cc:485:replace_alu$603.slice[0].carry ($lut).
-Mapping top.$auto$alumacc.cc:485:replace_alu$606.slice[0].carry ($lut).
-Mapping top.$auto$alumacc.cc:485:replace_alu$609.slice[0].carry ($lut).
-Mapping top.$auto$maccmap.cc:240:synth$1014.slice[0].carry ($lut).
-Mapping top.$auto$maccmap.cc:240:synth$1014.slice[1].carry ($lut).
-Mapping top.$auto$maccmap.cc:240:synth$1014.slice[2].carry ($lut).
-Mapping top.$auto$maccmap.cc:240:synth$1067.slice[0].carry ($lut).
-Mapping top.$auto$maccmap.cc:240:synth$711.slice[2].carry ($lut).
-Mapping top.$auto$maccmap.cc:240:synth$711.slice[3].carry ($lut).
-Mapping top.$auto$maccmap.cc:240:synth$711.slice[4].carry ($lut).
-Mapping top.$auto$maccmap.cc:240:synth$711.slice[5].carry ($lut).
-Mapping top.$auto$maccmap.cc:240:synth$711.slice[6].carry ($lut).
-Mapping top.$auto$alumacc.cc:485:replace_alu$591.slice[0].carry ($lut).
-Mapping top.$auto$alumacc.cc:485:replace_alu$594.slice[0].carry ($lut).
+Mapping top.$auto$alumacc.cc:485:replace_alu$707.slice[0].carry ($lut).
+Mapping top.$auto$alumacc.cc:485:replace_alu$710.slice[0].carry ($lut).
+Mapping top.$auto$alumacc.cc:485:replace_alu$713.slice[0].carry ($lut).
+Mapping top.$auto$alumacc.cc:485:replace_alu$716.slice[0].carry ($lut).
+Mapping top.$auto$alumacc.cc:485:replace_alu$719.slice[0].carry ($lut).
+Mapping top.$auto$alumacc.cc:485:replace_alu$722.slice[0].carry ($lut).
+Mapping top.$auto$alumacc.cc:485:replace_alu$722.slice[4].carry ($lut).
 
 10.38. Executing ICE40_FFINIT pass (implement FF init values).
 Handling FF init values in top.
-FF init value for cell $auto$simplemap.cc:420:simplemap_dff$689 (SB_DFFE): \cntr [1] = 0
-FF init value for cell $auto$simplemap.cc:420:simplemap_dff$690 (SB_DFFE): \cntr [2] = 0
-FF init value for cell $auto$simplemap.cc:420:simplemap_dff$691 (SB_DFFE): \cntr [3] = 0
-FF init value for cell $auto$simplemap.cc:420:simplemap_dff$688 (SB_DFFE): \cntr [0] = 0
+FF init value for cell $auto$simplemap.cc:420:simplemap_dff$821 (SB_DFFE): \cntr [1] = 0
+FF init value for cell $auto$simplemap.cc:420:simplemap_dff$822 (SB_DFFE): \cntr [2] = 0
+FF init value for cell $auto$simplemap.cc:420:simplemap_dff$823 (SB_DFFE): \cntr [3] = 0
+FF init value for cell $auto$simplemap.cc:420:simplemap_dff$820 (SB_DFFE): \cntr [0] = 0
 
 10.39. Executing ICE40_FFSSR pass (merge synchronous set/reset into FF cells).
 Merging set/reset $_MUX_ cells into SB_FFs in top.
-Merging $auto$simplemap.cc:277:simplemap_mux$1192 (A=\hwtop.uart_outword [6], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$860 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$1454 (A=$techmap\hwtop.uart_outQ.$procmux$532_Y, B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$1433 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$1451 (A=$techmap\hwtop.uart_outQ.$procmux$543_Y, B=1'1, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$1434 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$1543 (A=$techmap\hwtop.hwmain_outQ.$procmux$532_Y, B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$1522 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$1540 (A=$techmap\hwtop.hwmain_outQ.$procmux$543_Y, B=1'1, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$1523 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$905 (A=$techmap\hwtop.$ternary$mkBsvTop.v:442$289_Y [1], B=1'0, S=\hwtop.hwmain_midQ2.data0_reg [7]) into $auto$simplemap.cc:420:simplemap_dff$1525 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$906 (A=$techmap\hwtop.$ternary$mkBsvTop.v:442$289_Y [2], B=1'0, S=\hwtop.hwmain_midQ2.data0_reg [7]) into $auto$simplemap.cc:420:simplemap_dff$1526 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$907 (A=$techmap\hwtop.$ternary$mkBsvTop.v:442$289_Y [3], B=1'0, S=\hwtop.hwmain_midQ2.data0_reg [7]) into $auto$simplemap.cc:420:simplemap_dff$1527 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$908 (A=$techmap\hwtop.$ternary$mkBsvTop.v:442$289_Y [4], B=1'0, S=\hwtop.hwmain_midQ2.data0_reg [7]) into $auto$simplemap.cc:420:simplemap_dff$1528 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$909 (A=$techmap\hwtop.$ternary$mkBsvTop.v:442$289_Y [5], B=1'0, S=\hwtop.hwmain_midQ2.data0_reg [7]) into $auto$simplemap.cc:420:simplemap_dff$1529 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$910 (A=$techmap\hwtop.$ternary$mkBsvTop.v:442$289_Y [6], B=1'0, S=\hwtop.hwmain_midQ2.data0_reg [7]) into $auto$simplemap.cc:420:simplemap_dff$1530 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$911 (A=$techmap\hwtop.$ternary$mkBsvTop.v:442$289_Y [7], B=1'0, S=\hwtop.hwmain_midQ2.data0_reg [7]) into $auto$simplemap.cc:420:simplemap_dff$1531 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$1627 (A=$techmap\hwtop.hwmain_midQ2.$procmux$532_Y, B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$1607 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$1624 (A=$techmap\hwtop.hwmain_midQ2.$procmux$543_Y, B=1'1, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$1608 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$1696 (A=$techmap\hwtop.hwmain_midQ1.$procmux$532_Y, B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$1675 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$1693 (A=$techmap\hwtop.hwmain_midQ1.$procmux$543_Y, B=1'1, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$1676 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$1783 (A=$techmap\hwtop.hwmain_inQ3.$procmux$532_Y, B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$1762 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$1780 (A=$techmap\hwtop.hwmain_inQ3.$procmux$543_Y, B=1'1, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$1763 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$1869 (A=$techmap\hwtop.hwmain_inQ2.$procmux$543_Y, B=1'1, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$1852 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$1960 (A=$techmap\hwtop.hwmain_inQ1.$procmux$532_Y, B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$1939 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$1957 (A=$techmap\hwtop.hwmain_inQ1.$procmux$543_Y, B=1'1, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$1940 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$1872 (A=$techmap\hwtop.hwmain_inQ2.$procmux$532_Y, B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$1851 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$799 (A=\hwtop.uart_bleft_D_IN [3], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$822 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$1169 (A=\hwtop.uart_samplecountdown_D_IN [11], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$878 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$802 (A=\hwtop.hwmain_dataInCnt_D_IN [0], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$817 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$1167 (A=\hwtop.uart_samplecountdown_D_IN [9], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$876 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$1165 (A=\hwtop.uart_samplecountdown_D_IN [7], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$874 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$1205 (A=\hwtop.uart_curoutoff_D_IN [4], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$854 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$796 (A=\hwtop.uart_bleft_D_IN [0], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$819 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$778 (A=\hwtop.uart_clkcnt_D_IN [2], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$825 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$779 (A=\hwtop.uart_clkcnt_D_IN [3], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$826 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$780 (A=\hwtop.uart_clkcnt_D_IN [4], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$827 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$781 (A=\hwtop.uart_clkcnt_D_IN [5], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$828 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$782 (A=\hwtop.uart_clkcnt_D_IN [6], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$829 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$1141 (A=\hwtop.uart_curoutd [0], B=1'1, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$883 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$784 (A=\hwtop.uart_clkcnt_D_IN [8], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$831 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$785 (A=\hwtop.uart_clkcnt_D_IN [9], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$832 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$786 (A=\hwtop.uart_clkcnt_D_IN [10], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$833 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$787 (A=\hwtop.uart_clkcnt_D_IN [11], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$834 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$788 (A=\hwtop.uart_clkcnt_D_IN [12], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$835 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$789 (A=\hwtop.uart_clkcnt_D_IN [13], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$836 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$790 (A=\hwtop.uart_clkcnt_D_IN [14], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$837 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$791 (A=\hwtop.uart_clkcnt_D_IN [15], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$838 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$750 (A=\hwtop.uart_curoutd_D_IN [1], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$840 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$776 (A=\hwtop.uart_clkcnt_D_IN [0], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$823 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$751 (A=\hwtop.uart_curoutd_D_IN [2], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$841 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$752 (A=\hwtop.uart_curoutd_D_IN [3], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$842 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$753 (A=\hwtop.uart_curoutd_D_IN [4], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$843 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$754 (A=\hwtop.uart_curoutd_D_IN [5], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$844 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$1190 (A=\hwtop.uart_outword [4], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$858 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$1191 (A=\hwtop.uart_outword [5], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$859 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$783 (A=\hwtop.uart_clkcnt_D_IN [7], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$830 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$756 (A=\hwtop.uart_curoutd_D_IN [7], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$846 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$757 (A=\hwtop.uart_curoutd_D_IN [8], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$847 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$758 (A=\hwtop.uart_curoutd_D_IN [9], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$848 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$749 (A=\hwtop.uart_curoutd_D_IN [0], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$839 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$1202 (A=\hwtop.uart_curoutoff_D_IN [1], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$851 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$1203 (A=\hwtop.uart_curoutoff_D_IN [2], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$852 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$1204 (A=\hwtop.uart_curoutoff_D_IN [3], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$853 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$1201 (A=\hwtop.uart_curoutoff_D_IN [0], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$850 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$1189 (A=\hwtop.uart_outword [3], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$857 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$755 (A=\hwtop.uart_curoutd_D_IN [6], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$845 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$1188 (A=\hwtop.uart_outword [2], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$856 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$1193 (A=\hwtop.uart_outword [7], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$861 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$1194 (A=\hwtop.uart_outword_D_IN [7], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$862 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$1176 (A=\hwtop.uart_rxin [2], B=1'1, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$864 (SB_DFF).
-Merging $auto$simplemap.cc:277:simplemap_mux$1187 (A=\hwtop.uart_outword [1], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$855 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$1177 (A=\hwtop.uart_rxin [3], B=1'1, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$865 (SB_DFF).
-Merging $auto$simplemap.cc:277:simplemap_mux$1178 (A=\serial_rxd, B=1'1, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$866 (SB_DFF).
-Merging $auto$simplemap.cc:277:simplemap_mux$1159 (A=\hwtop.uart_samplecountdown_D_IN [1], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$868 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$1175 (A=\hwtop.uart_rxin [1], B=1'1, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$863 (SB_DFF).
-Merging $auto$simplemap.cc:277:simplemap_mux$1160 (A=\hwtop.uart_samplecountdown_D_IN [2], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$869 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$1161 (A=\hwtop.uart_samplecountdown_D_IN [3], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$870 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$1162 (A=\hwtop.uart_samplecountdown_D_IN [4], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$871 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$1163 (A=\hwtop.uart_samplecountdown_D_IN [5], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$872 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$1164 (A=\hwtop.uart_samplecountdown_D_IN [6], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$873 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$798 (A=\hwtop.uart_bleft_D_IN [2], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$821 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$1166 (A=\hwtop.uart_samplecountdown_D_IN [8], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$875 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$797 (A=\hwtop.uart_bleft_D_IN [1], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$820 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$1168 (A=\hwtop.uart_samplecountdown_D_IN [10], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$877 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$803 (A=\hwtop.hwmain_dataInCnt_D_IN [1], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$818 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$1170 (A=\hwtop.uart_samplecountdown_D_IN [12], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$879 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$1171 (A=\hwtop.uart_samplecountdown_D_IN [13], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$880 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$1172 (A=\hwtop.uart_samplecountdown_D_IN [14], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$881 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$1173 (A=\hwtop.uart_samplecountdown_D_IN [15], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$882 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$777 (A=\hwtop.uart_clkcnt_D_IN [1], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$824 (SB_DFFE).
-Merging $auto$simplemap.cc:277:simplemap_mux$1158 (A=\hwtop.uart_samplecountdown_D_IN [0], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1240) into $auto$simplemap.cc:420:simplemap_dff$867 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$978 (A=\hwtop.hwmain_calcout_D_IN [13], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$994 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1519 (A=$techmap\hwtop.uart_outQ.$procmux$612_Y, B=1'1, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$1502 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$965 (A=\hwtop.hwmain_calcout_D_IN [0], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$981 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$966 (A=\hwtop.hwmain_calcout_D_IN [1], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$982 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1635 (A=$techmap\hwtop.hwmain_outQ.$procmux$601_Y, B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$1614 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1632 (A=$techmap\hwtop.hwmain_outQ.$procmux$612_Y, B=1'1, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$1615 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1274 (A=1'1, B=\hwtop.uart_outQ.data0_reg [5], S=\hwtop.MUX_hwmain_outQ_enq_1__SEL_1) into $auto$simplemap.cc:420:simplemap_dff$1621 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1275 (A=1'0, B=\hwtop.uart_outQ.data0_reg [6], S=\hwtop.MUX_hwmain_outQ_enq_1__SEL_1) into $auto$simplemap.cc:420:simplemap_dff$1622 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1276 (A=1'0, B=\hwtop.uart_outQ.data0_reg [7], S=\hwtop.MUX_hwmain_outQ_enq_1__SEL_1) into $auto$simplemap.cc:420:simplemap_dff$1623 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1750 (A=$techmap\hwtop.hwmain_inQ2.$procmux$601_Y, B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$1729 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1747 (A=$techmap\hwtop.hwmain_inQ2.$procmux$612_Y, B=1'1, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$1730 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1835 (A=$techmap\hwtop.hwmain_inQ1.$procmux$601_Y, B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$1814 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1832 (A=$techmap\hwtop.hwmain_inQ1.$procmux$612_Y, B=1'1, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$1815 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1057 (A=\hwtop.uart_clkcnt_D_IN [1], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$858 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1058 (A=\hwtop.uart_clkcnt_D_IN [2], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$859 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1059 (A=\hwtop.uart_clkcnt_D_IN [3], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$860 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1060 (A=\hwtop.uart_clkcnt_D_IN [4], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$861 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1061 (A=\hwtop.uart_clkcnt_D_IN [5], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$862 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1062 (A=\hwtop.uart_clkcnt_D_IN [6], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$863 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1063 (A=\hwtop.uart_clkcnt_D_IN [7], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$864 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1064 (A=\hwtop.uart_clkcnt_D_IN [8], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$865 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1065 (A=\hwtop.uart_clkcnt_D_IN [9], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$866 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1066 (A=\hwtop.uart_clkcnt_D_IN [10], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$867 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1067 (A=\hwtop.uart_clkcnt_D_IN [11], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$868 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1068 (A=\hwtop.uart_clkcnt_D_IN [12], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$869 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1069 (A=\hwtop.uart_clkcnt_D_IN [13], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$870 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1070 (A=\hwtop.uart_clkcnt_D_IN [14], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$871 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1071 (A=\hwtop.uart_clkcnt_D_IN [15], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$872 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1073 (A=\hwtop.hwmain_val_D_IN [1], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$875 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1056 (A=\hwtop.uart_clkcnt_D_IN [0], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$857 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$905 (A=\hwtop.hwmain_inQ1.DEQ, B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$873 (SB_DFF).
+Merging $auto$simplemap.cc:277:simplemap_mux$1074 (A=\hwtop.hwmain_val_D_IN [2], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$876 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1075 (A=\hwtop.hwmain_val_D_IN [3], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$877 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1076 (A=\hwtop.hwmain_val_D_IN [4], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$878 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1077 (A=\hwtop.hwmain_val_D_IN [5], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$879 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1078 (A=\hwtop.hwmain_val_D_IN [6], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$880 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1079 (A=\hwtop.hwmain_val_D_IN [7], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$881 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1080 (A=\hwtop.hwmain_val_D_IN [8], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$882 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1081 (A=\hwtop.hwmain_val_D_IN [9], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$883 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1082 (A=\hwtop.hwmain_val_D_IN [10], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$884 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1083 (A=\hwtop.hwmain_val_D_IN [11], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$885 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1021 (A=\hwtop.uart_bleft_D_IN [1], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$891 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1072 (A=\hwtop.hwmain_val_D_IN [0], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$874 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1022 (A=\hwtop.uart_bleft_D_IN [2], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$892 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1023 (A=\hwtop.uart_bleft_D_IN [3], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$893 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1119 (A=\hwtop.uart_curoutd_D_IN [1], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$895 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1020 (A=\hwtop.uart_bleft_D_IN [0], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$890 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1120 (A=\hwtop.uart_curoutd_D_IN [2], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$896 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1121 (A=\hwtop.uart_curoutd_D_IN [3], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$897 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1125 (A=\hwtop.uart_curoutd_D_IN [7], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$901 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1126 (A=\hwtop.uart_curoutd_D_IN [8], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$902 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1127 (A=\hwtop.uart_curoutd_D_IN [9], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$903 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1122 (A=\hwtop.uart_curoutd_D_IN [4], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$898 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1123 (A=\hwtop.uart_curoutd_D_IN [5], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$899 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1124 (A=\hwtop.uart_curoutd_D_IN [6], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$900 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1141 (A=\hwtop.uart_curoutoff_D_IN [1], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$907 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1118 (A=\hwtop.uart_curoutd_D_IN [0], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$894 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1142 (A=\hwtop.uart_curoutoff_D_IN [2], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$908 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1143 (A=\hwtop.uart_curoutoff_D_IN [3], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$909 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1144 (A=\hwtop.uart_curoutoff_D_IN [4], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$910 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1151 (A=\hwtop.uart_outword [2], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$912 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1140 (A=\hwtop.uart_curoutoff_D_IN [0], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$906 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1152 (A=\hwtop.uart_outword [3], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$913 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1153 (A=\hwtop.uart_outword [4], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$914 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1154 (A=\hwtop.uart_outword [5], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$915 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1155 (A=\hwtop.uart_outword [6], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$916 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1156 (A=\hwtop.uart_outword [7], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$917 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1157 (A=\hwtop.uart_outword_D_IN [7], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$918 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1167 (A=\hwtop.uart_rxin [2], B=1'1, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$920 (SB_DFF).
+Merging $auto$simplemap.cc:277:simplemap_mux$1150 (A=\hwtop.uart_outword [1], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$911 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1168 (A=\hwtop.uart_rxin [3], B=1'1, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$921 (SB_DFF).
+Merging $auto$simplemap.cc:277:simplemap_mux$1169 (A=\serial_rxd, B=1'1, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$922 (SB_DFF).
+Merging $auto$simplemap.cc:277:simplemap_mux$1171 (A=\hwtop.uart_samplecountdown_D_IN [1], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$924 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1166 (A=\hwtop.uart_rxin [1], B=1'1, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$919 (SB_DFF).
+Merging $auto$simplemap.cc:277:simplemap_mux$1172 (A=\hwtop.uart_samplecountdown_D_IN [2], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$925 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1173 (A=\hwtop.uart_samplecountdown_D_IN [3], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$926 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1174 (A=\hwtop.uart_samplecountdown_D_IN [4], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$927 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1175 (A=\hwtop.uart_samplecountdown_D_IN [5], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$928 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1176 (A=\hwtop.uart_samplecountdown_D_IN [6], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$929 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1177 (A=\hwtop.uart_samplecountdown_D_IN [7], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$930 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1178 (A=\hwtop.uart_samplecountdown_D_IN [8], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$931 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1179 (A=\hwtop.uart_samplecountdown_D_IN [9], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$932 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1180 (A=\hwtop.uart_samplecountdown_D_IN [10], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$933 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1181 (A=\hwtop.uart_samplecountdown_D_IN [11], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$934 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1182 (A=\hwtop.uart_samplecountdown_D_IN [12], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$935 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1183 (A=\hwtop.uart_samplecountdown_D_IN [13], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$936 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1184 (A=\hwtop.uart_samplecountdown_D_IN [14], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$937 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1185 (A=\hwtop.uart_samplecountdown_D_IN [15], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$938 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1170 (A=\hwtop.uart_samplecountdown_D_IN [0], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$923 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1202 (A=\hwtop.uart_curoutd [0], B=1'1, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$939 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$967 (A=\hwtop.hwmain_calcout_D_IN [2], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$983 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$968 (A=\hwtop.hwmain_calcout_D_IN [3], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$984 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$969 (A=\hwtop.hwmain_calcout_D_IN [4], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$985 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$970 (A=\hwtop.hwmain_calcout_D_IN [5], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$986 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$971 (A=\hwtop.hwmain_calcout_D_IN [6], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$987 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$972 (A=\hwtop.hwmain_calcout_D_IN [7], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$988 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$973 (A=\hwtop.hwmain_calcout_D_IN [8], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$989 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$974 (A=\hwtop.hwmain_calcout_D_IN [9], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$990 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$975 (A=\hwtop.hwmain_calcout_D_IN [10], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$991 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$976 (A=\hwtop.hwmain_calcout_D_IN [11], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$992 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$1522 (A=$techmap\hwtop.uart_outQ.$procmux$601_Y, B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$1501 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$979 (A=\hwtop.hwmain_calcout_D_IN [14], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$995 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$980 (A=\hwtop.hwmain_dsp_mult_dsp_mult_O [15], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$996 (SB_DFFE).
+Merging $auto$simplemap.cc:277:simplemap_mux$977 (A=\hwtop.hwmain_calcout_D_IN [12], B=1'0, S=$auto$simplemap.cc:256:simplemap_eqne$1094) into $auto$simplemap.cc:420:simplemap_dff$993 (SB_DFFE).
 
 10.40. Executing ICE40_OPT pass (performing simple optimizations).
 
@@ -1296,18 +1148,17 @@ Optimizing module top.
 
 10.40.3. Executing OPT_MERGE pass (detect identical cells).
 Finding identical cells in module `\top'.
-Removed a total of 92 cells.
+Removed a total of 114 cells.
 
 10.40.4. Executing OPT_RMDFF pass (remove dff with constant values).
 
 10.40.5. Executing OPT_CLEAN pass (remove unused cells and wires).
 Finding unused cells or wires in module \top..
-Removed 88 unused cells and 1166 unused wires.
+Removed 101 unused cells and 1074 unused wires.
 
 10.40.6. Rerunning OPT passes. (Removed registers in this run.)
 
 10.40.7. Running ICE40 specific optimizations.
-Optimized $__ICE40_CARRY_WRAPPER cell back to logic (without SB_CARRY) top.$auto$maccmap.cc:240:synth$1067.slice[8].carry: CO=1'0
 
 10.40.8. Executing OPT_EXPR pass (perform const folding).
 Optimizing module top.
@@ -1320,59 +1171,8 @@ Removed a total of 0 cells.
 
 10.40.11. Executing OPT_CLEAN pass (remove unused cells and wires).
 Finding unused cells or wires in module \top..
-Removed 1 unused cells and 0 unused wires.
 
-10.40.12. Rerunning OPT passes. (Removed registers in this run.)
-
-10.40.13. Running ICE40 specific optimizations.
-Optimized $__ICE40_CARRY_WRAPPER cell back to logic (without SB_CARRY) top.$auto$maccmap.cc:240:synth$1067.slice[9].carry: CO=1'0
-
-10.40.14. Executing OPT_EXPR pass (perform const folding).
-Optimizing module top.
-
-10.40.15. Executing OPT_MERGE pass (detect identical cells).
-Finding identical cells in module `\top'.
-Removed a total of 0 cells.
-
-10.40.16. Executing OPT_RMDFF pass (remove dff with constant values).
-
-10.40.17. Executing OPT_CLEAN pass (remove unused cells and wires).
-Finding unused cells or wires in module \top..
-Removed 2 unused cells and 0 unused wires.
-
-10.40.18. Rerunning OPT passes. (Removed registers in this run.)
-
-10.40.19. Running ICE40 specific optimizations.
-
-10.40.20. Executing OPT_EXPR pass (perform const folding).
-Optimizing module top.
-
-10.40.21. Executing OPT_MERGE pass (detect identical cells).
-Finding identical cells in module `\top'.
-Removed a total of 0 cells.
-
-10.40.22. Executing OPT_RMDFF pass (remove dff with constant values).
-
-10.40.23. Executing OPT_CLEAN pass (remove unused cells and wires).
-Finding unused cells or wires in module \top..
-
-10.40.24. Rerunning OPT passes. (Removed registers in this run.)
-
-10.40.25. Running ICE40 specific optimizations.
-
-10.40.26. Executing OPT_EXPR pass (perform const folding).
-Optimizing module top.
-
-10.40.27. Executing OPT_MERGE pass (detect identical cells).
-Finding identical cells in module `\top'.
-Removed a total of 0 cells.
-
-10.40.28. Executing OPT_RMDFF pass (remove dff with constant values).
-
-10.40.29. Executing OPT_CLEAN pass (remove unused cells and wires).
-Finding unused cells or wires in module \top..
-
-10.40.30. Finished OPT passes. (There is nothing left to do.)
+10.40.12. Finished OPT passes. (There is nothing left to do.)
 
 10.41. Executing TECHMAP pass (map to technology primitives).
 
@@ -1388,7 +1188,7 @@ No more expansions possible.
 10.42. Executing ABC pass (technology mapping using ABC).
 
 10.42.1. Extracting gate netlist of module `\top' to `<abc-temp-dir>/input.blif'..
-Extracted 1566 gates and 1825 wires to a netlist network with 257 inputs and 270 outputs.
+Extracted 575 gates and 790 wires to a netlist network with 213 inputs and 192 outputs.
 
 10.42.1.1. Executing ABC.
 Running ABC command: <yosys-exe-dir>/yosys-abc -s -f <abc-temp-dir>/abc.script 2>&1
@@ -1409,20 +1209,20 @@ ABC: + if
 ABC: + mfs2
 ABC: + lutpack -S 1
 ABC: + dress
-ABC: Total number of equiv classes                =     720.
-ABC: Participating nodes from both networks       =    1482.
-ABC: Participating nodes from the first network   =     725. (  94.03 % of nodes)
-ABC: Participating nodes from the second network  =     757. (  98.18 % of nodes)
-ABC: Node pairs (any polarity)                    =     725. (  94.03 % of names can be moved)
-ABC: Node pairs (same polarity)                   =     627. (  81.32 % of names can be moved)
-ABC: Total runtime =     0.03 sec
+ABC: Total number of equiv classes                =     245.
+ABC: Participating nodes from both networks       =     544.
+ABC: Participating nodes from the first network   =     257. (  87.41 % of nodes)
+ABC: Participating nodes from the second network  =     287. (  97.62 % of nodes)
+ABC: Node pairs (any polarity)                    =     257. (  87.41 % of names can be moved)
+ABC: Node pairs (same polarity)                   =     241. (  81.97 % of names can be moved)
+ABC: Total runtime =     0.01 sec
 ABC: + write_blif <abc-temp-dir>/output.blif
 
 10.42.1.2. Re-integrating ABC results.
-ABC RESULTS:              $lut cells:      767
-ABC RESULTS:        internal signals:     1298
-ABC RESULTS:           input signals:      257
-ABC RESULTS:          output signals:      270
+ABC RESULTS:              $lut cells:      293
+ABC RESULTS:        internal signals:      385
+ABC RESULTS:           input signals:      213
+ABC RESULTS:          output signals:      192
 Removing temp directory.
 
 10.43. Executing ICE40_WRAPCARRY pass (wrap carries).
@@ -1457,35 +1257,35 @@ Successfully finished Verilog frontend.
 
 10.44.2. Continuing TECHMAP pass.
 No more expansions possible.
-Removed 49 unused cells and 720 unused wires.
+Removed 48 unused cells and 535 unused wires.
 
 10.45. Executing OPT_LUT pass (optimize LUTs).
 Discovering LUTs.
-Number of LUTs:      854
-1-LUT               19
-2-LUT              195
-3-LUT              345
-4-LUT              295
-with \SB_CARRY      78
+Number of LUTs:      336
+1-LUT               38
+2-LUT               94
+3-LUT              106
+4-LUT               98
+with \SB_CARRY      38
 
 Eliminating LUTs.
-Number of LUTs:      854
-1-LUT               19
-2-LUT              195
-3-LUT              345
-4-LUT              295
-with \SB_CARRY      78
+Number of LUTs:      336
+1-LUT               38
+2-LUT               94
+3-LUT              106
+4-LUT               98
+with \SB_CARRY      38
 
 Combining LUTs.
-Number of LUTs:      838
-1-LUT               19
-2-LUT              176
-3-LUT              335
-4-LUT              308
-with \SB_CARRY      78
+Number of LUTs:      327
+1-LUT               38
+2-LUT               83
+3-LUT              101
+4-LUT              105
+with \SB_CARRY      38
 
 Eliminated 0 LUTs.
-Combined 16 LUTs.
+Combined 9 LUTs.
 
 10.46. Executing TECHMAP pass (map to technology primitives).
 
@@ -1517,140 +1317,73 @@ Generating RTLIL representation for module `\$lut'.
 Successfully finished Verilog frontend.
 
 10.46.2. Continuing TECHMAP pass.
-Using template $paramod\$lut\WIDTH=4\LUT=16'1000000000000000 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'0111100010001000 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=3\LUT=8'01111000 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=2\LUT=4'0110 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=3\LUT=8'10000000 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'1000011101111000 for cells of type $lut.
 Using template $paramod\$lut\WIDTH=2\LUT=4'1000 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'0110100110010110 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=3\LUT=8'01100000 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=3\LUT=8'10010110 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'0001011101110111 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=2\LUT=4'1001 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'0111100000000000 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'1010001101011100 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=3\LUT=8'01000000 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'0111011100001111 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=3\LUT=8'01101001 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=3\LUT=8'01010011 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'1001011000000000 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'0000000001111111 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=3\LUT=8'00010111 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'0000011101110111 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=3\LUT=8'00101011 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'1001011001101001 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=3\LUT=8'10010000 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'1011010001001011 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=3\LUT=8'01110001 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'0000000001111101 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'1101011100101000 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'1011001000101011 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'0001111000000000 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=3\LUT=8'10110100 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'1000111010101111 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'0111100010000111 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'0110000000000000 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'0010101110111011 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'0001011101110001 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=3\LUT=8'10000111 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=3\LUT=8'11010100 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=3\LUT=8'00000111 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'0001011111111111 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=2\LUT=4'0100 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'1100011100111000 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'0100000000000000 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=3\LUT=8'10110010 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=3\LUT=8'00110101 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'1101010000101011 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'0000011111111000 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'0010101111111100 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'0111111100110000 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=3\LUT=8'11100001 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'1001000000001001 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'0001111011100001 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'1101001010110100 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'0011110001010101 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=3\LUT=8'00001101 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'0100101110110100 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'0100110111010100 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'0010101111010100 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'0011000110100000 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'0100001000101011 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'0110100100000000 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'0110011100011111 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'0000000111111111 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'1011100001001011 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'1011010000000000 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=3\LUT=8'01000010 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=3\LUT=8'00111010 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'0001010000000000 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=1\LUT=2'01 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'1001110010100000 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'1110001101110000 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'1110000100011110 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'1111111000000001 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=3\LUT=8'11100000 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'0000101100000100 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'0111000100010111 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'1011001011000000 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'0001111111100000 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'0000000011010111 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'0000110101010111 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=2\LUT=4'0001 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'0001010111001111 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'1111111111111110 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=3\LUT=8'00000001 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'0000000010010110 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'0001000000000000 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'0000000000000001 for cells of type $lut.
 Using template $paramod\$lut\WIDTH=4\LUT=16'0000000100000000 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'0110100110010110 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'0000000000000001 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'1000000000000000 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=2\LUT=4'0100 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'0000000001101001 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=3\LUT=8'10000000 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'0000000010001111 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'0001000000000000 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=3\LUT=8'00000111 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'0100111100000000 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=3\LUT=8'00000001 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=3\LUT=8'11010000 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'1100000011101111 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'0111000000000000 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'1111111111111000 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=1\LUT=2'01 for cells of type $lut.
 Using template $paramod\$lut\WIDTH=3\LUT=8'00010000 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'1101111011101101 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'1111111110010110 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'1001011011111111 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'0000000001100110 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'1001011001011010 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'0000011000000110 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'1111111101100110 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'1000110011100000 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'0000000000100001 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'0100100010000100 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'1111001111110101 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=3\LUT=8'01110000 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=3\LUT=8'01101111 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'0000000001111111 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'1011111111111111 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'1000100011110000 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'1111111111111110 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=3\LUT=8'11111110 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=3\LUT=8'11110100 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=2\LUT=4'0001 for cells of type $lut.
 Using template $paramod\$lut\WIDTH=2\LUT=4'1011 for cells of type $lut.
 Using template $paramod\$lut\WIDTH=2\LUT=4'1110 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'0001000011111111 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'0000011111111111 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=3\LUT=8'11110001 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=3\LUT=8'11111110 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=2\LUT=4'0111 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'0111100011111111 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=3\LUT=8'00001110 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=3\LUT=8'11110100 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=3\LUT=8'11001010 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'0100000000000000 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=3\LUT=8'01110000 for cells of type $lut.
 Using template $paramod\$lut\WIDTH=3\LUT=8'01001111 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=3\LUT=8'10111111 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=3\LUT=8'11100000 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'0000000001001111 for cells of type $lut.
 Using template $paramod\$lut\WIDTH=4\LUT=16'0000111110111011 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=3\LUT=8'10001111 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'0111000011111111 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'1101000000000000 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=3\LUT=8'00001011 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'1111100010001000 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'1111111111111000 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=3\LUT=8'01000000 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=3\LUT=8'00011111 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'0001000011111111 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'0000110100000000 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=3\LUT=8'11001010 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=3\LUT=8'00001110 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'1011101111110000 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=3\LUT=8'01101111 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=2\LUT=4'0111 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'0000011111111111 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=3\LUT=8'10011111 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'0011110011111010 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=3\LUT=8'10111100 for cells of type $lut.
 Using template $paramod\$lut\WIDTH=4\LUT=16'0101110100001111 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'1000111100000000 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'1101010000000000 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=3\LUT=8'01111111 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'0000000000100001 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'1101000000000000 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'1111111111110100 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'0111011101110000 for cells of type $lut.
 Using template $paramod\$lut\WIDTH=4\LUT=16'0100000011111111 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'0000110010101111 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=3\LUT=8'00010100 for cells of type $lut.
-Using template $paramod\$lut\WIDTH=4\LUT=16'0001010001000001 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'0001000111110000 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'1010001111101100 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'1001011011111111 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'1001011000000000 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'0100100010000100 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'0000000010010110 for cells of type $lut.
+Using template $paramod\$lut\WIDTH=4\LUT=16'1101111011101101 for cells of type $lut.
 No more expansions possible.
-Removed 0 unused cells and 1680 unused wires.
+Removed 0 unused cells and 656 unused wires.
 
 10.47. Executing AUTONAME pass.
-Renamed 12256 objects in module top (48 iterations).
+Renamed 4464 objects in module top (35 iterations).
 
 10.48. Executing HIERARCHY pass (managing design hierarchy).
 
@@ -1665,22 +1398,24 @@ Removed 0 unused modules.
 
 === top ===
 
-Number of wires:                885
-Number of wire bits:           1960
-Number of public wires:         885
-Number of public wire bits:    1960
+Number of wires:                378
+Number of wire bits:           1055
+Number of public wires:         378
+Number of public wire bits:    1055
 Number of memories:               0
 Number of memory bits:            0
 Number of processes:              0
-Number of cells:               1147
-SB_CARRY                      116
-SB_DFF                         54
-SB_DFFE                        51
-SB_DFFESR                      75
-SB_DFFESS                       8
+Number of cells:                580
+SB_CARRY                       81
+SB_DFF                         32
+SB_DFFE                        34
+SB_DFFESR                      93
+SB_DFFESS                       6
+SB_DFFSR                        1
 SB_DFFSS                        4
 SB_HFOSC                        1
-SB_LUT4                       838
+SB_LUT4                       327
+SB_MAC16                        1
 
 10.50. Executing CHECK pass (checking for obvious problems).
 checking module top..
@@ -1689,14 +1424,14 @@ found and reported 0 problems.
 10.51. Executing JSON backend.
 
 Warnings: 1 unique messages, 1 total
-End of script. Logfile hash: f378de02d4
-CPU: user 1.40s system 0.02s, MEM: 47.90 MB total, 42.98 MB resident
+End of script. Logfile hash: da23dcbef6
+CPU: user 0.58s system 0.02s, MEM: 30.76 MB total, 27.46 MB resident
 Yosys 0.9+932 (git sha1 UNKNOWN, x86_64-linux-gnu-g++ 7.3.0-16ubuntu3 -O3 -DNDEBUG)
-Time spent: 29% 27x opt_expr (0 sec), 17% 24x opt_merge (0 sec), ...
+Time spent: 22% 19x opt_expr (0 sec), 16% 20x opt_clean (0 sec), ...
 nextpnr-ice40 --up5k --package sg48 --json hardware.json --asc hardware.asc --pcf up5k.pcf
 Info: Importing module top
 Info: Rule checker, verifying imported design
-Info: Checksum: 0xcc6a87d9
+Info: Checksum: 0x07b6ba16
 
 Info: constrained 'led_blue' to bel 'X5/Y31/io0'
 Info: constrained 'led_green' to bel 'X4/Y31/io0'
@@ -1708,36 +1443,36 @@ Info: constrained 'spi_cs' to bel 'X24/Y0/io1'
 Info: Packing constants..
 Info: Packing IOs..
 Info: Packing LUT-FFs..
-Info:      715 LCs used as LUT4 only
-Info:      123 LCs used as LUT4 and DFF
+Info:      193 LCs used as LUT4 only
+Info:      134 LCs used as LUT4 and DFF
 Info: Packing non-LUT FFs..
-Info:       69 LCs used as DFF only
+Info:       36 LCs used as DFF only
 Info: Packing carries..
-Info:       44 LCs used as CARRY only
+Info:       47 LCs used as CARRY only
 Info: Packing RAMs..
 Info: Placing PLLs..
 Info: Packing special functions..
 Info:   constrained ICESTORM_HFOSC 'inthosc_OSC' to X0/Y31/hfosc_1
 Info: Promoting globals..
-Info: promoting hwtop.uart_curoutd_SB_DFFE_Q_D_SB_LUT4_I3_O [reset] (fanout 80)
-Info: promoting hwtop.hwmain_outQ.empty_reg_SB_LUT4_I2_O_SB_LUT4_I3_O [cen] (fanout 16)
+Info: promoting hwtop.uart_curoutd_SB_DFFE_Q_D_SB_LUT4_I3_O [reset] (fanout 101)
+Info: promoting hwtop.hwmain_outQ.empty_reg_SB_LUT4_I2_1_O_SB_LUT4_I3_O [cen] (fanout 16)
 Info: promoting hwtop.uart_txdr_SB_DFFESS_Q_E_SB_LUT4_I3_O [cen] (fanout 16)
 Info: promoting hwtop.uart_outword_D_IN_SB_LUT4_I2_O [cen] (fanout 16)
 Info: Constraining chains...
-Info:       10 LCs used to legalise carry chains.
-Info: Checksum: 0x4ef9bc6b
+Info:       15 LCs used to legalise carry chains.
+Info: Checksum: 0x65a14180
 
 Info: Annotating ports with timing budgets for target frequency 12.00 MHz
-Info: Checksum: 0x1b6e077d
+Info: Checksum: 0xc5a9865a
 
 Info: Device utilisation:
-Info: 	         ICESTORM_LC:   963/ 5280    18%
+Info: 	         ICESTORM_LC:   427/ 5280     8%
 Info: 	        ICESTORM_RAM:     0/   30     0%
 Info: 	               SB_IO:     6/   96     6%
 Info: 	               SB_GB:     5/    8    62%
 Info: 	        ICESTORM_PLL:     0/    1     0%
 Info: 	         SB_WARMBOOT:     0/    1     0%
-Info: 	        ICESTORM_DSP:     0/    8     0%
+Info: 	        ICESTORM_DSP:     1/    8    12%
 Info: 	      ICESTORM_HFOSC:     1/    1   100%
 Info: 	      ICESTORM_LFOSC:     0/    1     0%
 Info: 	              SB_I2C:     0/    2     0%
@@ -1748,213 +1483,194 @@ Info: 	         SB_RGBA_DRV:     0/    1     0%
 Info: 	      ICESTORM_SPRAM:     0/    4     0%
 
 Info: Placed 8 cells based on constraints.
-Info: Creating initial analytic placement for 842 cells, random placement wirelen = 23553.
-Info:     at initial placer iter 0, wirelen = 317
-Info:     at initial placer iter 1, wirelen = 263
-Info:     at initial placer iter 2, wirelen = 237
-Info:     at initial placer iter 3, wirelen = 253
+Info: Creating initial analytic placement for 341 cells, random placement wirelen = 10408.
+Info:     at initial placer iter 0, wirelen = 211
+Info:     at initial placer iter 1, wirelen = 137
+Info:     at initial placer iter 2, wirelen = 142
+Info:     at initial placer iter 3, wirelen = 123
 Info: Running main analytical placer.
-Info:     at iteration #1, type ALL: wirelen solved = 229, spread = 4278, legal = 4538; time = 0.01s
-Info:     at iteration #2, type ALL: wirelen solved = 373, spread = 3137, legal = 3512; time = 0.01s
-Info:     at iteration #3, type ALL: wirelen solved = 467, spread = 2722, legal = 2976; time = 0.01s
-Info:     at iteration #4, type ALL: wirelen solved = 551, spread = 2658, legal = 3044; time = 0.02s
-Info:     at iteration #5, type ALL: wirelen solved = 674, spread = 2921, legal = 3236; time = 0.01s
-Info:     at iteration #6, type ALL: wirelen solved = 665, spread = 2884, legal = 3093; time = 0.01s
-Info:     at iteration #7, type ALL: wirelen solved = 772, spread = 2860, legal = 3119; time = 0.01s
-Info:     at iteration #8, type ALL: wirelen solved = 826, spread = 2729, legal = 3027; time = 0.01s
-Info: HeAP Placer Time: 0.17s
-Info:   of which solving equations: 0.11s
+Info:     at iteration #1, type ALL: wirelen solved = 122, spread = 1377, legal = 1950; time = 0.01s
+Info:     at iteration #2, type ALL: wirelen solved = 158, spread = 1215, legal = 1975; time = 0.01s
+Info:     at iteration #3, type ALL: wirelen solved = 188, spread = 1145, legal = 1884; time = 0.01s
+Info:     at iteration #4, type ALL: wirelen solved = 230, spread = 1114, legal = 1834; time = 0.01s
+Info:     at iteration #5, type ALL: wirelen solved = 273, spread = 1193, legal = 1972; time = 0.01s
+Info:     at iteration #6, type ALL: wirelen solved = 302, spread = 1078, legal = 1620; time = 0.01s
+Info:     at iteration #7, type ALL: wirelen solved = 322, spread = 1089, legal = 1646; time = 0.01s
+Info:     at iteration #8, type ALL: wirelen solved = 357, spread = 1048, legal = 1736; time = 0.01s
+Info:     at iteration #9, type ALL: wirelen solved = 353, spread = 1019, legal = 1630; time = 0.01s
+Info:     at iteration #10, type ALL: wirelen solved = 397, spread = 1043, legal = 1625; time = 0.01s
+Info:     at iteration #11, type ALL: wirelen solved = 414, spread = 1022, legal = 1547; time = 0.01s
+Info:     at iteration #12, type ALL: wirelen solved = 418, spread = 1183, legal = 1828; time = 0.01s
+Info:     at iteration #13, type ALL: wirelen solved = 495, spread = 1098, legal = 1601; time = 0.01s
+Info:     at iteration #14, type ALL: wirelen solved = 509, spread = 1053, legal = 1452; time = 0.01s
+Info:     at iteration #15, type ALL: wirelen solved = 554, spread = 1123, legal = 1422; time = 0.01s
+Info:     at iteration #16, type ALL: wirelen solved = 519, spread = 1068, legal = 1606; time = 0.01s
+Info:     at iteration #17, type ALL: wirelen solved = 492, spread = 1113, legal = 1517; time = 0.01s
+Info:     at iteration #18, type ALL: wirelen solved = 509, spread = 1072, legal = 1451; time = 0.01s
+Info:     at iteration #19, type ALL: wirelen solved = 535, spread = 1175, legal = 1560; time = 0.01s
+Info:     at iteration #20, type ALL: wirelen solved = 584, spread = 1067, legal = 1789; time = 0.01s
+Info: HeAP Placer Time: 0.21s
+Info:   of which solving equations: 0.15s
 Info:   of which spreading cells: 0.01s
-Info:   of which strict legalisation: 0.01s
+Info:   of which strict legalisation: 0.02s
 
 Info: Running simulated annealing placer for refinement.
-Info:   at iteration #1: temp = 0.000000, timing cost = 1505, wirelen = 2976
-Info:   at iteration #5: temp = 0.000000, timing cost = 1374, wirelen = 2390
-Info:   at iteration #10: temp = 0.000000, timing cost = 1388, wirelen = 2221
-Info:   at iteration #15: temp = 0.000000, timing cost = 1395, wirelen = 2140
-Info:   at iteration #20: temp = 0.000000, timing cost = 1346, wirelen = 2046
-Info:   at iteration #25: temp = 0.000000, timing cost = 1401, wirelen = 1991
-Info:   at iteration #30: temp = 0.000000, timing cost = 1394, wirelen = 1980
-Info:   at iteration #32: temp = 0.000000, timing cost = 1395, wirelen = 1978
-Info: SA placement time 0.66s
+Info:   at iteration #1: temp = 0.000000, timing cost = 332, wirelen = 1422
+Info:   at iteration #5: temp = 0.000000, timing cost = 203, wirelen = 1112
+Info:   at iteration #10: temp = 0.000000, timing cost = 216, wirelen = 1040
+Info:   at iteration #15: temp = 0.000000, timing cost = 207, wirelen = 1004
+Info:   at iteration #20: temp = 0.000000, timing cost = 210, wirelen = 977
+Info:   at iteration #21: temp = 0.000000, timing cost = 212, wirelen = 974
+Info: SA placement time 0.16s
 
-Info: Max frequency for clock 'clk': 18.10 MHz (PASS at 12.00 MHz)
+Info: Max frequency for clock 'clk': 26.14 MHz (PASS at 12.00 MHz)
 
-Info: Max delay <async>     -> posedge clk: 4.01 ns
-Info: Max delay posedge clk -> <async>    : 5.87 ns
+Info: Max delay <async>     -> posedge clk: 5.19 ns
+Info: Max delay posedge clk -> <async>    : 6.00 ns
 
 Info: Slack histogram:
-Info:  legend: * represents 2 endpoint(s)
-Info:          + represents [1,2) endpoint(s)
-Info: [ 28077,  30678) |**+
-Info: [ 30678,  33279) |**+
-Info: [ 33279,  35880) |+
-Info: [ 35880,  38481) |*+
-Info: [ 38481,  41082) |**+
-Info: [ 41082,  43683) |*+
-Info: [ 43683,  46284) |*****+
-Info: [ 46284,  48885) |
-Info: [ 48885,  51486) |
-Info: [ 51486,  54087) |
-Info: [ 54087,  56688) |***********+
-Info: [ 56688,  59289) |*****+
-Info: [ 59289,  61890) |********+
-Info: [ 61890,  64491) |***************************+
-Info: [ 64491,  67092) |******************************************+
-Info: [ 67092,  69693) |*************************+
-Info: [ 69693,  72294) |******************+
-Info: [ 72294,  74895) |**********************+
-Info: [ 74895,  77496) |********+
-Info: [ 77496,  80097) |************************************************************
-Info: Checksum: 0xacb4953f
+Info:  legend: * represents 1 endpoint(s)
+Info:          + represents [1,1) endpoint(s)
+Info: [ 45071,  46850) |********+
+Info: [ 46850,  48629) |
+Info: [ 48629,  50408) |+
+Info: [ 50408,  52187) |***************************+
+Info: [ 52187,  53966) |************+
+Info: [ 53966,  55745) |******************************************+
+Info: [ 55745,  57524) |**************+
+Info: [ 57524,  59303) |******+
+Info: [ 59303,  61082) |*******+
+Info: [ 61082,  62861) |********+
+Info: [ 62861,  64640) |**+
+Info: [ 64640,  66419) |+
+Info: [ 66419,  68198) |************************************************************
+Info: [ 68198,  69977) |********+
+Info: [ 69977,  71756) |***********************+
+Info: [ 71756,  73535) |**********************+
+Info: [ 73535,  75314) |**********+
+Info: [ 75314,  77093) |****+
+Info: [ 77093,  78872) |**********************+
+Info: [ 78872,  80651) |*********************************************************+
+Info: Checksum: 0x89f2af35
 
 Info: Routing..
 Info: Setting up routing queue.
-Info: Routing 3017 arcs.
+Info: Routing 1273 arcs.
 Info:            |   (re-)routed arcs  |   delta    | remaining
 Info:    IterCnt |  w/ripup   wo/ripup |  w/r  wo/r |      arcs
-Info:       1000 |       25        974 |   25   974 |      2052
-Info:       2000 |      151       1848 |  126   874 |      1213
-Info:       3000 |      251       2748 |  100   900 |       354
-Info:       3437 |      311       3126 |   60   378 |         0
+Info:       1000 |       44        955 |   44   955 |       328
+Info:       1367 |       76       1291 |   32   336 |         0
 Info: Routing complete.
-Info: Route time 0.29s
-Info: Checksum: 0xbe726a35
+Info: Route time 0.13s
+Info: Checksum: 0x26295f7c
 
 Info: Critical path report for clock 'clk' (posedge -> posedge):
 Info: curr total
-Info:  1.4  1.4  Source hwtop.hwmain_inQ1.data0_reg_SB_DFF_Q_6_D_SB_LUT4_O_LC.O
-Info:  3.6  5.0    Net hwtop.hwmain_inQ1_D_OUT[1] budget 3.634000 ns (15,6) -> (18,10)
-Info:                Sink hwtop.SEXT_hwmain_inQ1_first__0_1_MUL_SEXT_hwmain_in_ETC___d54_SB_LUT4_O_4_I2_SB_LUT4_O_I2_SB_LUT4_O_I3_SB_LUT4_O_I2_SB_LUT4_O_LC.I2
-Info:  1.2  6.2  Source hwtop.SEXT_hwmain_inQ1_first__0_1_MUL_SEXT_hwmain_in_ETC___d54_SB_LUT4_O_4_I2_SB_LUT4_O_I2_SB_LUT4_O_I3_SB_LUT4_O_I2_SB_LUT4_O_LC.O
-Info:  2.4  8.6    Net hwtop.SEXT_hwmain_inQ1_first__0_1_MUL_SEXT_hwmain_in_ETC___d54_SB_LUT4_O_4_I2_SB_LUT4_O_I2_SB_LUT4_O_I3_SB_LUT4_O_I2 budget 3.104000 ns (18,10) -> (18,12)
-Info:                Sink hwtop.SEXT_hwmain_inQ1_first__0_1_MUL_SEXT_hwmain_in_ETC___d54_SB_LUT4_O_4_I2_SB_LUT4_O_I3_SB_LUT4_O_I3_SB_LUT4_O_I3_SB_LUT4_O_LC.I1
-Info:  1.2  9.8  Source hwtop.SEXT_hwmain_inQ1_first__0_1_MUL_SEXT_hwmain_in_ETC___d54_SB_LUT4_O_4_I2_SB_LUT4_O_I3_SB_LUT4_O_I3_SB_LUT4_O_I3_SB_LUT4_O_LC.O
-Info:  1.8 11.6    Net hwtop.SEXT_hwmain_inQ1_first__0_1_MUL_SEXT_hwmain_in_ETC___d54_SB_LUT4_O_4_I2_SB_LUT4_O_I3_SB_LUT4_O_I3_SB_LUT4_O_I3 budget 3.104000 ns (18,12) -> (17,13)
-Info:                Sink hwtop.SEXT_hwmain_inQ1_first__0_1_MUL_SEXT_hwmain_in_ETC___d54_SB_LUT4_O_4_I2_SB_LUT4_O_I3_SB_LUT4_O_I3_SB_LUT4_O_LC.I3
-Info:  0.9 12.5  Source hwtop.SEXT_hwmain_inQ1_first__0_1_MUL_SEXT_hwmain_in_ETC___d54_SB_LUT4_O_4_I2_SB_LUT4_O_I3_SB_LUT4_O_I3_SB_LUT4_O_LC.O
-Info:  1.8 14.2    Net hwtop.SEXT_hwmain_inQ1_first__0_1_MUL_SEXT_hwmain_in_ETC___d54_SB_LUT4_O_4_I2_SB_LUT4_O_I3_SB_LUT4_O_I3 budget 2.827000 ns (17,13) -> (17,13)
-Info:                Sink hwtop.SEXT_hwmain_inQ1_first__0_1_MUL_SEXT_hwmain_in_ETC___d54_SB_LUT4_O_5_I2_SB_LUT4_O_I3_SB_LUT4_O_I3_SB_LUT4_O_LC.I1
-Info:  1.2 15.5  Source hwtop.SEXT_hwmain_inQ1_first__0_1_MUL_SEXT_hwmain_in_ETC___d54_SB_LUT4_O_5_I2_SB_LUT4_O_I3_SB_LUT4_O_I3_SB_LUT4_O_LC.O
-Info:  1.8 17.2    Net hwtop.SEXT_hwmain_inQ1_first__0_1_MUL_SEXT_hwmain_in_ETC___d54_SB_LUT4_O_5_I2_SB_LUT4_O_I3_SB_LUT4_O_I3 budget 2.827000 ns (17,13) -> (17,13)
-Info:                Sink hwtop.SEXT_hwmain_inQ1_first__0_1_MUL_SEXT_hwmain_in_ETC___d54_SB_LUT4_O_4_I2_SB_LUT4_O_I3_SB_LUT4_O_LC.I1
-Info:  1.2 18.5  Source hwtop.SEXT_hwmain_inQ1_first__0_1_MUL_SEXT_hwmain_in_ETC___d54_SB_LUT4_O_4_I2_SB_LUT4_O_I3_SB_LUT4_O_LC.O
-Info:  1.8 20.2    Net hwtop.SEXT_hwmain_inQ1_first__0_1_MUL_SEXT_hwmain_in_ETC___d54_SB_LUT4_O_4_I2_SB_LUT4_O_I3 budget 3.181000 ns (17,13) -> (16,12)
-Info:                Sink hwtop.SEXT_hwmain_inQ1_first__0_1_MUL_SEXT_hwmain_in_ETC___d54_SB_LUT4_O_5_I1_SB_LUT4_O_LC.I3
-Info:  0.9 21.1  Source hwtop.SEXT_hwmain_inQ1_first__0_1_MUL_SEXT_hwmain_in_ETC___d54_SB_LUT4_O_5_I1_SB_LUT4_O_LC.O
-Info:  1.8 22.9    Net hwtop.SEXT_hwmain_inQ1_first__0_1_MUL_SEXT_hwmain_in_ETC___d54_SB_LUT4_O_5_I1 budget 3.327000 ns (16,12) -> (15,12)
-Info:                Sink hwtop.SEXT_hwmain_inQ1_first__0_1_MUL_SEXT_hwmain_in_ETC___d54_SB_LUT4_O_5_LC.I1
-Info:  0.7 23.5  Source hwtop.SEXT_hwmain_inQ1_first__0_1_MUL_SEXT_hwmain_in_ETC___d54_SB_LUT4_O_5_LC.COUT
-Info:  0.0 23.5    Net hwtop.SEXT_hwmain_inQ1_first__0_1_MUL_SEXT_hwmain_in_ETC___d54_SB_LUT4_O_I1_SB_CARRY_I0_CO[7] budget 0.000000 ns (15,12) -> (15,12)
-Info:                Sink hwtop.SEXT_hwmain_inQ1_first__0_1_MUL_SEXT_hwmain_in_ETC___d54_SB_LUT4_O_4_LC.CIN
-Info:  0.3 23.8  Source hwtop.SEXT_hwmain_inQ1_first__0_1_MUL_SEXT_hwmain_in_ETC___d54_SB_LUT4_O_4_LC.COUT
-Info:  0.0 23.8    Net hwtop.SEXT_hwmain_inQ1_first__0_1_MUL_SEXT_hwmain_in_ETC___d54_SB_LUT4_O_I1_SB_CARRY_I0_CO[8] budget 0.000000 ns (15,12) -> (15,12)
-Info:                Sink hwtop.SEXT_hwmain_inQ1_first__0_1_MUL_SEXT_hwmain_in_ETC___d54_SB_LUT4_O_3_LC.CIN
-Info:  0.3 24.1  Source hwtop.SEXT_hwmain_inQ1_first__0_1_MUL_SEXT_hwmain_in_ETC___d54_SB_LUT4_O_3_LC.COUT
-Info:  0.0 24.1    Net hwtop.SEXT_hwmain_inQ1_first__0_1_MUL_SEXT_hwmain_in_ETC___d54_SB_LUT4_O_I1_SB_CARRY_I0_CO[9] budget 0.000000 ns (15,12) -> (15,12)
-Info:                Sink hwtop.SEXT_hwmain_inQ1_first__0_1_MUL_SEXT_hwmain_in_ETC___d54_SB_LUT4_O_2_LC.CIN
-Info:  0.3 24.4  Source hwtop.SEXT_hwmain_inQ1_first__0_1_MUL_SEXT_hwmain_in_ETC___d54_SB_LUT4_O_2_LC.COUT
-Info:  0.0 24.4    Net hwtop.SEXT_hwmain_inQ1_first__0_1_MUL_SEXT_hwmain_in_ETC___d54_SB_LUT4_O_I1_SB_CARRY_I0_CO[10] budget 0.000000 ns (15,12) -> (15,12)
-Info:                Sink hwtop.SEXT_hwmain_inQ1_first__0_1_MUL_SEXT_hwmain_in_ETC___d54_SB_LUT4_O_1_LC.CIN
-Info:  0.3 24.6  Source hwtop.SEXT_hwmain_inQ1_first__0_1_MUL_SEXT_hwmain_in_ETC___d54_SB_LUT4_O_1_LC.COUT
-Info:  0.6 25.2    Net hwtop.SEXT_hwmain_inQ1_first__0_1_MUL_SEXT_hwmain_in_ETC___d54_SB_LUT4_O_I1_SB_CARRY_I0_CO[11] budget 0.560000 ns (15,12) -> (15,13)
-Info:                Sink hwtop.SEXT_hwmain_inQ1_first__0_1_MUL_SEXT_hwmain_in_ETC___d54_SB_LUT4_O_LC.CIN
-Info:  0.3 25.5  Source hwtop.SEXT_hwmain_inQ1_first__0_1_MUL_SEXT_hwmain_in_ETC___d54_SB_LUT4_O_LC.COUT
-Info:  0.7 26.1    Net hwtop.SEXT_hwmain_inQ1_first__0_1_MUL_SEXT_hwmain_in_ETC___d54_SB_LUT4_O_I1_SB_CARRY_I0_CO[12] budget 0.660000 ns (15,13) -> (15,13)
-Info:                Sink hwtop.SEXT_hwmain_inQ1_first__0_1_MUL_SEXT_hwmain_in_ETC___d54_SB_LUT4_O_12_LC.I3
-Info:  0.9 27.0  Source hwtop.SEXT_hwmain_inQ1_first__0_1_MUL_SEXT_hwmain_in_ETC___d54_SB_LUT4_O_12_LC.O
-Info:  3.1 30.1    Net hwtop.SEXT_hwmain_inQ1_first__0_1_MUL_SEXT_hwmain_in_ETC___d54[12] budget 3.913000 ns (15,13) -> (14,9)
-Info:                Sink hwtop._0_CONCAT_SEXT_hwmain_inQ1_first__0_1_MUL_SEXT__ETC___d57_SB_LUT4_O_I2_SB_LUT4_O_I3_SB_LUT4_O_I3_SB_LUT4_O_LC.I1
-Info:  1.2 31.3  Source hwtop._0_CONCAT_SEXT_hwmain_inQ1_first__0_1_MUL_SEXT__ETC___d57_SB_LUT4_O_I2_SB_LUT4_O_I3_SB_LUT4_O_I3_SB_LUT4_O_LC.O
-Info:  1.8 33.1    Net hwtop._0_CONCAT_SEXT_hwmain_inQ1_first__0_1_MUL_SEXT__ETC___d57_SB_LUT4_O_I2_SB_LUT4_O_I3_SB_LUT4_O_I3 budget 3.312000 ns (14,9) -> (14,8)
-Info:                Sink hwtop._0_CONCAT_SEXT_hwmain_inQ1_first__0_1_MUL_SEXT__ETC___d57_SB_LUT4_O_6_I2_SB_LUT4_O_I2_SB_LUT4_O_LC.I1
-Info:  1.2 34.3  Source hwtop._0_CONCAT_SEXT_hwmain_inQ1_first__0_1_MUL_SEXT__ETC___d57_SB_LUT4_O_6_I2_SB_LUT4_O_I2_SB_LUT4_O_LC.O
-Info:  1.8 36.0    Net hwtop._0_CONCAT_SEXT_hwmain_inQ1_first__0_1_MUL_SEXT__ETC___d57_SB_LUT4_O_6_I2_SB_LUT4_O_I2 budget 2.908000 ns (14,8) -> (14,8)
-Info:                Sink hwtop._0_CONCAT_SEXT_hwmain_inQ1_first__0_1_MUL_SEXT__ETC___d57_SB_LUT4_O_6_I2_SB_LUT4_O_I2_SB_LUT4_I0_LC.I0
-Info:  1.3 37.3  Source hwtop._0_CONCAT_SEXT_hwmain_inQ1_first__0_1_MUL_SEXT__ETC___d57_SB_LUT4_O_6_I2_SB_LUT4_O_I2_SB_LUT4_I0_LC.O
-Info:  1.8 39.1    Net hwtop._0_CONCAT_SEXT_hwmain_inQ1_first__0_1_MUL_SEXT__ETC___d57_SB_LUT4_O_6_I2_SB_LUT4_O_I2_SB_LUT4_I0_O budget 3.206000 ns (14,8) -> (14,8)
-Info:                Sink hwtop._0_CONCAT_SEXT_hwmain_inQ1_first__0_1_MUL_SEXT__ETC___d57_SB_LUT4_O_6_I2_SB_LUT4_O_I2_SB_LUT4_I0_O_SB_LUT4_I3_LC.I3
-Info:  0.9 40.0  Source hwtop._0_CONCAT_SEXT_hwmain_inQ1_first__0_1_MUL_SEXT__ETC___d57_SB_LUT4_O_6_I2_SB_LUT4_O_I2_SB_LUT4_I0_O_SB_LUT4_I3_LC.O
-Info:  1.8 41.7    Net hwtop._0_CONCAT_SEXT_hwmain_inQ1_first__0_1_MUL_SEXT__ETC___d57_SB_LUT4_O_6_I1_SB_CARRY_I0_CO_SB_CARRY_CO_2_I1_SB_LUT4_O_I2 budget 3.289000 ns (14,8) -> (13,8)
-Info:                Sink hwtop._0_CONCAT_SEXT_hwmain_inQ1_first__0_1_MUL_SEXT__ETC___d57_SB_LUT4_O_6_I1_SB_CARRY_I0_CO_SB_CARRY_CO_3_I0_SB_LUT4_O_LC.I2
-Info:  1.2 42.9  Source hwtop._0_CONCAT_SEXT_hwmain_inQ1_first__0_1_MUL_SEXT__ETC___d57_SB_LUT4_O_6_I1_SB_CARRY_I0_CO_SB_CARRY_CO_3_I0_SB_LUT4_O_LC.O
-Info:  1.8 44.7    Net hwtop._0_CONCAT_SEXT_hwmain_inQ1_first__0_1_MUL_SEXT__ETC___d57_SB_LUT4_O_6_I1_SB_CARRY_I0_CO_SB_CARRY_CO_3_I0 budget 2.908000 ns (13,8) -> (12,8)
-Info:                Sink hwtop._0_CONCAT_SEXT_hwmain_inQ1_first__0_1_MUL_SEXT__ETC___d57_SB_LUT4_O_6_I1_SB_CARRY_I0_CO_SB_CARRY_CO_3$CARRY.I1
-Info:  0.7 45.4  Source hwtop._0_CONCAT_SEXT_hwmain_inQ1_first__0_1_MUL_SEXT__ETC___d57_SB_LUT4_O_6_I1_SB_CARRY_I0_CO_SB_CARRY_CO_3$CARRY.COUT
-Info:  0.6 45.9    Net hwtop._0_CONCAT_SEXT_hwmain_inQ1_first__0_1_MUL_SEXT__ETC___d57_SB_LUT4_O_6_I1_SB_CARRY_I0_CO[16] budget 0.560000 ns (12,8) -> (12,9)
-Info:                Sink hwtop._0_CONCAT_SEXT_hwmain_inQ1_first__0_1_MUL_SEXT__ETC___d57_SB_LUT4_O_6_I1_SB_CARRY_I0_CO_SB_CARRY_CO_2$CARRY.CIN
-Info:  0.3 46.2  Source hwtop._0_CONCAT_SEXT_hwmain_inQ1_first__0_1_MUL_SEXT__ETC___d57_SB_LUT4_O_6_I1_SB_CARRY_I0_CO_SB_CARRY_CO_2$CARRY.COUT
-Info:  0.0 46.2    Net hwtop._0_CONCAT_SEXT_hwmain_inQ1_first__0_1_MUL_SEXT__ETC___d57_SB_LUT4_O_6_I1_SB_CARRY_I0_CO[17] budget 0.000000 ns (12,9) -> (12,9)
-Info:                Sink hwtop._0_CONCAT_SEXT_hwmain_inQ1_first__0_1_MUL_SEXT__ETC___d57_SB_LUT4_O_6_LC.CIN
-Info:  0.3 46.5  Source hwtop._0_CONCAT_SEXT_hwmain_inQ1_first__0_1_MUL_SEXT__ETC___d57_SB_LUT4_O_6_LC.COUT
-Info:  0.0 46.5    Net hwtop._0_CONCAT_SEXT_hwmain_inQ1_first__0_1_MUL_SEXT__ETC___d57_SB_LUT4_O_6_I1_SB_CARRY_I0_CO[18] budget 0.000000 ns (12,9) -> (12,9)
-Info:                Sink hwtop._0_CONCAT_SEXT_hwmain_inQ1_first__0_1_MUL_SEXT__ETC___d57_SB_LUT4_O_5_LC.CIN
-Info:  0.3 46.8  Source hwtop._0_CONCAT_SEXT_hwmain_inQ1_first__0_1_MUL_SEXT__ETC___d57_SB_LUT4_O_5_LC.COUT
-Info:  0.0 46.8    Net hwtop._0_CONCAT_SEXT_hwmain_inQ1_first__0_1_MUL_SEXT__ETC___d57_SB_LUT4_O_6_I1_SB_CARRY_I0_CO[19] budget 0.000000 ns (12,9) -> (12,9)
-Info:                Sink hwtop._0_CONCAT_SEXT_hwmain_inQ1_first__0_1_MUL_SEXT__ETC___d57_SB_LUT4_O_4_LC.CIN
-Info:  0.3 47.0  Source hwtop._0_CONCAT_SEXT_hwmain_inQ1_first__0_1_MUL_SEXT__ETC___d57_SB_LUT4_O_4_LC.COUT
-Info:  0.0 47.0    Net hwtop._0_CONCAT_SEXT_hwmain_inQ1_first__0_1_MUL_SEXT__ETC___d57_SB_LUT4_O_6_I1_SB_CARRY_I0_CO[20] budget 0.000000 ns (12,9) -> (12,9)
-Info:                Sink hwtop._0_CONCAT_SEXT_hwmain_inQ1_first__0_1_MUL_SEXT__ETC___d57_SB_LUT4_O_3_LC.CIN
-Info:  0.3 47.3  Source hwtop._0_CONCAT_SEXT_hwmain_inQ1_first__0_1_MUL_SEXT__ETC___d57_SB_LUT4_O_3_LC.COUT
-Info:  0.0 47.3    Net hwtop._0_CONCAT_SEXT_hwmain_inQ1_first__0_1_MUL_SEXT__ETC___d57_SB_LUT4_O_6_I1_SB_CARRY_I0_CO[21] budget 0.000000 ns (12,9) -> (12,9)
-Info:                Sink hwtop._0_CONCAT_SEXT_hwmain_inQ1_first__0_1_MUL_SEXT__ETC___d57_SB_LUT4_O_2_LC.CIN
-Info:  0.3 47.6  Source hwtop._0_CONCAT_SEXT_hwmain_inQ1_first__0_1_MUL_SEXT__ETC___d57_SB_LUT4_O_2_LC.COUT
-Info:  0.0 47.6    Net hwtop._0_CONCAT_SEXT_hwmain_inQ1_first__0_1_MUL_SEXT__ETC___d57_SB_LUT4_O_6_I1_SB_CARRY_I0_CO[22] budget 0.000000 ns (12,9) -> (12,9)
-Info:                Sink hwtop._0_CONCAT_SEXT_hwmain_inQ1_first__0_1_MUL_SEXT__ETC___d57_SB_LUT4_O_1_LC.CIN
-Info:  0.3 47.9  Source hwtop._0_CONCAT_SEXT_hwmain_inQ1_first__0_1_MUL_SEXT__ETC___d57_SB_LUT4_O_1_LC.COUT
-Info:  0.7 48.5    Net hwtop._0_CONCAT_SEXT_hwmain_inQ1_first__0_1_MUL_SEXT__ETC___d57_SB_LUT4_O_6_I1_SB_CARRY_I0_CO[23] budget 0.660000 ns (12,9) -> (12,9)
-Info:                Sink hwtop._0_CONCAT_SEXT_hwmain_inQ1_first__0_1_MUL_SEXT__ETC___d57_SB_LUT4_O_LC.I3
-Info:  0.9 49.4  Source hwtop._0_CONCAT_SEXT_hwmain_inQ1_first__0_1_MUL_SEXT__ETC___d57_SB_LUT4_O_LC.O
-Info:  3.1 52.5    Net hwtop.SEXT__0_CONCAT_SEXT_hwmain_inQ1_first__0_1_MUL_ETC__q4[7] budget 4.267000 ns (12,9) -> (11,4)
-Info:                Sink hwtop.hwmain_midQ1.data0_reg_SB_DFF_Q_D_SB_LUT4_O_I0_SB_LUT4_O_LC.I2
-Info:  1.2 53.7  Source hwtop.hwmain_midQ1.data0_reg_SB_DFF_Q_D_SB_LUT4_O_I0_SB_LUT4_O_LC.O
-Info:  1.8 55.4    Net hwtop.hwmain_midQ1.data0_reg_SB_DFF_Q_D_SB_LUT4_O_I0 budget 3.117000 ns (11,4) -> (10,4)
-Info:                Sink hwtop.hwmain_midQ1.data0_reg_SB_DFF_Q_D_SB_LUT4_O_LC.I0
-Info:  1.2 56.7  Setup hwtop.hwmain_midQ1.data0_reg_SB_DFF_Q_D_SB_LUT4_O_LC.I0
-Info: 22.7 ns logic, 33.9 ns routing
+Info:  1.4  1.4  Source hwtop.uart_outQ.data0_reg_SB_DFF_Q_3_D_SB_LUT4_O_LC.O
+Info:  1.8  3.2    Net hwtop.uart_outQ_D_OUT[4] budget 0.000000 ns (8,6) -> (7,6)
+Info:                Sink $nextpnr_ICESTORM_LC_4.I1
+Info:  0.7  3.8  Source $nextpnr_ICESTORM_LC_4.COUT
+Info:  0.0  3.8    Net $nextpnr_ICESTORM_LC_4$O budget 0.000000 ns (7,6) -> (7,6)
+Info:                Sink hwtop.y__h2647_SB_LUT4_O_I3_SB_CARRY_CO_1$CARRY.CIN
+Info:  0.3  4.1  Source hwtop.y__h2647_SB_LUT4_O_I3_SB_CARRY_CO_1$CARRY.COUT
+Info:  0.7  4.8    Net hwtop.y__h2647_SB_LUT4_O_I3[2] budget 0.660000 ns (7,6) -> (7,6)
+Info:                Sink hwtop.y__h2647_SB_LUT4_O_LC.I3
+Info:  0.9  5.6  Source hwtop.y__h2647_SB_LUT4_O_LC.O
+Info:  3.0  8.6    Net hwtop.y__h2647[6] budget 0.000000 ns (7,6) -> (5,7)
+Info:                Sink hwtop.y__h2647_SB_LUT4_I2_1_LC.I2
+Info:  1.2  9.8  Source hwtop.y__h2647_SB_LUT4_I2_1_LC.O
+Info:  2.4 12.2    Net hwtop.v__h2618_SB_LUT4_O_9_I3 budget 0.000000 ns (5,7) -> (5,4)
+Info:                Sink hwtop.v__h2618_SB_LUT4_O_3_I3_SB_CARRY_I1_CO_SB_CARRY_CO_3$CARRY.I2
+Info:  0.6 12.8  Source hwtop.v__h2618_SB_LUT4_O_3_I3_SB_CARRY_I1_CO_SB_CARRY_CO_3$CARRY.COUT
+Info:  0.0 12.8    Net hwtop.v__h2618_SB_LUT4_O_3_I3_SB_CARRY_I1_CO[7] budget 0.000000 ns (5,4) -> (5,4)
+Info:                Sink hwtop.v__h2618_SB_LUT4_O_3_I3_SB_CARRY_I1_CO_SB_CARRY_CO_2$CARRY.CIN
+Info:  0.3 13.1  Source hwtop.v__h2618_SB_LUT4_O_3_I3_SB_CARRY_I1_CO_SB_CARRY_CO_2$CARRY.COUT
+Info:  0.6 13.6    Net hwtop.v__h2618_SB_LUT4_O_3_I3_SB_CARRY_I1_CO[8] budget 0.560000 ns (5,4) -> (5,5)
+Info:                Sink hwtop.v__h2618_SB_LUT4_O_3_I3_SB_CARRY_I1_CO_SB_CARRY_CO_1$CARRY.CIN
+Info:  0.3 13.9  Source hwtop.v__h2618_SB_LUT4_O_3_I3_SB_CARRY_I1_CO_SB_CARRY_CO_1$CARRY.COUT
+Info:  0.0 13.9    Net hwtop.v__h2618_SB_LUT4_O_3_I3_SB_CARRY_I1_CO[9] budget 0.000000 ns (5,5) -> (5,5)
+Info:                Sink hwtop.v__h2618_SB_LUT4_O_3_I3_SB_CARRY_I1_CO_SB_CARRY_CO$CARRY.CIN
+Info:  0.3 14.2  Source hwtop.v__h2618_SB_LUT4_O_3_I3_SB_CARRY_I1_CO_SB_CARRY_CO$CARRY.COUT
+Info:  0.0 14.2    Net hwtop.v__h2618_SB_LUT4_O_3_I3_SB_CARRY_I1_CO[10] budget 0.000000 ns (5,5) -> (5,5)
+Info:                Sink hwtop.v__h2618_SB_LUT4_O_3_I3_SB_CARRY_I1_CO_SB_CARRY_CO_10$CARRY.CIN
+Info:  0.3 14.5  Source hwtop.v__h2618_SB_LUT4_O_3_I3_SB_CARRY_I1_CO_SB_CARRY_CO_10$CARRY.COUT
+Info:  0.0 14.5    Net hwtop.v__h2618_SB_LUT4_O_3_I3_SB_CARRY_I1_CO[11] budget 0.000000 ns (5,5) -> (5,5)
+Info:                Sink hwtop.v__h2618_SB_LUT4_O_3_I3_SB_CARRY_I1_CO_SB_CARRY_CO_9$CARRY.CIN
+Info:  0.3 14.8  Source hwtop.v__h2618_SB_LUT4_O_3_I3_SB_CARRY_I1_CO_SB_CARRY_CO_9$CARRY.COUT
+Info:  0.0 14.8    Net hwtop.v__h2618_SB_LUT4_O_3_I3_SB_CARRY_I1_CO[12] budget 0.000000 ns (5,5) -> (5,5)
+Info:                Sink hwtop.v__h2618_SB_LUT4_O_3_I3_SB_CARRY_I1$CARRY.CIN
+Info:  0.3 15.0  Source hwtop.v__h2618_SB_LUT4_O_3_I3_SB_CARRY_I1$CARRY.COUT
+Info:  0.0 15.0    Net hwtop.v__h2618_SB_LUT4_O_3_I3_SB_CARRY_I1_CO[13] budget 0.000000 ns (5,5) -> (5,5)
+Info:                Sink hwtop.v__h2618_SB_LUT4_O_2_I3_SB_CARRY_I1$CARRY.CIN
+Info:  0.3 15.3  Source hwtop.v__h2618_SB_LUT4_O_2_I3_SB_CARRY_I1$CARRY.COUT
+Info:  0.0 15.3    Net hwtop.v__h2618_SB_LUT4_O_3_I3_SB_CARRY_I1_CO[14] budget 0.000000 ns (5,5) -> (5,5)
+Info:                Sink hwtop.v__h2618_SB_LUT4_O_1_I3_SB_CARRY_I1$CARRY.CIN
+Info:  0.3 15.6  Source hwtop.v__h2618_SB_LUT4_O_1_I3_SB_CARRY_I1$CARRY.COUT
+Info:  0.0 15.6    Net hwtop.v__h2618_SB_LUT4_O_3_I3_SB_CARRY_I1_CO[15] budget 0.000000 ns (5,5) -> (5,5)
+Info:                Sink hwtop.hwmain_inQ2.full_reg_SB_LUT4_I3_1_O_SB_LUT4_I0_I1_SB_CARRY_CO$CARRY.CIN
+Info:  0.3 15.9  Source hwtop.hwmain_inQ2.full_reg_SB_LUT4_I3_1_O_SB_LUT4_I0_I1_SB_CARRY_CO$CARRY.COUT
+Info:  1.2 17.1    Net $nextpnr_ICESTORM_LC_8$I3 budget 1.220000 ns (5,5) -> (5,6)
+Info:                Sink $nextpnr_ICESTORM_LC_8.I3
+Info:  0.9 18.0  Source $nextpnr_ICESTORM_LC_8.O
+Info:  1.8 19.7    Net hwtop.hwmain_inQ2.full_reg_SB_LUT4_I3_1_O_SB_LUT4_I0_I1 budget 22.841999 ns (5,6) -> (4,7)
+Info:                Sink hwtop.hwmain_inQ2.full_reg_SB_LUT4_I3_1_O_SB_LUT4_I0_LC.I1
+Info:  1.2 21.0  Source hwtop.hwmain_inQ2.full_reg_SB_LUT4_I3_1_O_SB_LUT4_I0_LC.O
+Info:  1.8 22.7    Net hwtop.hwmain_inQ2.full_reg_SB_LUT4_I3_1_O_SB_LUT4_I0_O budget 7.575000 ns (4,7) -> (4,6)
+Info:                Sink hwtop.hwmain_inQ2.full_reg_SB_LUT4_I3_1_O_SB_LUT4_I0_O_SB_LUT4_I3_LC.I3
+Info:  0.9 23.6  Source hwtop.hwmain_inQ2.full_reg_SB_LUT4_I3_1_O_SB_LUT4_I0_O_SB_LUT4_I3_LC.O
+Info:  3.0 26.5    Net hwtop.hwmain_inQ2.full_reg_SB_LUT4_I3_1_O_SB_LUT4_I0_O_SB_LUT4_I3_O budget 7.604000 ns (4,6) -> (8,4)
+Info:                Sink hwtop.hwmain_inQ2.full_reg_SB_LUT4_I3_1_O_SB_LUT4_I0_I1_SB_LUT4_I1_O_SB_LUT4_I2_LC.I3
+Info:  0.9 27.4  Source hwtop.hwmain_inQ2.full_reg_SB_LUT4_I3_1_O_SB_LUT4_I0_I1_SB_LUT4_I1_O_SB_LUT4_I2_LC.O
+Info:  2.8 30.3    Net hwtop.hwmain_inQ2.d1di_SB_LUT4_O_I3 budget 7.702000 ns (8,4) -> (4,4)
+Info:                Sink hwtop.hwmain_inQ2.d1di_SB_LUT4_O_LC.I3
+Info:  0.9 31.1  Source hwtop.hwmain_inQ2.d1di_SB_LUT4_O_LC.O
+Info:  2.8 34.0    Net hwtop.hwmain_inQ2.d1di budget 7.821000 ns (4,4) -> (8,4)
+Info:                Sink hwtop.hwmain_inQ2.full_reg_SB_DFFESS_Q_D_SB_LUT4_O_LC.I2
+Info:  1.2 35.1  Setup hwtop.hwmain_inQ2.full_reg_SB_DFFESS_Q_D_SB_LUT4_O_LC.I2
+Info: 13.4 ns logic, 21.7 ns routing
 
 Info: Critical path report for cross-domain path '<async>' -> 'posedge clk':
 Info: curr total
 Info:  0.0  0.0  Source serial_rxd$sb_io.D_IN_0
-Info:  3.1  3.1    Net serial_rxd$SB_IO_IN budget 82.098999 ns (24,0) -> (22,1)
+Info:  4.0  4.0    Net serial_rxd$SB_IO_IN budget 82.098999 ns (24,0) -> (13,1)
 Info:                Sink hwtop.uart_rxin_SB_DFFSS_Q_DFFLC.I0
-Info:  1.2  4.3  Setup hwtop.uart_rxin_SB_DFFSS_Q_DFFLC.I0
-Info: 1.2 ns logic, 3.1 ns routing
+Info:  1.2  5.3  Setup hwtop.uart_rxin_SB_DFFSS_Q_DFFLC.I0
+Info: 1.2 ns logic, 4.0 ns routing
 
 Info: Critical path report for cross-domain path 'posedge clk' -> '<async>':
 Info: curr total
 Info:  1.4  1.4  Source hwtop.uart_txdr_SB_DFFESS_Q_DFFLC.O
-Info:  4.7  6.1    Net serial_txd$SB_IO_OUT budget 81.943001 ns (9,2) -> (23,0)
+Info:  4.6  6.0    Net serial_txd$SB_IO_OUT budget 81.943001 ns (8,2) -> (23,0)
 Info:                Sink serial_txd$sb_io.D_OUT_0
-Info: 1.4 ns logic, 4.7 ns routing
+Info: 1.4 ns logic, 4.6 ns routing
 
-Info: Max frequency for clock 'clk': 17.65 MHz (PASS at 12.00 MHz)
+Info: Max frequency for clock 'clk': 28.46 MHz (PASS at 12.00 MHz)
 
-Info: Max delay <async>     -> posedge clk: 4.29 ns
-Info: Max delay posedge clk -> <async>    : 6.08 ns
+Info: Max delay <async>     -> posedge clk: 5.27 ns
+Info: Max delay posedge clk -> <async>    : 5.97 ns
 
 Info: Slack histogram:
 Info:  legend: * represents 2 endpoint(s)
 Info:          + represents [1,2) endpoint(s)
-Info: [ 26669,  29304) |**+
-Info: [ 29304,  31939) |**+
-Info: [ 31939,  34574) |+
-Info: [ 34574,  37209) |*+
-Info: [ 37209,  39844) |**+
-Info: [ 39844,  42479) |*+
-Info: [ 42479,  45114) |
-Info: [ 45114,  47749) |*****+
-Info: [ 47749,  50384) |
-Info: [ 50384,  53019) |+
-Info: [ 53019,  55654) |*****+
-Info: [ 55654,  58289) |*+
-Info: [ 58289,  60924) |*****+
-Info: [ 60924,  63559) |***********************+
-Info: [ 63559,  66194) |*******************************+
-Info: [ 66194,  68829) |******************+
-Info: [ 68829,  71464) |**************************************+
-Info: [ 71464,  74099) |*************************
-Info: [ 74099,  76734) |*************+
-Info: [ 76734,  79369) |************************************************************
+Info: [ 48192,  49788) |****************+
+Info: [ 49788,  51384) |********************************+
+Info: [ 51384,  52980) |***************+
+Info: [ 52980,  54576) |*************+
+Info: [ 54576,  56172) |*******+
+Info: [ 56172,  57768) |+
+Info: [ 57768,  59364) |****+
+Info: [ 59364,  60960) |*****************+
+Info: [ 60960,  62556) |*******+
+Info: [ 62556,  64152) |*+
+Info: [ 64152,  65748) |****+
+Info: [ 65748,  67344) |***+
+Info: [ 67344,  68940) |*+
+Info: [ 68940,  70536) |******************+
+Info: [ 70536,  72132) |************************************************************
+Info: [ 72132,  73728) |*******************+
+Info: [ 73728,  75324) |******+
+Info: [ 75324,  76920) |**+
+Info: [ 76920,  78516) |*****************+
+Info: [ 78516,  80112) |******************************************************+
 icepack hardware.asc hardware.bin
-========================================================================================= [SUCCESS] Took 3.85 seconds =========================================================================================
+============================================================================================================================== [SUCCESS] Took 2.07 seconds ==============================================================================================================================
