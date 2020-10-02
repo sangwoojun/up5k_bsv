@@ -1,4 +1,5 @@
 import FIFO::*;
+import FIFOF::*;
 import RegFile::*;
 
 interface Spram256KAImportIfc;
@@ -46,19 +47,23 @@ endinterface
 module mkSpram256KA(Spram256KAIfc);
 	Clock curclk <- exposeCurrentClock;
 	FIFO#(Bit#(16)) outQ <- mkFIFO;
-	Reg#(Bit#(2)) inCnt <- mkReg(0);
-	Reg#(Bit#(2)) readCnt <- mkReg(0);
-	Reg#(Bit#(2)) outCnt <- mkReg(0);
+	FIFOF#(Tuple4#(Bit#(14), Bit#(16), Bool, Bit#(4))) inQ <- mkFIFOF;
+	FIFOF#(Bool) readValidQ <- mkFIFOF;
 `ifdef BSIM
 	RegFile#(Bit#(14), Bit#(16)) ram <- mkRegFileFull();
-	FIFO#(Bit#(16)) delayQ <- mkFIFO;
+	FIFO#(Tuple4#(Bit#(14), Bit#(16), Bool, Bit#(4))) delayQ <- mkFIFO; 
 
 	rule dodelay;
 		delayQ.deq;
-		outQ.enq(delayQ.first);
+		inQ.enq(delayQ.first);
 	endrule
-	
-	method Action req(Bit#(14) addr_, Bit#(16) data, Bool write, Bit#(4) mask) if ( inCnt-outCnt < 2 );
+	rule procIn;
+		inQ.deq;
+		let r = inQ.first;
+		let addr_ = tpl_1(r);
+		Bit#(16) data = tpl_2(r);
+		let write = tpl_3(r);
+		Bit#(4) mask = tpl_4(r);
 		let addr = addr_>>1;
 		if ( write ) begin
 			
@@ -77,14 +82,16 @@ module mkSpram256KA(Spram256KAIfc);
 			end
 			ram.upd(addr,wdata);
 		end else begin
-			inCnt <= inCnt + 1;
-			delayQ.enq(ram.sub(addr));
+			outQ.enq(ram.sub(addr));
 		end
+	endrule
+	
+	method Action req(Bit#(14) addr_, Bit#(16) data, Bool write, Bit#(4) mask);
+		delayQ.enq(tuple4(addr_,data,write,mask));
 	endmethod
 
 	method ActionValue#(Bit#(16)) resp;
 		outQ.deq;
-		outCnt <= outCnt + 1;
 		return outQ.first;
 	endmethod
 `else
@@ -97,25 +104,43 @@ module mkSpram256KA(Spram256KAIfc);
 		ram.poweroff(1); //active low
 	endrule
 
-	rule getRead (inCnt-readCnt > 0 );
+	rule getRead;
 		let d = ram.dataout;
-		outQ.enq(d);
-		readCnt <= readCnt + 1;
+		if (readValidQ.first) outQ.enq(d);
+		readValidQ.deq;
+	endrule
+	rule procIn;
+		if ( inQ.notEmpty) begin
+			inQ.deq;
+			let r = inQ.first;
+			let addr = tpl_1(r);
+			let data = tpl_2(r);
+			let write = tpl_3(r);
+			let mask = tpl_4(r);
+			ram.address(addr>>1);
+			ram.datain(data);
+			ram.maskwrin(mask);
+			ram.wren(pack(write));
+
+			if ( readValidQ.notFull ) begin
+				if ( !write ) readValidQ.enq(True);
+				else readValidQ.enq(False);
+			end
+		end else begin
+			ram.address(0);
+			ram.datain(0);
+			ram.maskwrin(0);
+			ram.wren(0);
+			if ( readValidQ.notFull ) readValidQ.enq(False);
+		end
 	endrule
 
-	method Action req(Bit#(14) addr, Bit#(16) data, Bool write, Bit#(4) mask) if ( inCnt-outCnt < 2 );
-		ram.address(addr>>1);
-		ram.datain(data);
-		ram.maskwrin(mask);
-		ram.wren(pack(write));
-		if ( !write ) begin
-			inCnt <= inCnt + 1;
-		end
+	method Action req(Bit#(14) addr, Bit#(16) data, Bool write, Bit#(4) mask);
+		inQ.enq(tuple4(addr,data,write,mask));
 	endmethod
 
 	method ActionValue#(Bit#(16)) resp;
 		outQ.deq;
-		outCnt <= outCnt + 1;
 		return outQ.first;
 	endmethod
 `endif

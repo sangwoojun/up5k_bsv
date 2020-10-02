@@ -60,6 +60,7 @@ endmodule
 module mkUart#(Integer clkdiv_) (UartIfc);
 
 	FIFO#(Bit#(8)) outQ <- mkFIFO;
+	FIFO#(Bit#(8)) inQ <- mkFIFO;
 	Bit#(16) clkdiv = fromInteger(clkdiv_);
 	//Reg#(Bit#(16)) clkdiv <- mkReg(5000); // 48,000,000 / 9600
 	Reg#(Bit#(16)) clkcnt <- mkReg(0);
@@ -75,6 +76,11 @@ module mkUart#(Integer clkdiv_) (UartIfc);
 				curoutd <= {1,curoutd[10:1]};
 				txdr <= curoutd[0];
 				curoutoff <= curoutoff - 1;
+			end else begin
+				inQ.deq;
+				let word = inQ.first;
+				curoutd <= {2'b11,word,1'b0};
+				curoutoff <= 11;
 			end
 		end else begin
 			clkcnt <= clkcnt + 1;
@@ -110,9 +116,10 @@ module mkUart#(Integer clkdiv_) (UartIfc);
 
 	Reg#(Bit#(4)) rxin <- mkReg(4'b1111);
 	interface UartUserIfc user;
-		method Action send(Bit#(8) word) if ( curoutoff == 0 );
-			curoutd <= {2'b11,word,1'b0};
-			curoutoff <= 11;
+		method Action send(Bit#(8) word);// if ( curoutoff == 0 );
+			inQ.enq(word);
+			//curoutd <= {2'b11,word,1'b0};
+			//curoutoff <= 11;
 		endmethod
 		method ActionValue#(Bit#(8)) get;
 			outQ.deq;
