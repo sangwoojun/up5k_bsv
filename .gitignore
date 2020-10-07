@@ -2,4 +2,5 @@ obj
 bsim
 build
 .*.sw?
+*.log
 
