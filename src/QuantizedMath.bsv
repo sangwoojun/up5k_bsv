@@ -1,6 +1,19 @@
 import DSPArith::*;
 import FIFO::*;
+	
+Integer invscale = 42;
+Int#(16) zeropoint = 0;
+Int#(8) onepoint = 102; //1.0f
 
+function Int#(8) quantizedAddInternal(Int#(8) x, Int#(8) y);
+	Int#(16) sx = signExtend(x) - signExtend(zeropoint);
+	Int#(16) sy = signExtend(y) - signExtend(zeropoint);
+	let dx = sx>>1;
+	let dy = sy>>1;
+	let s = dx + dy;
+	let s2 = s<<1;
+	return truncate(s2 + zeropoint);
+endfunction
 
 interface QuantizedMathIfc;
 	method ActionValue#(Int#(8)) quantizedMult(Int#(8) x, Int#(8) y);
@@ -12,18 +25,6 @@ module mkQuantizedMath (QuantizedMathIfc);
 	IntMult16x16Ifc dsp_mult <- mkIntMult16x16;
 	IntMult16x16Ifc dsp_mult_sig <- mkIntMult16x16;
 
-	Integer invscale = 42;
-	Int#(16) zeropoint = 0;
-	Int#(8) onepoint = 102; //1.0f
-	function Int#(8) quantizedAddInternal(Int#(8) x, Int#(8) y);
-		Int#(16) sx = signExtend(x) - signExtend(zeropoint);
-		Int#(16) sy = signExtend(y) - signExtend(zeropoint);
-		let dx = sx>>1;
-		let dy = sy>>1;
-		let s = dx + dy;
-		let s2 = s<<1;
-		return truncate(s2 + zeropoint);
-	endfunction
 	
 	method ActionValue#(Int#(8)) quantizedMult(Int#(8) x, Int#(8) y);
 		Int#(16) sx = signExtend(x);

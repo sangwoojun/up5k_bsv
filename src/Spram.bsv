@@ -137,7 +137,7 @@ module mkSpram256KA(Spram256KAIfc);
 		ram.maskwrin(mask);
 		ram.wren(pack(write));
 
-		if ( write ) begin
+		if ( write && outQ.notFull ) begin
 			outQ.enq(ram.dataout);
 		end
 	endrule
