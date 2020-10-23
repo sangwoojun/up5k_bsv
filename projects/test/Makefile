@@ -1,6 +1,6 @@
 ROOTDIR=../../
 
-BSCFLAGS = -show-schedule -aggressive-conditions --wait-for-license 
+BSCFLAGS = -show-schedule -aggressive-conditions 
 BUILD_DIR=./build/
 BSIM_DIR=./bsim/
 BSVPATH=$(ROOTDIR)/src/
