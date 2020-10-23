@@ -45,6 +45,7 @@ module mkLSTMCell8b (LSTMCell8bIfc);
 	Integer commandIdx_NodeCnt = 2;
 	Integer commandIdx_MatWeightCntU = 3; // number of 4-sets! so bytes/4
 	Integer commandIdx_MatWeightCntL = 4;
+	Integer commandIdx_ShouldFeedback = 4;
 	
 
 	Reg#(Bit#(20)) weightBytes <- mkReg(0);
@@ -84,7 +85,8 @@ module mkLSTMCell8b (LSTMCell8bIfc);
 
 	Reg#(Bit#(8)) inputRelayed <- mkReg(0);
 	Reg#(Bit#(8)) stateRelayed <- mkReg(0);
-	rule relayInput (commandLoadDone);
+	Reg#(Bool) relayInputDone <- mkReg(False);
+	rule relayInput(!relayInputDone);
 		Bit#(8) inputCnt = curCommand[commandIdx_InputCnt];
 		Bit#(8) stateCnt = curCommand[commandIdx_StateCnt];
 		if ( inputRelayed < inputCnt ) begin
@@ -98,7 +100,7 @@ module mkLSTMCell8b (LSTMCell8bIfc);
 		end else begin
 			inputRelayed <= 0;
 			stateRelayed <= 0;
-			//commandLoadDone <= False; // FIXME should reset later!
+			relayInputDone <= True;
 		end
 	endrule
 
@@ -111,20 +113,23 @@ module mkLSTMCell8b (LSTMCell8bIfc);
 	FIFO#(Bit#(16)) biasQ <- mkFIFO;
 
 	Reg#(Bit#(16)) weightRelayCounter <- mkReg(0);
-	rule relayWeights;
+	Reg#(Bool) relayWeightsDone <- mkReg(False);
+	rule relayWeights(!relayWeightsDone);
 		spramReadIdxQ.deq;
 		let idx = spramReadIdxQ.first;
 		let d <- spram[idx].resp;
 
 		Bit#(16) matWeightCount = {curCommand[commandIdx_MatWeightCntU],curCommand[commandIdx_MatWeightCntL]};
+		Bit#(16) layerWeightCount = matWeightCount + zeroExtend(curCommand[commandIdx_NodeCnt]);
 
 		if ( (weightRelayCounter>>2) < matWeightCount ) begin
 			weightRelayCounter <= weightRelayCounter + 1;
 			macWeightQ.enq(d);
-		end else if ( (zeroExtend(weightRelayCounter)<<2) < weightBytes ) begin
+		end else if ( (zeroExtend(weightRelayCounter)>>2) < layerWeightCount ) begin
 			biasQ.enq(d);
-			if ( ((zeroExtend(weightRelayCounter)+1)<<2) >= weightBytes ) begin
+			if ( ((zeroExtend(weightRelayCounter)+1)>>2) >= layerWeightCount ) begin
 				weightRelayCounter <= 0;
+				relayWeightsDone <= True;
 			end else begin
 				weightRelayCounter <= weightRelayCounter + 1;
 			end
@@ -137,7 +142,6 @@ module mkLSTMCell8b (LSTMCell8bIfc);
 	Reg#(Bit#(8)) x_loopcnt <- mkReg(0);
 	Reg#(Bit#(8)) y_offset <- mkReg(0);
 	Reg#(Bit#(8)) y_loopcnt <- mkReg(0);
-	Reg#(Bit#(8)) mac_resultCounter <- mkReg(0);
 
 	
 	Reg#(Bit#(8)) multInputBuffer <- mkReg(0);
@@ -217,7 +221,7 @@ module mkLSTMCell8b (LSTMCell8bIfc);
 	endrule
 
 	FIFO#(Tuple2#(Int#(8),Int#(8))) subaddQ <- mkFIFO;
-
+	Reg#(Bit#(8)) mac_resultCounter <- mkReg(0);
 	rule relayMacResult(x_loop_done && y_loop_done);
 		x_bufferQ.deq;
 		let xv = x_bufferQ.first;
@@ -243,6 +247,8 @@ module mkLSTMCell8b (LSTMCell8bIfc);
 			mac_resultCounter <= 0;
 		end
 	endrule
+
+	Reg#(Bit#(10)) calcResultCnt <- mkReg(0);
 	rule doSigmoid;
 		subaddQ.deq;
 		let s = subaddQ.first;
@@ -254,9 +260,18 @@ module mkLSTMCell8b (LSTMCell8bIfc);
 		// c_prev = sigmoid(yc)
 		// state == sigmoid(o*yc) ...?
 
+		if (curCommand[commandIdx_ShouldFeedback] == 0 ) begin
+			outputQ.enq(pack(vu)^pack(vl)); // FIXME wrong--- placeholder
+		end else begin
+			h_prev_bufferQ.enq(pack(vu)); // FIXME wrong--- placeholder
+		end
 
-		outputQ.enq(pack(vu)^pack(vl));
-		h_prev_bufferQ.enq(pack(vu));
+		if ( truncate((calcResultCnt+1)>>2) == curCommand[commandIdx_NodeCnt] ) begin
+			calcResultCnt <= 0;
+			commandLoadDone <= False;
+		end else begin
+			calcResultCnt <= calcResultCnt + 1;
+		end
 	endrule
 
 
@@ -337,7 +352,10 @@ module mkLSTMCell8b (LSTMCell8bIfc);
 					dataInCounter <= dataInCounter + 1;
 				end else begin
 					dataInCounter <= 0;
+
 					commandLoadDone <= True;
+					relayInputDone <= False;
+					relayWeightsDone <= False;
 				end
 			end
 			nextCmdIsInput <= tagged Invalid;
