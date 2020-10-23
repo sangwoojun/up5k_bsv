@@ -29,6 +29,7 @@ module mkMain(MainIfc);
 		let ra = dataInCnt-16;
 		Bit#(2) ramidx = truncate(ra); 
 		Bit#(14) subaddr = truncate(ra>>2);
+		spram[ramidx].req(subaddr, ?, False, 4'b1111);
 		spramReadIdxQ.enq(ramidx);
 	endrule
 	rule relaySpramData;
