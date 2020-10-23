@@ -1,9 +1,11 @@
 import FIFO::*;
 import BRAM::*;
 import BRAMFIFO::*;
+import Vector::*;
+import Spram::*;
 
-import QuantizedMath::*;
-import DSPArith::*;
+//import QuantizedMath::*;
+//import DSPArith::*;
 
 interface MainIfc;
 	method Action uartIn(Bit#(8) data);
@@ -50,7 +52,7 @@ module mkMain(MainIfc);
 		
 		if ( dataInCnt + 1 < 16 ) begin
 			dataInCnt <= dataInCnt + 1;
-			spram[ramidx].req(subaddr, {0,,data}, True, 4'b1111);
+			spram[ramidx].req(subaddr, {0,data}, True, 4'b1111);
 		end
 	endmethod
 	
