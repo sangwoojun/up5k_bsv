@@ -82,8 +82,8 @@ module mkLSTMCell8b (LSTMCell8bIfc);
 	Reg#(Bit#(20)) weightReadIdx <- mkReg(0);
 	rule readWeights (weightLoadDone);
 		let wa = weightReadIdx;
-		Bit#(2) ramidx = truncate(wa>>15); // Is this ordering okay...
-		Bit#(14) subaddr = truncate(wa>>1);
+		Bit#(2) ramidx = truncate(wa>>14); // Is this ordering okay...
+		Bit#(14) subaddr = truncate(wa);
 		spram[ramidx].req(subaddr, ?, False, 4'b1111);
 		spramReadIdxQ.enq(ramidx);
 
