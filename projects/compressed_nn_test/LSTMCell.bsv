@@ -34,10 +34,23 @@ endinterface
 
 
 typedef 6 CommandBytes;
+//Integer commandBytes = 6; // WeightCnt:2 (input+state), NodeCnt:1, InputCnt:1 (x), StateCnt:1 (y), Feedback:1 (Otherwise to host) -- Per layer
+/*****
+data ordering:
+	load weights once
+		weights are ordered input_column-major, then bias
+	command sent per LSTM layer
+	e.g. first layer: input,input,input, ....,cmd,cmd,cmd
+	     second layer: cmd,cmd,cmd... (because output from first layer is fed back to input)
+		 
+		 at the last layer, set [feecback] to false to route it to output or dense
+
+****/
+
+
 //(* synthesize *)
 module mkLSTMCell8b (LSTMCell8bIfc);
 	//Integer spramBytes = (1024*1024/8);
-	//Integer commandBytes = 6; // WeightCnt:2 (input+state), NodeCnt:1, InputCnt:1 (x), StateCnt:1 (y), Feedback:1 (Otherwise to host) -- Per layer
 	Integer commandBytes = valueOf(CommandBytes);
 	Vector#(CommandBytes, Reg#(Bit#(8))) curCommand <- replicateM(mkReg(0));
 	Integer commandIdx_InputCnt = 0;
