@@ -73,7 +73,7 @@ module mkMult16x16 (Mult16x16Ifc);
 	Reset currst <- exposeCurrentReset;
 
 `ifdef BSIM
-	method ActionValue#(Int#(32)) calc (Bit#(16) a, Bit#(16) b);
+	method ActionValue#(Bit#(32)) calc (Bit#(16) a, Bit#(16) b);
 		return zeroExtend(a) * zeroExtend(b);
 	endmethod
 `else

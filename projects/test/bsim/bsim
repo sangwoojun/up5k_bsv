@@ -1,10 +1,6 @@
 #!/bin/sh
 
-if (test "$BLUESPECDIR" = "")
-then
-  echo 'Error: $BLUESPECDIR environment variable is not set'
-  exit 1
-fi
+BLUESPECDIR=`echo 'puts $env(BLUESPECDIR)' | bluetcl`
 
 for arg in $@
 do
@@ -13,4 +9,4 @@ do
     exec $BLUESPECDIR/tcllib/bluespec/bluesim.tcl $0.so mkBsvTop_bsim --script_name `basename $0` -h
   fi
 done
-exec $BLUESPECDIR/tcllib/bluespec/bluesim.tcl $0.so mkBsvTop_bsim --script_name `basename $0` --creation_time 1589956005 "$@"
+exec $BLUESPECDIR/tcllib/bluespec/bluesim.tcl $0.so mkBsvTop_bsim --script_name `basename $0` --creation_time 1625277069 "$@"

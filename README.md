@@ -8,3 +8,5 @@ Use python and pip to install it
 The cpp code for communicating with the hardware over uart is not there yet
 
 Bluespe BRAM sometimes gets synthesized into LUTs... Port number issues?
+
+export BLUESPECDIR=~/bsc/inst/lib/
