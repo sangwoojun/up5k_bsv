@@ -1,6 +1,6 @@
 ROOTDIR=../../
 
-BSCFLAGS = -show-schedule -aggressive-conditions --wait-for-license 
+BSCFLAGS = -show-schedule -aggressive-conditions
 BUILD_DIR=./build/
 BSIM_DIR=./bsim/
 BSVPATH=../../src/
@@ -16,13 +16,15 @@ BSIM_CPPFILES= $(ROOTDIR)/src/cpp/UartSim.cpp ./cpp/main.cpp
 all:
 	rm -rf build
 	mkdir -p build
-	cd build; apio init -b upduino2 -p .
+	cd build; apio init -b ulx3s-45f -p .
 	bsc  $(BSCFLAGS) $(BSCFLAGS_SYNTH) -remove-dollar -p +:$(BSVPATH) -verilog -u -g mkBsvTop $(ROOTDIR)/src/BsvTop.bsv 
-	cp $(ROOTDIR)/verilog/*.v build
-	cp $(ROOTDIR)/verilog/*.pcf build
+	cp verilog/*.v build
+	cp verilog/*.pcf build
+	cp verilog/*.lpf build
 	cp $(ROOTDIR)/verilog/bluespec/*.v build 
 	cd build; apio verify
-	cd build; apio build
+	cd build; apio build -v
+	#cd build; apio init -b upduino2 -p .
 
 bsim: Main.bsv cpp/main.cpp
 	mkdir -p $(BSIM_DIR)

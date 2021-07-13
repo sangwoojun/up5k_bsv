@@ -1,4 +1,5 @@
 import FIFO::*;
+import FIFOF::*;
 import BRAM::*;
 import BRAMFIFO::*;
 import Vector::*;
@@ -24,9 +25,9 @@ module mkMain(MainIfc);
 
 	FIFO#(Bit#(8)) bramQ <- mkSizedBRAMFIFO(256); 
 
-	rule returnSpramData ( dataInCnt >= 16 && dataInCnt < 32 );
+	rule returnSpramData(dataInCnt[0] == 1);// ( dataInCnt >= 16 && dataInCnt < 32 );
 		dataInCnt <= dataInCnt + 1;
-		let ra = dataInCnt-16;
+		let ra = dataInCnt>>1;
 		Bit#(2) ramidx = truncate(ra); 
 		Bit#(14) subaddr = truncate(ra>>2);
 		spram[ramidx].req(subaddr, ?, False, 4'b1111);
@@ -37,9 +38,23 @@ module mkMain(MainIfc);
 		let idx = spramReadIdxQ.first;
 		let d <- spram[idx].resp;
 
-		bramQ.enq(truncate(d));
+		//bramQ.enq(truncate(d));
+		bramQ.enq(truncate(d)+45);
 	endrule
 
+	//FIFOF#(Bit#(8)) mirrorQ <- mkFIFOF;
+	FIFO#(Bit#(8)) inQ <- mkFIFO;
+	rule writeSpram(dataInCnt[0] == 0);// ( dataInCnt < 16 );
+		inQ.deq;
+		let data = inQ.first;
+
+		Bit#(2) ramidx = truncate(dataInCnt>>1);
+		Bit#(14) subaddr = truncate(dataInCnt>>3);
+		
+		dataInCnt <= dataInCnt + 1;
+		spram[ramidx].req(subaddr, {data,data}, True, 4'b1111);
+		//bramQ.enq(data);
+	endrule
 
 	method ActionValue#(Bit#(8)) uartOut;
 		bramQ.deq;
@@ -48,16 +63,10 @@ module mkMain(MainIfc);
 
 	
 	method Action uartIn(Bit#(8) data);
-		Bit#(2) ramidx = truncate(dataInCnt);
-		Bit#(14) subaddr = truncate(dataInCnt>>2);
-		
-		if ( dataInCnt + 1 < 16 ) begin
-			dataInCnt <= dataInCnt + 1;
-			spram[ramidx].req(subaddr, {0,data}, True, 4'b1111);
-		end
+		inQ.enq(data);
 	endmethod
 	
 	method Bit#(3) rgbOut;
-		return 0;
+		return 3'b111;
 	endmethod
 endmodule

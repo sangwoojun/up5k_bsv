@@ -13,7 +13,7 @@ endinterface
 module mkMain(MainIfc);
 	FIFO#(Bit#(8)) relayUart <- mkFIFO;
 	ProcessorIfc proc <- mkProcessor;
-	BRAM2Port#(Bit#(1),Bit#(16)) mem <- mkBRAM2Server(defaultValue);
+	BRAM2Port#(Bit#(8),Bit#(16)) mem <- mkBRAM2Server(defaultValue);
 	rule rpReq;
 		let r <- proc.memReq;
 		let na = (r.addr>>2);
